@@ -1,15 +1,17 @@
-    RecruitSystem - a distributed application to handle job applications.
-    Copyright (C) 2014  Federico Klappenbach, Fredrik Johansson, Mikael Tenhunen
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+${licenseFirst}    
+${licensePrefix}    RecruitSystem - a distributed application to handle job applications.
+${licensePrefix}    Copyright (C) 2014  Federico Klappenbach, Fredrik Johansson, Mikael Tenhunen
+${licensePrefix}
+${licensePrefix}    This program is free software: you can redistribute it and/or modify
+${licensePrefix}    it under the terms of the GNU General Public License as published by
+${licensePrefix}    the Free Software Foundation, either version 3 of the License, or
+${licensePrefix}    (at your option) any later version.
+${licensePrefix}
+${licensePrefix}    This program is distributed in the hope that it will be useful,
+${licensePrefix}    but WITHOUT ANY WARRANTY; without even the implied warranty of
+${licensePrefix}    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+${licensePrefix}    GNU General Public License for more details.
+${licensePrefix}
+${licensePrefix}    You should have received a copy of the GNU General Public License
+${licensePrefix}     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+${licenseLast}
