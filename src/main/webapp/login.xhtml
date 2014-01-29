@@ -12,10 +12,22 @@
             </ui:define>
             <ui:define name="content">
                 <h:form>
-                    <h:commandButton type="submit" value="Register Application" action="goregister" />
-                    <h:commandButton type="submit" value="Log in as recruiter" action="login" />
+                    <h:outputLabel for="usernameInput" value="Username:">
+                        #{bundle['login.username']}:
+                    </h:outputLabel>
+                    <h:inputText id="usernameInput" value="#{loginBean.username}" title="Input username here" required="true" />
+                    <br />
+                    <h:outputLabel for="passwordInput" value="Password:">
+                        #{bundle['login.password']}:
+                    </h:outputLabel>
+                    <h:inputSecret id="passwordInput" value="#{loginBean.password}" 
+                                   required="true" /> <br />
+                    <h:commandButton value="${bundle['login.submit']}" 
+                                     action="#{loginBean.login}" />
                 </h:form>
 
+
+                
             </ui:define>
         </ui:composition>
     </h:body>
