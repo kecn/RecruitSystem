@@ -24,23 +24,28 @@ import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Stateless
 @Named
-public class LoginBean {
+public class LoginManager {
 
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 45, message="Number of characters must be between 1-45")
+    @Pattern(regexp="[a-zA-Z_0-9_@]")
     private String username;
-    @NotNull
-    @Size(min = 1, max = 45)
+    
+    @NotNull(message="")
+    @Size(min = 1, max = 45,message="Number of characters must be between 1-45")
+    @Pattern(regexp="[a-zA-Z_0-9_@]",message="")
     private String password;
 
+    
     public String getUsername() {
         return this.username;
     }
-
+    
     public void setUserName(String username) {
         this.username = username;
     }
@@ -61,9 +66,9 @@ public class LoginBean {
         } catch (ServletException e) {
 
             context.addMessage(null, new FacesMessage("Login failed."));
-            return "fail";
+            
         }
-        return "success";
+        return "admin/index";
     }
 
     public void logout() {

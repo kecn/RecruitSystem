@@ -15,15 +15,15 @@
                     <h:outputLabel for="usernameInput" value="#{msg['username']}">
 
                     </h:outputLabel>
-                    <h:inputText id="usernameInput" value="#{loginBean.username}" title="Input username here" required="true" />
-                    <br />
+                    <h:inputText id="usernameInput" value="#{.username}" title="Input username here" />
+                    <br/>
                     <h:outputLabel for="passwordInput" value="#{msg['password']}">
 
                     </h:outputLabel>
-                    <h:inputSecret id="passwordInput" value="#{loginBean.password}" 
-                                   required="true" /> <br />
+                    <h:inputSecret id="passwordInput" value="#{loginManager.password}"/>
+                    <br/>
                     <h:commandButton value="#{msg['login']}" 
-                                     action="#{loginBean.login}" />
+                                     action="#{loginManager.login}" />
                 </h:form>
 
 
