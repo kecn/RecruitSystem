@@ -15,23 +15,24 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.kth.ict.ffm.recruitsystem.view;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
+/**
+ *
+ * @author
+ */
+@Named
+@RequestScoped
+public class TestClass {
 
-class UsernameValidator implements ConstraintValidator<Username, String>{
+    public String login(String msg) {
+        if ("admin/index".equals(msg)) {
+            return "success";
+        }
+        return "";
 
-    @Override
-    public void initialize(Username constraintAnnotation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

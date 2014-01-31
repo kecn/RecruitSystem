@@ -17,36 +17,36 @@
  */
 package se.kth.ict.ffm.recruitsystem.view;
 
-import javax.ejb.Stateless;
+
+import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import se.kth.ict.ffm.recruitsystem.util.validation.Username;
+import se.kth.ict.ffm.recruitsystem.util.validation.Password;
 
-@Stateless
-@Named
-public class LoginManager {
 
-    @NotNull
-    @Size(min = 1, max = 45, message="Number of characters must be between 1-45")
-    @Pattern(regexp="[a-zA-Z_0-9_@]")
+@Named("loginManager")
+@RequestScoped
+public class LoginManager implements Serializable   {
+
+    @Username
     private String username;
     
-    @NotNull(message="")
-    @Size(min = 1, max = 45,message="Number of characters must be between 1-45")
-    @Pattern(regexp="[a-zA-Z_0-9_@]",message="")
+    @Password
     private String password;
 
+    public void LoginManager(){}
     
     public String getUsername() {
         return this.username;
     }
     
-    public void setUserName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -65,7 +65,7 @@ public class LoginManager {
             request.login(this.username, this.password);
         } catch (ServletException e) {
 
-            context.addMessage(null, new FacesMessage("Login failed."));
+            context.addMessage(null, new FacesMessage("Login failed"));
             
         }
         return "admin/index";

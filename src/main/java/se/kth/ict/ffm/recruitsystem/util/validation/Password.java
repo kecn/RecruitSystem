@@ -15,8 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package se.kth.ict.ffm.recruitsystem.view;
+package se.kth.ict.ffm.recruitsystem.util.validation;
 
 import java.lang.annotation.Documented;
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
@@ -28,20 +27,25 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-/**
- *
- * @author Federico
- */
-@Constraint(validatedBy = UsernameValidator.class)
+@NotNull
+@Size(min = 1, max = 45)
+@Pattern(regexp = "[a-zA-Z_0-9]")
+@Constraint(validatedBy={})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
 /**
- * 
+ * Validates the password and throws a message if password fails validation
  */
-public @interface Username {
-String message() default "Not a valid username";
-java.lang.Class<?>[] groups() default {};
-java.lang.Class<? extends Payload>[] payload() default {};
+public @interface Password {
+
+    String message() default "Not a valid password, must be between 1-45 characters([a-zA-Z_0-9_@]).";
+
+    java.lang.Class<?>[] groups() default {};
+
+    java.lang.Class<? extends Payload>[] payload() default {};
 }
