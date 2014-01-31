@@ -1,17 +1,38 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <faces-config version="2.2"
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
+    <application>
+        <locale-config>
+            <default-locale>se</default-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>se.kth.ict.ffm.recruitsystem.properties.language</base-name>
+            <var>msg</var>
+        </resource-bundle>
+    </application>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-action>goregister</from-action>
             <to-view-id>/register.xhtml</to-view-id>
         </navigation-case>
-               <navigation-case>
+        <navigation-case>
             <from-action>login</from-action>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/searchpage.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>failure</from-action>
             <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>

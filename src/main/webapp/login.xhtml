@@ -12,10 +12,18 @@
                 Login
             </ui:define>
             <ui:define name="content">
-                <h:form id="loginform">
-
+                <h:form>
+                    <h:outputLabel for="usernameInput" value="#{msg['username']}"/>
+                    <h:inputText id="usernameInput" value="#{loginManager.username}" title="Input username here" />
                     
+                    <br/>
                     
+                    <h:outputLabel for="passwordInput" value="#{msg['password']}"/>
+                    <h:inputSecret id="passwordInput" value="#{loginManager.password}"/>
+                    
+                    <br/>
+                   
+                    <h:commandButton type="submit" value="#{msg['login']}" action="#{testClass.login(loginManager.login())}" />
                 </h:form>
 
             </ui:define>
