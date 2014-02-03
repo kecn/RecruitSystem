@@ -30,7 +30,7 @@ public class ApplicationFacade {
     @Inject
     private LanguageBean languageBean;
 
-    @PersistenceContext
+    @PersistenceContext(unitName="se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
     EntityManager entityManager;
 
     public ApplicationFacade() {
@@ -42,8 +42,8 @@ public class ApplicationFacade {
         query.setParameter("locale", currentLanguage);        
         return query.getResultList();
     }
-
-    public void submitApplication(ApplicationDTO application) {
-        Query query = entityManager.createQuery("INSERT INTO ");
-    }
+//
+//    public void submitApplication(ApplicationDTO application) {
+//        Query query = entityManager.createQuery("INSERT INTO ");
+//    }
 }

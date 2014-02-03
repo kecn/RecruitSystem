@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 
+
 @Stateless
 public class LanguageBean {
 
