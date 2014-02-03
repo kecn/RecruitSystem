@@ -26,8 +26,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @Stateless
-public class ApplicationFacade {
-
+public class ApplicationFacade {   
     @Inject
     private LanguageBean languageBean;
 
@@ -39,7 +38,8 @@ public class ApplicationFacade {
 
     public Collection<String> getCompetences() {
         String currentLanguage = languageBean.getCurrentLanguage();
-        Query query = entityManager.createQuery("SELECT 'name' FROM Competencetranslation WHERE locale='" + currentLanguage + "'");
+        Query query = entityManager.createNamedQuery("Competencetranslation.findNameByLocale");
+        query.setParameter("locale", currentLanguage);        
         return query.getResultList();
     }
 

@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Competencetranslation.findAll", query = "SELECT c FROM Competencetranslation c"),
     @NamedQuery(name = "Competencetranslation.findByLocale", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale"),
+    @NamedQuery(name = "Competencetranslation.findNameByLocale", query = "SELECT c.name FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale"),
     @NamedQuery(name = "Competencetranslation.findByName", query = "SELECT c FROM Competencetranslation c WHERE c.name = :name"),
     @NamedQuery(name = "Competencetranslation.findByCompetenceid", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.competenceid = :competenceid")})
 public class Competencetranslation implements Serializable {
