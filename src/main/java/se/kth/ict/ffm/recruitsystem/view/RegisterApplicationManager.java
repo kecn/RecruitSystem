@@ -83,9 +83,17 @@ public class RegisterApplicationManager implements Serializable{
     }
     
     public void submitApplication() {
-        
-        ApplicationDTO application = new ApplicationDTO(
-            firstname, lastname, birthDateString, );
+        Date birthDate;
+        try {
+            birthDate = DateUtil.toDate(birthDateString);
+            ApplicationDTO application = new ApplicationDTO(
+            firstname, lastname, birthDate, email, applicantCompetences, 
+            availabilities);
+            applicationFacade.submitApplication(application);
+        } catch (ParseException ex) {
+            //FIX LOGGING!
+            Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public Collection<String> getCompetences() {

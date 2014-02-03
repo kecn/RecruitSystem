@@ -29,6 +29,7 @@ import java.util.Locale;
  * @author
  */
 public class DateUtil {
+    
     public static Date toDate(String toParse) throws ParseException {
         DateFormat df = new SimpleDateFormat("yyMMdd", Locale.ENGLISH);
         return df.parse(toParse);

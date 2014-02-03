@@ -23,6 +23,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import se.kth.ict.ffm.recruitsystem.view.ApplicationDTO;
 
 @Stateless
 public class ApplicationFacade {   
@@ -42,7 +43,7 @@ public class ApplicationFacade {
         return query.getResultList();
     }
 
-//    public void submitApplication(ApplicationDTO application) {
-//        Query query = entityManager.createQuery("INSERT INTO ");
-//    }
+    public void submitApplication(ApplicationDTO application) {
+        return BAJS;
+    }
 }
