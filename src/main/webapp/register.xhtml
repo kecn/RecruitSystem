@@ -14,57 +14,59 @@
             <ui:define name="content">
                 <h:form id="registerform">
                     <h:outputLabel for="firstname" value="First Name: " />
-                    <h:inputText id="firstname" value="registerApplicationManager.firstName" required="true" />
+                    <h:inputText id="firstname" value="#{registerApplicationManager.firstname}" />
                     <h:message for="firstname" style="color:red" />
                     <br/>
                     <h:outputLabel for="lastname" value="Last Name: " />
-                    <h:inputText id="lastname" value="registerApplicationManager.lastName" required="true" />
+                    <h:inputText id="lastname" value="#{registerApplicationManager.lastname}" />
                     <h:message for="lastname" style="color:red" />
                     <br/>
                     <h:outputLabel for="dateofbirth" value="Date of Birth(yymmdd): " />
-                    <h:inputText id="dateofbirth" value="registerApplicationManager.birthDate" required="true" />
+                    <h:inputText id="dateofbirth" value="#{registerApplicationManager.birthDateString}" />
                     <h:message for="dateofbirth" style="color:red" />
                     <br/>
                     <h:outputLabel for="email" value="Email: " />
-                    <h:inputText id="email" value="registerApplicationManager.email" required="true" />
+                    <h:inputText id="email" value="#{registerApplicationManager.email}" />
                     <h:message for="email" style="color:red" />
                     <br/>
-                    <h:dataTable id="competences" bgcolor="pink" value="#{registerApplicationManager.competences}" 
+                    <h:dataTable id="competences" bgcolor="pink" value="#{registerApplicationManager.applicantCompetences}" 
                                  var="competence" border="0" >
                         <h:column>
                             <f:facet name="header">Competence</f:facet>
-                            <h:selectOneMenu id="competenceSelector" value="#{competence}"
-                                             required="true" >   
-                                <f:selectItems value="#{registerApplicationManager.competencesToChoose}" />
-                            </h:selectOneMenu>
-                            <h:outputLabel for="experience" value="Years of experience: " />
-                            <h:inputText id="experience" value="#{item.experience}" required="false" />
+                            #{competence.competenceName}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Years of experience</f:facet>
-                                #{item.name}
+                            #{competence.yearsOfExperience}
                         </h:column>
                     </h:dataTable>
                     <br/>
+                    <h:selectOneMenu id="competenceSelector" value="#{registerApplicationManager.competenceName}" >   
+                        <f:selectItems value="#{registerApplicationManager.competences}" />
+                    </h:selectOneMenu>
+                    <h:outputLabel for="experience" value="Years of experience: " />
+                    <h:inputText id="experience" value="#{registerApplicationManager.yearsOfExperience}" />
                     <h:commandButton value="Add competence" action="#{registerApplicationManager.addCompetence()}" />
                     <br/>
                     <h:dataTable id="availabilities" bgcolor="pink" value="#{registerApplicationManager.availabilities}" 
                                  var="availability" border="0" >
                         <h:column>
                             <f:facet name="header">From</f:facet>
-                            <h:outputLabel for="fromDate" value="Available from (yymmdd): " />
-                            <h:inputText id="fromDate" value="#{availability.fromDate}" required="true" />
+                            #{availability.fromDate}
                         </h:column>
                         <h:column>
                             <f:facet name="header">To</f:facet>
-                            <h:outputLabel for="toDate" value="Available to (yymmdd): " />
-                            <h:inputText id="toDate" value="#{availability.toDate}" required="false" />
+                            #{availability.toDate}
                         </h:column>
                     </h:dataTable>
+                    <h:outputLabel for="fromDate" value="Available from (yymmdd): " />
+                    <h:inputText id="fromDate" value="#{registerApplicationManager.fromDateString}" />
+                    <h:outputLabel for="toDate" value="Available to (yymmdd): " />
+                    <h:inputText id="toDate" value="#{registerApplicationManager.toDateString}" />
                     <br/>
-                    <h:commandButton value="Add period of availability" action="#{registerApplicationManager.addAvailability()}" />
+                    <h:commandButton value="Add period of availability" action="#{registerApplicationManager.addAvailability}" />
                     <br/>
-                    <h:commandButton value="Register" action="register" />
+                    <h:commandButton value="Register" action="#{registerApplicationManager.submitApplication}" />
                 </h:form>
 
             </ui:define>
