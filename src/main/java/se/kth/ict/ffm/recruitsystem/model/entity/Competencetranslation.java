@@ -15,7 +15,6 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
@@ -45,6 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Competencetranslation.findByName", query = "SELECT c FROM Competencetranslation c WHERE c.name = :name"),
     @NamedQuery(name = "Competencetranslation.findByCompetenceid", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.competenceid = :competenceid")})
 public class Competencetranslation implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected CompetencetranslationPK competencetranslationPK;
@@ -121,5 +121,6 @@ public class Competencetranslation implements Serializable {
     public String toString() {
         return "se.kth.ict.ffm.recruitsystem.model.Competencetranslation[ competencetranslationPK=" + competencetranslationPK + " ]";
     }
-    
+
+
 }
