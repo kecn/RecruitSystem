@@ -20,18 +20,18 @@ package se.kth.ict.ffm.recruitsystem.view;
 
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import se.kth.ict.ffm.recruitsystem.controller.LanguageBean;
 
-@ManagedBean(name="languageManager")
+@Named("headerManager")
 @SessionScoped
 public class HeaderManager implements Serializable{
     
     @EJB
     LanguageBean LanguageBean;
 
-    public void ChangeLanguage(String e) {
+    public void changeLanguage(String e) {
         LanguageBean.countryLocaleCodeChanged(e);
     }
 

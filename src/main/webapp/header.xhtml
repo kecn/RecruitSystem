@@ -10,10 +10,10 @@
             <h:outputText value="#{msg['welcome']}" />
         </h3>
 
-        <h:commandButton action="#{languageManager.ChangeLanguage('Swedish')}"  
-                         image="button.gif" style="width:20px;height:20px"/>
+        <h:commandButton action="#{headerManager.changeLanguage('Swedish')}"  
+                         value="Byt till svenska" />
 
-        <h:commandButton action="#{languageManager.ChangeLanguage('English')}" 
-                         image="enbutton.gif" style="width:20px;height:20px"/>
+        <h:commandButton action="#{headerManager.changeLanguage('English')}" 
+                         value="Switch to english" />
     </h:form>
 </ui:composition>

@@ -27,7 +27,6 @@ import javax.faces.context.FacesContext;
 
 @Stateless
 public class LanguageBean {
-
     private final Map<String,Object> countries;
     
     public LanguageBean() {
@@ -47,7 +46,9 @@ public class LanguageBean {
         }
     }
 
-    String getCurrentLanguage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getCurrentLanguage() {
+//        return FacesContext.getCurrentInstance()
+//                     .getViewRoot().getLocale().getLanguage();
+        return "sv";
     }
 }
