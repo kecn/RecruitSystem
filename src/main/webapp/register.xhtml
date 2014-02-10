@@ -9,19 +9,19 @@
     <h:body>
         <ui:composition template="/template/template.xhtml">
             <ui:define name="windowTitle">
-                Welcome
+                #{msg['welcome']} 
             </ui:define>
             <ui:define name="content">
                 <h:form id="registerform">
-                    <h:outputLabel for="firstname" value="First Name: " />
+                    <h:outputLabel for="firstname" value="#{msg['First_name']} : " />
                     <h:inputText id="firstname" value="#{registerApplicationManager.firstname}" />
                     <h:message for="firstname" style="color:red" />
                     <br/>
-                    <h:outputLabel for="lastname" value="Last Name: " />
+                    <h:outputLabel for="lastname" value="#{msg['Last_name']} : " />
                     <h:inputText id="lastname" value="#{registerApplicationManager.lastname}" />
                     <h:message for="lastname" style="color:red" />
                     <br/>
-                    <h:outputLabel for="dateofbirth" value="Date of Birth(yymmdd): " />
+                    <h:outputLabel for="dateofbirth" value="#{msg['DateOfBirth']}(yymmdd): " />
                     <h:inputText id="dateofbirth" value="#{registerApplicationManager.birthDateString}" />
                     <h:message for="dateofbirth" style="color:red" />
                     <br/>
@@ -44,9 +44,9 @@
                     <h:selectOneMenu id="competenceSelector" value="#{registerApplicationManager.competenceName}" >   
                         <f:selectItems value="#{registerApplicationManager.competences}" />
                     </h:selectOneMenu>
-                    <h:outputLabel for="experience" value="Years of experience: " />
+                    <h:outputLabel for="experience" value="#{msg['YearsOfExperience']} : " />
                     <h:inputText id="experience" value="#{registerApplicationManager.yearsOfExperience}" />
-                    <h:commandButton value="Add competence" action="#{registerApplicationManager.addCompetence()}" />
+                    <h:commandButton value="#{msg['AddCompetence']}" action="#{registerApplicationManager.addCompetence()}" />
                     <br/>
                     <h:dataTable id="availabilities" bgcolor="pink" value="#{registerApplicationManager.availabilities}" 
                                  var="availability" border="0" >
@@ -59,14 +59,14 @@
                             #{availability.toDate}
                         </h:column>
                     </h:dataTable>
-                    <h:outputLabel for="fromDate" value="Available from (yymmdd): " />
+                    <h:outputLabel for="fromDate" value="#{msg['AvailableFrom']} (yymmdd): " />
                     <h:inputText id="fromDate" value="#{registerApplicationManager.fromDateString}" />
-                    <h:outputLabel for="toDate" value="Available to (yymmdd): " />
+                    <h:outputLabel for="toDate" value="#{msg['AvailableTo']} (yymmdd): " />
                     <h:inputText id="toDate" value="#{registerApplicationManager.toDateString}" />
                     <br/>
-                    <h:commandButton value="Add period of availability" action="#{registerApplicationManager.addAvailability}" />
+                    <h:commandButton value="#{msg['AddAvailability']}" action="#{registerApplicationManager.addAvailability}" />
                     <br/>
-                    <h:commandButton value="Register" action="#{registerApplicationManager.submitApplication}" />
+                    <h:commandButton value="#{msg['Register']}" action="#{registerApplicationManager.submitApplication}" />
                 </h:form>
 
             </ui:define>
