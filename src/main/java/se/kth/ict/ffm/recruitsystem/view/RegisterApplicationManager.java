@@ -15,11 +15,11 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.kth.ict.ffm.recruitsystem.view;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -33,20 +33,21 @@ import javax.inject.Named;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
 
+
+
 /**
  *
  * @author
  */
+
 @Named("registerApplicationManager")
 @SessionScoped
-public class RegisterApplicationManager implements Serializable {
-
+public class RegisterApplicationManager implements Serializable{
     @EJB
     private ApplicationFacade applicationFacade;
     private String firstname;
     private String lastname;
     private String birthDateString;
-    private Date birthDate;
     private String email;
     private List<String> competences;
     private List<Competence> applicantCompetences;
@@ -55,6 +56,7 @@ public class RegisterApplicationManager implements Serializable {
     private String competenceName;
     private String fromDateString;
     private String toDateString;
+    
 
     @PostConstruct
     public void init() {
@@ -62,13 +64,13 @@ public class RegisterApplicationManager implements Serializable {
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
     }
-
+    
     public void addCompetence() {
         Competence newCompetence = new Competence(competenceName, yearsOfExperience);
         applicantCompetences.add(newCompetence);
     }
-
-    public void addAvailability() {
+    
+    public void addAvailability() { 
         try {
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
@@ -77,15 +79,23 @@ public class RegisterApplicationManager implements Serializable {
         } catch (ParseException ex) {
             //FIX LOGGING!
             Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }
+    
+    public void submitApplication() {
+        Date birthDate;
+        try {
+            birthDate = DateUtil.toDate(birthDateString);
+            ApplicationDTO application = new ApplicationDTO(
+            firstname, lastname, birthDate, email, applicantCompetences, 
+            availabilities);
+            applicationFacade.submitApplication(application);
+        } catch (ParseException ex) {
+            //FIX LOGGING!
+            Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public void submitApplication() {
-
-        ApplicationDTO application = new ApplicationDTO(firstname, lastname, birthDate, email, applicantCompetences, availabilities);
-        applicationFacade.submitApplication(application);
-    }
-
+    
     public Collection<String> getCompetences() {
         return competences;
     }
@@ -132,11 +142,6 @@ public class RegisterApplicationManager implements Serializable {
 
     public void setBirthDateString(String birthDateString) {
         this.birthDateString = birthDateString;
-        try {
-            birthDate = DateUtil.toDate(birthDateString);
-        } catch (ParseException ex) {
-            System.out.println(ex.toString());
-        }
     }
 
     public String getEmail() {
@@ -178,4 +183,5 @@ public class RegisterApplicationManager implements Serializable {
     public void setToDateString(String toDateString) {
         this.toDateString = toDateString;
     }
+
 }

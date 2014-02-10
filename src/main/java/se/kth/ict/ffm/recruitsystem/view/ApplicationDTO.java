@@ -25,21 +25,21 @@ import java.util.List;
  *
  * @author
  */
-
 public class ApplicationDTO {
     private String firstname;
     private String lastname;
     private Date birthDate;
     private String email;
-    private List<Competence> applicantCompetences;
+    private List<Competence> competences;
     private List<Availability> availabilities;
 
-    public ApplicationDTO(String firstname, String lastname, Date birthDate, String email, List<Competence> applicantCompetences, List<Availability> availabilities) {
+    public ApplicationDTO(String firstname, String lastname, Date birthDate, 
+            String email, List<Competence> competences, List<Availability> availabilities) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthDate = birthDate;
         this.email = email;
-        this.applicantCompetences = applicantCompetences;
+        this.competences = competences;
         this.availabilities = availabilities;
     }
 
@@ -75,12 +75,12 @@ public class ApplicationDTO {
         this.email = email;
     }
 
-    public List<Competence> getApplicantCompetences() {
-        return applicantCompetences;
+    public List<Competence> getCompetences() {
+        return competences;
     }
 
-    public void setApplicantCompetences(List<Competence> applicantCompetences) {
-        this.applicantCompetences = applicantCompetences;
+    public void setCompetences(List<Competence> competences) {
+        this.competences = competences;
     }
 
     public List<Availability> getAvailabilities() {
