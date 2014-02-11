@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 @Stateless
 public class LanguageBean {
     private final Map<String,Object> countries;
+    private String currentLanguage;
     
     public LanguageBean() {
             Locale seLocale = new Locale("se");
@@ -34,6 +35,7 @@ public class LanguageBean {
             countries = new LinkedHashMap<>();
             countries.put("English", enLocale); //label, value
             countries.put("Swedish", seLocale);
+            this.currentLanguage = "se";
     }
     public void countryLocaleCodeChanged(String e) {
         //loop a map to compare the locale code
@@ -41,12 +43,20 @@ public class LanguageBean {
             if (entry.getKey().equals(e)) {
                 FacesContext.getCurrentInstance()
                      .getViewRoot().setLocale((Locale) entry.getValue());
+                
+                if(entry.getKey().equals("English"))
+                    setCurrentLanguage("en");
+                if(entry.getKey().equals("Swedish"))
+                    setCurrentLanguage("se");
             }
         }
     }
-
+    
     public String getCurrentLanguage() {
-        return FacesContext.getCurrentInstance()
-                     .getViewRoot().getLocale().getLanguage();
+        return this.currentLanguage;
+    }
+    
+    public void setCurrentLanguage(String newLang){
+        this.currentLanguage = newLang;
     }
 }
