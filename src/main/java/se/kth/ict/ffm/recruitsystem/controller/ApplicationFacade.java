@@ -101,9 +101,7 @@ public class ApplicationFacade {
             entityManager.persist(compEntity);
         }
         //Create an Application
-        Application applicationEntity = new Application();
-        applicationEntity.setPersonid(person);
-        applicationEntity.setApplicationdate(new Date());
+        Application applicationEntity = createApplication(person);
         entityManager.persist(applicationEntity);
     }
     
@@ -156,5 +154,12 @@ public class ApplicationFacade {
         Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(), 
                         comp.getCompetenceId());
         return compInProfile;
+    }
+    
+    private Application createApplication(Person person) {
+        Application applicationEntity = new Application();
+        applicationEntity.setPersonid(person);
+        applicationEntity.setApplicationdate(new Date());
+        return applicationEntity;
     }
 }
