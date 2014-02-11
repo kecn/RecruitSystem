@@ -16,37 +16,39 @@
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.kth.ict.ffm.recruitsystem.view;
+package se.kth.ict.ffm.recruitsystem.util.dto;
+
+import java.util.Date;
 
 /**
  *
  * @author
  */
-public class Competence {
-    private String competenceName;
-    private int yearsOfExperience;
+public class AvailabilityFromView {
+    private Date fromDate;
+    private Date toDate;
 
-    public Competence() {
+    public AvailabilityFromView() {
+    }   
+    
+    public AvailabilityFromView(Date fromDate, Date toDate) {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
-    public Competence(String competenceName, int yearsOfExperience) {
-        this.competenceName = competenceName;
-        this.yearsOfExperience = yearsOfExperience;
+    public Date getFromDate() {
+        return fromDate;
     }
 
-    public String getCompetenceName() {
-        return competenceName;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public void setCompetenceName(String competenceName) {
-        this.competenceName = competenceName;
+    public Date getToDate() {
+        return toDate;
     }
 
-    public int getYearsOfExperience() {
-        return yearsOfExperience;
-    }
-
-    public void setYearsOfExperience(int yearsOfExperience) {
-        this.yearsOfExperience = yearsOfExperience;
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 }

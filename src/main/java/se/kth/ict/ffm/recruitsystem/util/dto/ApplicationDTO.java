@@ -16,7 +16,7 @@
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.kth.ict.ffm.recruitsystem.view;
+package se.kth.ict.ffm.recruitsystem.util.dto;
 
 import java.util.Date;
 import java.util.List;
@@ -30,11 +30,11 @@ public class ApplicationDTO {
     private String lastname;
     private Date birthDate;
     private String email;
-    private List<Competence> competences;
-    private List<Availability> availabilities;
+    private List<CompetenceFromView> competences;
+    private List<AvailabilityFromView> availabilities;
 
     public ApplicationDTO(String firstname, String lastname, Date birthDate, 
-            String email, List<Competence> competences, List<Availability> availabilities) {
+            String email, List<CompetenceFromView> competences, List<AvailabilityFromView> availabilities) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthDate = birthDate;
@@ -75,19 +75,19 @@ public class ApplicationDTO {
         this.email = email;
     }
 
-    public List<Competence> getCompetences() {
+    public List<CompetenceFromView> getCompetences() {
         return competences;
     }
 
-    public void setCompetences(List<Competence> competences) {
+    public void setCompetences(List<CompetenceFromView> competences) {
         this.competences = competences;
     }
 
-    public List<Availability> getAvailabilities() {
+    public List<AvailabilityFromView> getAvailabilities() {
         return availabilities;
     }
 
-    public void setAvailabilities(List<Availability> availabilities) {
+    public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
     }
 }

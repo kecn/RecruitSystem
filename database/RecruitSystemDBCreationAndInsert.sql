@@ -187,6 +187,26 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinprofile` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Inserting data into the database
+-- -----------------------------------------------------
+
+INSERT INTO `RecruitSystemDB`.`competence` (`competenceid`) VALUES (1);
+INSERT INTO `RecruitSystemDB`.`competence` (`competenceid`) VALUES (2);
+INSERT INTO `RecruitSystemDB`.`competence` (`competenceid`) VALUES (3);
+INSERT INTO `RecruitSystemDB`.`competence` (`competenceid`) VALUES (4);
+
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('en', 'Java', 1);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('en', 'MySQL', 2);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('en', 'C++', 3);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('en', 'Architectural Design', 4);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'Java', 1);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'MySQL', 2);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'C++', 3);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'Arkitekturell Design', 4);
+
+
+
+-- -----------------------------------------------------
 -- Placeholder table for view `RecruitSystemDB`.`userroleview`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RecruitSystemDB`.`userroleview` (`username` INT, `password` INT, `rolename` INT);

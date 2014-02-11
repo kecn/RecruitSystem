@@ -19,9 +19,7 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,10 +29,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -56,8 +52,6 @@ public class Competenceprofile implements Serializable {
     @JoinColumn(name = "personid", referencedColumnName = "personid")
     @ManyToOne(optional = false)
     private Person personid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competenceprofile")
-    private Collection<Competenceinprofile> competenceinprofileCollection;
 
     public Competenceprofile() {
     }
@@ -82,15 +76,6 @@ public class Competenceprofile implements Serializable {
         this.personid = personid;
     }
 
-    @XmlTransient
-    public Collection<Competenceinprofile> getCompetenceinprofileCollection() {
-        return competenceinprofileCollection;
-    }
-
-    public void setCompetenceinprofileCollection(Collection<Competenceinprofile> competenceinprofileCollection) {
-        this.competenceinprofileCollection = competenceinprofileCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -113,7 +98,7 @@ public class Competenceprofile implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.Competenceprofile[ competenceprofileid=" + competenceprofileid + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.Competenceprofile[ competenceprofileid=" + competenceprofileid + " ]";
     }
     
 }

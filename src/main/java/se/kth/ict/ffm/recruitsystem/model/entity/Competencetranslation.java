@@ -43,8 +43,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Competencetranslation.findByLocale", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale"),
     @NamedQuery(name = "Competencetranslation.findNameByLocale", query = "SELECT c.name FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale"),
     @NamedQuery(name = "Competencetranslation.findByName", query = "SELECT c FROM Competencetranslation c WHERE c.name = :name"),
+    @NamedQuery(name = "Competencetranslation.findByLocaleAndName", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale "
+            + "AND c.name = :name"),
     @NamedQuery(name = "Competencetranslation.findByCompetenceid", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.competenceid = :competenceid")})
-public class Competencetranslation implements Serializable {
+public class Competencetranslation implements Serializable, CompetencetranslationDTO {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -97,6 +99,14 @@ public class Competencetranslation implements Serializable {
     public void setCompetence(Competence competence) {
         this.competence = competence;
     }
+    
+    public int getCompetenceId() {
+        return competencetranslationPK.getCompetenceid();
+    }
+    
+    public String getLocale() {
+        return competencetranslationPK.getLocale();
+    }
 
     @Override
     public int hashCode() {
@@ -120,7 +130,8 @@ public class Competencetranslation implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.Competencetranslation[ competencetranslationPK=" + competencetranslationPK + " ]";
+//        return "se.kth.ict.ffm.recruitsystem.model.Competencetranslation[ competencetranslationPK=" + competencetranslationPK + " ]";
+        return name;
     }
 
 

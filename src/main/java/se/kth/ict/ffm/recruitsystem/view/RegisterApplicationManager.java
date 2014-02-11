@@ -18,6 +18,9 @@
 
 package se.kth.ict.ffm.recruitsystem.view;
 
+import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
+import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Collection;
@@ -31,6 +34,8 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
+import se.kth.ict.ffm.recruitsystem.controller.LanguageBean;
+import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
 
 
@@ -45,28 +50,33 @@ import se.kth.ict.ffm.recruitsystem.util.DateUtil;
 public class RegisterApplicationManager implements Serializable{
     @EJB
     private ApplicationFacade applicationFacade;
+    @EJB
+    private LanguageBean languageBean;
     private String firstname;
     private String lastname;
     private String birthDateString;
     private String email;
-    private List<String> competences;
-    private List<Competence> applicantCompetences;
-    private List<Availability> availabilities;
+//    private List<String> competenceNames;
+    private List<CompetencetranslationDTO> competences;
+    private List<CompetenceFromView> applicantCompetences;
+    private List<AvailabilityFromView> availabilities;
     private int yearsOfExperience;
     private String competenceName;
+    private CompetencetranslationDTO competenceTranslation;
     private String fromDateString;
     private String toDateString;
     
 
     @PostConstruct
     public void init() {
+//        competenceNames = applicationFacade.getCompetences();
         competences = applicationFacade.getCompetences();
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
     }
     
     public void addCompetence() {
-        Competence newCompetence = new Competence(competenceName, yearsOfExperience);
+        CompetenceFromView newCompetence = new CompetenceFromView(competenceTranslation, yearsOfExperience);
         applicantCompetences.add(newCompetence);
     }
     
@@ -74,7 +84,7 @@ public class RegisterApplicationManager implements Serializable{
         try {
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
-            Availability newAvailability = new Availability(fromDate, toDate);
+            AvailabilityFromView newAvailability = new AvailabilityFromView(fromDate, toDate);
             availabilities.add(newAvailability);
         } catch (ParseException ex) {
             //FIX LOGGING!
@@ -96,27 +106,23 @@ public class RegisterApplicationManager implements Serializable{
         }
     }
     
-    public Collection<String> getCompetences() {
+    public Collection<CompetencetranslationDTO> getCompetences() {
         return competences;
     }
 
-    public void setCompetences(List<String> competences) {
-        this.competences = competences;
-    }
-
-    public Collection<Competence> getApplicantCompetences() {
+    public Collection<CompetenceFromView> getApplicantCompetences() {
         return applicantCompetences;
     }
 
-    public void setApplicantCompetences(List<Competence> applicantCompetences) {
+    public void setApplicantCompetences(List<CompetenceFromView> applicantCompetences) {
         this.applicantCompetences = applicantCompetences;
     }
 
-    public Collection<Availability> getAvailabilities() {
+    public Collection<AvailabilityFromView> getAvailabilities() {
         return availabilities;
     }
 
-    public void setAvailabilities(List<Availability> availabilities) {
+    public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
     }
 
@@ -160,14 +166,6 @@ public class RegisterApplicationManager implements Serializable{
         this.yearsOfExperience = yearsOfExperience;
     }
 
-    public String getCompetenceName() {
-        return competenceName;
-    }
-
-    public void setCompetenceName(String competenceName) {
-        this.competenceName = competenceName;
-    }
-
     public String getFromDateString() {
         return fromDateString;
     }
@@ -184,4 +182,20 @@ public class RegisterApplicationManager implements Serializable{
         this.toDateString = toDateString;
     }
 
+    public CompetencetranslationDTO getCompetenceTranslation() {
+        return competenceTranslation;
+    }
+
+    public void setCompetenceTranslation(CompetencetranslationDTO competenceTranslation) {
+        this.competenceTranslation = competenceTranslation;
+    }
+
+    public String getCompetenceName() {
+        return competenceName;
+    }
+
+    public void setCompetenceName(String competenceName) {
+        this.competenceName = competenceName;
+        competenceTranslation = applicationFacade.getCompetenceTranslation(competenceName);
+    }
 }

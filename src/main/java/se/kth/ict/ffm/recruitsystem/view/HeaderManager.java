@@ -29,10 +29,17 @@ import se.kth.ict.ffm.recruitsystem.controller.LanguageBean;
 public class HeaderManager implements Serializable{
     
     @EJB
-    LanguageBean LanguageBean;
-
+    LanguageBean languageBean;
+    private String languageCode; //Just testing
     public void changeLanguage(String e) {
-        LanguageBean.countryLocaleCodeChanged(e);
+        languageBean.countryLocaleCodeChanged(e);
     }
 
+    public String getLanguageCode() {
+        return languageBean.getCurrentLanguage();
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
 }

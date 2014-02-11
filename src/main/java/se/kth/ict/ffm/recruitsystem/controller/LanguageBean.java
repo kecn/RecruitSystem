@@ -46,8 +46,7 @@ public class LanguageBean {
     }
 
     public String getCurrentLanguage() {
-//        return FacesContext.getCurrentInstance()
-//                     .getViewRoot().getLocale().getLanguage();
-        return "sv";
+        return FacesContext.getCurrentInstance()
+                     .getViewRoot().getLocale().getLanguage();
     }
 }
