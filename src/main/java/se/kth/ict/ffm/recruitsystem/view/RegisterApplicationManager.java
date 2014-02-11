@@ -196,6 +196,9 @@ public class RegisterApplicationManager implements Serializable{
 
     public void setCompetenceName(String competenceName) {
         this.competenceName = competenceName;
+        //When competenceName is set, also the competenceTranslation is set
+        //because we want more information about the competence than just the name
+        //(competenceId for example)
         competenceTranslation = applicationFacade.getCompetenceTranslation(competenceName);
     }
 }
