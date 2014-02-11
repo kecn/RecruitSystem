@@ -49,4 +49,9 @@ public class Competence {
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
+    
+    public String toString(){
+        return competenceName + " " + yearsOfExperience;
+        
+    }
 }

@@ -15,9 +15,11 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.kth.ict.ffm.recruitsystem.view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Collection;
@@ -29,20 +31,22 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
-
-
+import se.kth.ict.ffm.recruitsystem.util.pdf.PDF;
 
 /**
  *
  * @author
  */
-
 @Named("registerApplicationManager")
 @SessionScoped
-public class RegisterApplicationManager implements Serializable{
+public class RegisterApplicationManager implements Serializable {
+
     @EJB
     private ApplicationFacade applicationFacade;
     private String firstname;
@@ -56,7 +60,8 @@ public class RegisterApplicationManager implements Serializable{
     private String competenceName;
     private String fromDateString;
     private String toDateString;
-    
+    private boolean isSubmitted;
+    private ApplicationDTO application;
 
     @PostConstruct
     public void init() {
@@ -64,13 +69,43 @@ public class RegisterApplicationManager implements Serializable{
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
     }
-    
+
+    public void downloadFile() {       
+       File file = new PDF().createRegistrationPDF(application);
+       HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();  
+
+    response.setHeader("Content-Disposition", "attachment;filename=Application.pdf");  
+    response.setContentLength((int) file.length());  
+    ServletOutputStream out = null;  
+    try {  
+        FileInputStream input = new FileInputStream(file);  
+        byte[] buffer = new byte[1024];  
+        out = response.getOutputStream();  
+        int i = 0;  
+        while ((i = input.read(buffer)) != -1) {  
+            out.write(buffer);  
+            out.flush();  
+        }  
+        FacesContext.getCurrentInstance().getResponseComplete();  
+    } catch (IOException err) {  
+        err.printStackTrace();  
+    } finally {  
+        try {  
+            if (out != null) {  
+                out.close();  
+            }  
+        } catch (IOException err) {  
+            err.printStackTrace();  
+        }  
+    }  
+    }
+
     public void addCompetence() {
         Competence newCompetence = new Competence(competenceName, yearsOfExperience);
         applicantCompetences.add(newCompetence);
     }
-    
-    public void addAvailability() { 
+
+    public void addAvailability() {
         try {
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
@@ -79,23 +114,24 @@ public class RegisterApplicationManager implements Serializable{
         } catch (ParseException ex) {
             //FIX LOGGING!
             Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
     }
-    
+
     public void submitApplication() {
         Date birthDate;
         try {
             birthDate = DateUtil.toDate(birthDateString);
-            ApplicationDTO application = new ApplicationDTO(
-            firstname, lastname, birthDate, email, applicantCompetences, 
-            availabilities);
+            application = new ApplicationDTO(
+                    firstname, lastname, birthDate, email, applicantCompetences,
+                    availabilities);
             applicationFacade.submitApplication(application);
+            setIsSubmitted(true);            
         } catch (ParseException ex) {
             //FIX LOGGING!
             Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Collection<String> getCompetences() {
         return competences;
     }
@@ -182,6 +218,14 @@ public class RegisterApplicationManager implements Serializable{
 
     public void setToDateString(String toDateString) {
         this.toDateString = toDateString;
+    }
+
+    public boolean isIsSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setIsSubmitted(boolean isSubmitted) {
+        this.isSubmitted = isSubmitted;
     }
 
 }

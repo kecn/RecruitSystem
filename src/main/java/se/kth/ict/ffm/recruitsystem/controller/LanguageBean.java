@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 
-
 @Stateless
 public class LanguageBean {
     private final Map<String,Object> countries;
@@ -54,10 +53,10 @@ public class LanguageBean {
     }
     
     public String getCurrentLanguage() {
-        return this.currentLanguage;
+        return currentLanguage;
     }
     
     public void setCurrentLanguage(String newLang){
-        this.currentLanguage = newLang;
+        currentLanguage = newLang;
     }
 }
