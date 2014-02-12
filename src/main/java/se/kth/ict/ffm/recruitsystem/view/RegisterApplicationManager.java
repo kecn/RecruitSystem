@@ -17,9 +17,9 @@
  */
 package se.kth.ict.ffm.recruitsystem.view;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
+import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Collection;
@@ -31,13 +31,11 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
+import se.kth.ict.ffm.recruitsystem.controller.LanguageBean;
+import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
-import se.kth.ict.ffm.recruitsystem.util.pdf.PDF;
 
 /**
  *
@@ -49,15 +47,19 @@ public class RegisterApplicationManager implements Serializable {
 
     @EJB
     private ApplicationFacade applicationFacade;
+    @EJB
+    private LanguageBean languageBean;
     private String firstname;
     private String lastname;
     private String birthDateString;
     private String email;
-    private List<String> competences;
-    private List<Competence> applicantCompetences;
-    private List<Availability> availabilities;
+//    private List<String> competenceNames;
+    private List<CompetencetranslationDTO> competences;
+    private List<CompetenceFromView> applicantCompetences;
+    private List<AvailabilityFromView> availabilities;
     private int yearsOfExperience;
     private String competenceName;
+    private CompetencetranslationDTO competenceTranslation;
     private String fromDateString;
     private String toDateString;
     private boolean isSubmitted;
@@ -65,43 +67,15 @@ public class RegisterApplicationManager implements Serializable {
 
     @PostConstruct
     public void init() {
+//        competenceNames = applicationFacade.getCompetences();
         competences = applicationFacade.getCompetences();
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
-    }
-
-    public void downloadFile() {       
-       File file = new PDF().createRegistrationPDF(application);
-       HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();  
-
-    response.setHeader("Content-Disposition", "attachment;filename=Application.pdf");  
-    response.setContentLength((int) file.length());  
-    ServletOutputStream out = null;  
-    try {  
-        FileInputStream input = new FileInputStream(file);  
-        byte[] buffer = new byte[1024];  
-        out = response.getOutputStream();  
-        int i = 0;  
-        while ((i = input.read(buffer)) != -1) {  
-            out.write(buffer);  
-            out.flush();  
-        }  
-        FacesContext.getCurrentInstance().getResponseComplete();  
-    } catch (IOException err) {  
-        err.printStackTrace();  
-    } finally {  
-        try {  
-            if (out != null) {  
-                out.close();  
-            }  
-        } catch (IOException err) {  
-            err.printStackTrace();  
-        }  
-    }  
+        isSubmitted = false;
     }
 
     public void addCompetence() {
-        Competence newCompetence = new Competence(competenceName, yearsOfExperience);
+        CompetenceFromView newCompetence = new CompetenceFromView(competenceTranslation, yearsOfExperience);
         applicantCompetences.add(newCompetence);
     }
 
@@ -109,7 +83,7 @@ public class RegisterApplicationManager implements Serializable {
         try {
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
-            Availability newAvailability = new Availability(fromDate, toDate);
+            AvailabilityFromView newAvailability = new AvailabilityFromView(fromDate, toDate);
             availabilities.add(newAvailability);
         } catch (ParseException ex) {
             //FIX LOGGING!
@@ -125,34 +99,32 @@ public class RegisterApplicationManager implements Serializable {
                     firstname, lastname, birthDate, email, applicantCompetences,
                     availabilities);
             applicationFacade.submitApplication(application);
-            setIsSubmitted(true);            
+            //Indicates that all needed to make PDF is available
+            isSubmitted = true;
+
         } catch (ParseException ex) {
             //FIX LOGGING!
             Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public Collection<String> getCompetences() {
+    public Collection<CompetencetranslationDTO> getCompetences() {
         return competences;
     }
 
-    public void setCompetences(List<String> competences) {
-        this.competences = competences;
-    }
-
-    public Collection<Competence> getApplicantCompetences() {
+    public Collection<CompetenceFromView> getApplicantCompetences() {
         return applicantCompetences;
     }
 
-    public void setApplicantCompetences(List<Competence> applicantCompetences) {
+    public void setApplicantCompetences(List<CompetenceFromView> applicantCompetences) {
         this.applicantCompetences = applicantCompetences;
     }
 
-    public Collection<Availability> getAvailabilities() {
+    public Collection<AvailabilityFromView> getAvailabilities() {
         return availabilities;
     }
 
-    public void setAvailabilities(List<Availability> availabilities) {
+    public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
     }
 
@@ -196,14 +168,6 @@ public class RegisterApplicationManager implements Serializable {
         this.yearsOfExperience = yearsOfExperience;
     }
 
-    public String getCompetenceName() {
-        return competenceName;
-    }
-
-    public void setCompetenceName(String competenceName) {
-        this.competenceName = competenceName;
-    }
-
     public String getFromDateString() {
         return fromDateString;
     }
@@ -220,6 +184,23 @@ public class RegisterApplicationManager implements Serializable {
         this.toDateString = toDateString;
     }
 
+    public CompetencetranslationDTO getCompetenceTranslation() {
+        return competenceTranslation;
+    }
+
+    public void setCompetenceTranslation(CompetencetranslationDTO competenceTranslation) {
+        this.competenceTranslation = competenceTranslation;
+    }
+
+    public String getCompetenceName() {
+        return competenceName;
+    }
+
+    public void setCompetenceName(String competenceName) {
+        this.competenceName = competenceName;
+        competenceTranslation = applicationFacade.getCompetenceTranslation(competenceName);
+    }
+
     public boolean isIsSubmitted() {
         return isSubmitted;
     }
@@ -227,5 +208,8 @@ public class RegisterApplicationManager implements Serializable {
     public void setIsSubmitted(boolean isSubmitted) {
         this.isSubmitted = isSubmitted;
     }
-
+    
+    public void createPDF(){
+        applicationFacade.downloadFile(application);
+    }
 }

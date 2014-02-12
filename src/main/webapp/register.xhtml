@@ -33,7 +33,7 @@
                                  var="competence" border="0" >
                         <h:column>
                             <f:facet name="header">Competence</f:facet>
-                                #{competence.competenceName}
+                            #{competence.name}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Years of experience</f:facet>
@@ -68,7 +68,7 @@
                     <br/>
                     <h:commandButton value="#{msg['Register']}" action="#{registerApplicationManager.submitApplication}" disabled="#{registerApplicationManager.isSubmitted}"/>     
                     <br/>
-                    <h:commandButton value = "PDF" action="#{registerApplicationManager.downloadFile()}" disabled="#{!registerApplicationManager.isSubmitted}"/>
+                    <h:commandButton value = "PDF" action="#{registerApplicationManager.createPDF()}" disabled="#{!registerApplicationManager.isSubmitted}"/>
                 </h:form>
 
 

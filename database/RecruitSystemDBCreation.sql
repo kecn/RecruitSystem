@@ -12,7 +12,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`person` (
   `personid` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL ,
   `surname` VARCHAR(45) NOT NULL ,
-  `ssn` INT NOT NULL ,
+  `birthdate` DATE NOT NULL ,
   `email` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`personid`) ,
   UNIQUE INDEX `userid_UNIQUE` (`personid` ASC) )
@@ -185,7 +185,6 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinprofile` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Placeholder table for view `RecruitSystemDB`.`userroleview`

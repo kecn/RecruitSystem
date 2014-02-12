@@ -15,48 +15,64 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.kth.ict.ffm.recruitsystem.controller;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 
 @Stateless
 public class LanguageBean {
-    private final Map<String,Object> countries;
+
+    private final Map<String, Object> countries;
     private String currentLanguage;
-    
+    private Locale currentLocale;
+
     public LanguageBean() {
-            Locale seLocale = new Locale("se");
-            Locale enLocale = new Locale("en");
-            countries = new LinkedHashMap<>();
-            countries.put("English", enLocale); //label, value
-            countries.put("Swedish", seLocale);
-            this.currentLanguage = "se";
+        Locale seLocale = new Locale("se");
+        Locale enLocale = new Locale("en");
+        countries = new LinkedHashMap<>();
+        countries.put("English", enLocale); //label, value
+        countries.put("Swedish", seLocale);
+        this.currentLanguage = "se";
+        this.currentLocale=seLocale;
     }
+
     public void countryLocaleCodeChanged(String e) {
         //loop a map to compare the locale code
         for (Map.Entry<String, Object> entry : countries.entrySet()) {
             if (entry.getKey().equals(e)) {
                 FacesContext.getCurrentInstance()
-                     .getViewRoot().setLocale((Locale) entry.getValue());
-                
-                if(entry.getKey().equals("English"))
+                        .getViewRoot().setLocale((Locale) entry.getValue());
+
+                if (entry.getKey().equals("English")) {
                     setCurrentLanguage("en");
-                if(entry.getKey().equals("Swedish"))
+                    setCurrentLocale((Locale) entry.getValue());
+                }
+                if (entry.getKey().equals("Swedish")) {
                     setCurrentLanguage("se");
+                    setCurrentLocale((Locale) entry.getValue());
+                }
             }
         }
     }
-    
+
     public String getCurrentLanguage() {
-        return currentLanguage;
+        return this.currentLanguage;
     }
-    
-    public void setCurrentLanguage(String newLang){
-        currentLanguage = newLang;
+
+    public void setCurrentLanguage(String newLang) {
+        this.currentLanguage = newLang;
+    }
+
+    public Locale getCurrentLocale() {
+        return currentLocale;
+    }
+
+    public void setCurrentLocale(Locale currentLocale) {
+        this.currentLocale = currentLocale;
     }
 }

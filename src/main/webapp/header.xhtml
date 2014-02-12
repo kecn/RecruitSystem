@@ -8,6 +8,8 @@
 
         <h3>
             <h:outputText value="#{msg['welcome']}" />
+            <br/>
+            <h:outputText value="#{headerManager.languageCode}" />
         </h3>
 
         <h:commandButton action="#{headerManager.changeLanguage('Swedish')}"  
