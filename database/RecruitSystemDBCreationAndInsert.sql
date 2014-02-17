@@ -199,10 +199,10 @@ INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `compet
 INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('en', 'MySQL', 2);
 INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('en', 'C++', 3);
 INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('en', 'Architectural Design', 4);
-INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'Java', 1);
-INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'MySQL', 2);
-INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'C++', 3);
-INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('sv', 'Arkitekturell Design', 4);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('se', 'Java', 1);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('se', 'MySQL', 2);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('se', 'C++', 3);
+INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('se', 'Arkitekturell Design', 4);
 
 
 
