@@ -19,31 +19,17 @@ package se.kth.ict.ffm.recruitsystem.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import se.kth.ict.ffm.recruitsystem.model.ApplicationOperator;
 import se.kth.ict.ffm.recruitsystem.model.CompetenceOperator;
-import se.kth.ict.ffm.recruitsystem.model.entity.Application;
-import se.kth.ict.ffm.recruitsystem.model.entity.Availability;
-import se.kth.ict.ffm.recruitsystem.model.entity.Competenceinprofile;
-import se.kth.ict.ffm.recruitsystem.model.entity.Competenceprofile;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
-import se.kth.ict.ffm.recruitsystem.model.entity.Person;
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
-import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
-import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 import se.kth.ict.ffm.recruitsystem.util.pdf.PDFBean;
-import se.kth.ict.ffm.recruitsystem.view.LanguageBean;
 
 @Stateless
 public class ApplicationFacade {
@@ -53,9 +39,6 @@ public class ApplicationFacade {
     private ApplicationOperator applicationOperator;
     @EJB
     private CompetenceOperator competenceOperator;
-
-    @PersistenceContext(unitName = "se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
-    EntityManager entityManager;
 
     public ApplicationFacade() {
     }
