@@ -17,16 +17,20 @@
  */
 package se.kth.ict.ffm.recruitsystem.controller;
 
-import se.kth.ict.ffm.recruitsystem.view.LanguageBean;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import se.kth.ict.ffm.recruitsystem.model.entity.Application;
 import se.kth.ict.ffm.recruitsystem.model.entity.Availability;
 import se.kth.ict.ffm.recruitsystem.model.entity.Competenceinprofile;
@@ -36,12 +40,16 @@ import se.kth.ict.ffm.recruitsystem.model.entity.Person;
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
+import se.kth.ict.ffm.recruitsystem.util.pdf.PDFBean;
+import se.kth.ict.ffm.recruitsystem.view.LanguageBean;
 
 @Stateless
 public class ApplicationFacade {
 
     @EJB
     private LanguageBean languageBean;
+    @EJB
+    private PDFBean pdfBean;
 
     @PersistenceContext(unitName = "se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
     EntityManager entityManager;
@@ -65,7 +73,7 @@ public class ApplicationFacade {
     
     public void submitApplication(ApplicationDTO application) {
         //If person doesn't exist, create it in data store.
-        
+
         Person person = findPerson(application);
         if (null == person) {
             person = createPerson(application);
@@ -79,7 +87,7 @@ public class ApplicationFacade {
         List<AvailabilityFromView> availabilities = application.getAvailabilities();
         AvailabilityFromView av;
         Availability avEntity;
-        for (Iterator<AvailabilityFromView> availIt = availabilities.iterator(); 
+        for (Iterator<AvailabilityFromView> availIt = availabilities.iterator();
                 availIt.hasNext();) {
             av = availIt.next();
             avEntity = createAvailability(av, person);
@@ -102,10 +110,13 @@ public class ApplicationFacade {
             entityManager.persist(compEntity);
         }
         //Create an Application
-        Application applicationEntity = createApplication(person);
+        Application applicationEntity = new Application();
+        applicationEntity.setPersonid(person);
+        applicationEntity.setApplicationdate(new Date());
         entityManager.persist(applicationEntity);
+
     }
-    
+
     private Person findPerson(ApplicationDTO application) {
         Query query = entityManager.createNamedQuery("Person.findByAll");
         query.setParameter("name", application.getFirstname());
@@ -115,16 +126,12 @@ public class ApplicationFacade {
         Person person;
         try {
             person = (Person) query.getSingleResult();
-        } catch(NoResultException e) {
+        } catch (NoResultException e) {
             return null;
         }
         return person;
     }
-    
-//    private findCompetenceprofile(Person person) {
-//        
-//    }
-    
+
     //factory method for creating person entities
     private Person createPerson(ApplicationDTO application) {
         Person person = new Person();
@@ -134,7 +141,7 @@ public class ApplicationFacade {
         person.setEmail(application.getEmail());
         return person;
     }
-    
+
     private Availability createAvailability(AvailabilityFromView av, Person person) {
         Availability availabilityEntity = new Availability();
         availabilityEntity.setFromdate(av.getFromDate());
@@ -142,25 +149,44 @@ public class ApplicationFacade {
         availabilityEntity.setUserid(person);
         return availabilityEntity;
     }
-    
+
     private Competenceprofile createCompetenceprofile(Person person) {
         Competenceprofile competenceProfile = new Competenceprofile();
         competenceProfile.setPersonid(person);
         return competenceProfile;
     }
-    
-    private Competenceinprofile createCompetenceinprofile(Competenceprofile compProfile, 
+
+    private Competenceinprofile createCompetenceinprofile(Competenceprofile compProfile,
             CompetenceFromView comp) {
         System.out.println("Competenceprofile: " + compProfile + "\nCompetenceFromView: " + comp);
-        Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(), 
-                        comp.getCompetenceId());
+        Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(),
+                comp.getCompetenceId());
         return compInProfile;
     }
-    
-    private Application createApplication(Person person) {
-        Application applicationEntity = new Application();
-        applicationEntity.setPersonid(person);
-        applicationEntity.setApplicationdate(new Date());
-        return applicationEntity;
+
+    public void downloadFile(ApplicationDTO application) {
+
+        ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
+
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        response.setHeader("Content-Disposition", "inline;filename=Application.pdf");
+        response.setContentLength((int) file.size());
+        ServletOutputStream sos = null;
+        try {
+            sos = response.getOutputStream();
+            file.writeTo(sos);
+            sos.flush();
+        } catch (IOException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            try {
+                if (sos != null) {
+                    sos.close();
+                    file = null;
+                }
+            } catch (IOException err) {
+                System.out.println(err.getMessage());
+            }
+        }
     }
 }

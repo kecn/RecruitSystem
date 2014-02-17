@@ -15,7 +15,6 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.kth.ict.ffm.recruitsystem.view;
 
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
@@ -37,16 +36,14 @@ import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
 
-
-
 /**
  *
  * @author
  */
-
 @Named("registerApplicationManager")
 @SessionScoped
-public class RegisterApplicationManager implements Serializable{
+public class RegisterApplicationManager implements Serializable {
+
     @EJB
     private ApplicationFacade applicationFacade;
     @EJB
@@ -64,7 +61,8 @@ public class RegisterApplicationManager implements Serializable{
     private CompetencetranslationDTO competenceTranslation;
     private String fromDateString;
     private String toDateString;
-    
+    private boolean isSubmitted;
+    private ApplicationDTO application;
 
     @PostConstruct
     public void init() {
@@ -72,14 +70,15 @@ public class RegisterApplicationManager implements Serializable{
         competences = applicationFacade.getCompetences();
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
+        isSubmitted = false;
     }
-    
+
     public void addCompetence() {
         CompetenceFromView newCompetence = new CompetenceFromView(competenceTranslation, yearsOfExperience);
         applicantCompetences.add(newCompetence);
     }
-    
-    public void addAvailability() { 
+
+    public void addAvailability() {
         try {
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
@@ -88,23 +87,26 @@ public class RegisterApplicationManager implements Serializable{
         } catch (ParseException ex) {
             //FIX LOGGING!
             Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
     }
-    
+
     public void submitApplication() {
         Date birthDate;
         try {
             birthDate = DateUtil.toDate(birthDateString);
-            ApplicationDTO application = new ApplicationDTO(
-            firstname, lastname, birthDate, email, applicantCompetences, 
-            availabilities);
+            application = new ApplicationDTO(
+                    firstname, lastname, birthDate, email, applicantCompetences,
+                    availabilities);
             applicationFacade.submitApplication(application);
+            //Indicates that all needed to make PDF is available
+            isSubmitted = true;
+
         } catch (ParseException ex) {
             //FIX LOGGING!
             Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Collection<CompetencetranslationDTO> getCompetences() {
         return competences;
     }
@@ -195,9 +197,18 @@ public class RegisterApplicationManager implements Serializable{
 
     public void setCompetenceName(String competenceName) {
         this.competenceName = competenceName;
-        //When competenceName is set, also the competenceTranslation is set
-        //because we want more information about the competence than just the name
-        //(competenceId for example)
         competenceTranslation = applicationFacade.getCompetenceTranslation(competenceName);
+    }
+
+    public boolean isIsSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setIsSubmitted(boolean isSubmitted) {
+        this.isSubmitted = isSubmitted;
+    }
+    
+    public void createPDF(){
+        applicationFacade.downloadFile(application);
     }
 }

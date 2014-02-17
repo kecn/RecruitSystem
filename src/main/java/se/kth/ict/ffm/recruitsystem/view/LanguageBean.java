@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 public class LanguageBean {
     private final Map<String,Object> countries;
     private String currentLanguage;
+    private Locale currentLocale;
     
     public LanguageBean() {
             Locale seLocale = new Locale("se");
@@ -36,6 +37,8 @@ public class LanguageBean {
             countries.put("English", enLocale); //label, value
             countries.put("Swedish", seLocale);
             this.currentLanguage = "se";
+            this.currentLocale = seLocale;
+            
     }
     public void countryLocaleCodeChanged(String e) {
         //loop a map to compare the locale code
@@ -58,5 +61,13 @@ public class LanguageBean {
     
     public void setCurrentLanguage(String newLang){
         this.currentLanguage = newLang;
+    }
+
+    public Locale getCurrentLocale() {
+        return currentLocale;
+    }
+
+    public void setCurrentLocale(Locale currentLocale) {
+        this.currentLocale = currentLocale;
     }
 }

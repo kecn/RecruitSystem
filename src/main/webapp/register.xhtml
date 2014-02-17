@@ -12,21 +12,21 @@
                 #{msg['welcome']} 
             </ui:define>
             <ui:define name="content">
-                <h:form id="registerform">
+                <h:form id="registerform" >
                     <h:outputLabel for="firstname" value="#{msg['First_name']} : " />
-                    <h:inputText id="firstname" value="#{registerApplicationManager.firstname}" />
+                    <h:inputText id="firstname" value="#{registerApplicationManager.firstname}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <h:message for="firstname" style="color:red" />
                     <br/>
                     <h:outputLabel for="lastname" value="#{msg['Last_name']} : " />
-                    <h:inputText id="lastname" value="#{registerApplicationManager.lastname}" />
+                    <h:inputText id="lastname" value="#{registerApplicationManager.lastname}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <h:message for="lastname" style="color:red" />
                     <br/>
                     <h:outputLabel for="dateofbirth" value="#{msg['DateOfBirth']}(yymmdd): " />
-                    <h:inputText id="dateofbirth" value="#{registerApplicationManager.birthDateString}" />
+                    <h:inputText id="dateofbirth" value="#{registerApplicationManager.birthDateString}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <h:message for="dateofbirth" style="color:red" />
                     <br/>
                     <h:outputLabel for="email" value="Email: " />
-                    <h:inputText id="email" value="#{registerApplicationManager.email}" />
+                    <h:inputText id="email" value="#{registerApplicationManager.email}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <h:message for="email" style="color:red" />
                     <br/>
                     <h:dataTable id="competences" bgcolor="pink" value="#{registerApplicationManager.applicantCompetences}" 
@@ -37,37 +37,40 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">Years of experience</f:facet>
-                            #{competence.yearsOfExperience}
+                                #{competence.yearsOfExperience}
                         </h:column>
                     </h:dataTable>
                     <br/>
-                    <h:selectOneMenu id="competenceSelector" value="#{registerApplicationManager.competenceName}" >   
+                    <h:selectOneMenu id="competenceSelector" value="#{registerApplicationManager.competenceName}" disabled="#{registerApplicationManager.isSubmitted}">   
                         <f:selectItems value="#{registerApplicationManager.competences}" />
                     </h:selectOneMenu>
                     <h:outputLabel for="experience" value="#{msg['YearsOfExperience']} : " />
-                    <h:inputText id="experience" value="#{registerApplicationManager.yearsOfExperience}" />
-                    <h:commandButton value="#{msg['AddCompetence']}" action="#{registerApplicationManager.addCompetence()}" />
+                    <h:inputText id="experience" value="#{registerApplicationManager.yearsOfExperience}" disabled="#{registerApplicationManager.isSubmitted}"/>
+                    <h:commandButton value="#{msg['AddCompetence']}" action="#{registerApplicationManager.addCompetence()}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <br/>
                     <h:dataTable id="availabilities" bgcolor="pink" value="#{registerApplicationManager.availabilities}" 
                                  var="availability" border="0" >
                         <h:column>
                             <f:facet name="header">From</f:facet>
-                            #{availability.fromDate}
+                                #{availability.fromDate}
                         </h:column>
                         <h:column>
                             <f:facet name="header">To</f:facet>
-                            #{availability.toDate}
+                                #{availability.toDate}
                         </h:column>
                     </h:dataTable>
                     <h:outputLabel for="fromDate" value="#{msg['AvailableFrom']} (yymmdd): " />
-                    <h:inputText id="fromDate" value="#{registerApplicationManager.fromDateString}" />
+                    <h:inputText id="fromDate" value="#{registerApplicationManager.fromDateString}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <h:outputLabel for="toDate" value="#{msg['AvailableTo']} (yymmdd): " />
-                    <h:inputText id="toDate" value="#{registerApplicationManager.toDateString}" />
+                    <h:inputText id="toDate" value="#{registerApplicationManager.toDateString}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <br/>
-                    <h:commandButton value="#{msg['AddAvailability']}" action="#{registerApplicationManager.addAvailability}" />
+                    <h:commandButton value="#{msg['AddAvailability']}" action="#{registerApplicationManager.addAvailability}" disabled="#{registerApplicationManager.isSubmitted}"/>
                     <br/>
-                    <h:commandButton value="#{msg['Register']}" action="#{registerApplicationManager.submitApplication}" />
+                    <h:commandButton value="#{msg['Register']}" action="#{registerApplicationManager.submitApplication}" disabled="#{registerApplicationManager.isSubmitted}"/>     
+                    <br/>
+                    <h:commandButton value = "PDF" action="#{registerApplicationManager.createPDF()}" disabled="#{!registerApplicationManager.isSubmitted}"/>
                 </h:form>
+
 
             </ui:define>
         </ui:composition>
