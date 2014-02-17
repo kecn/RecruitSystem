@@ -20,26 +20,25 @@ package se.kth.ict.ffm.recruitsystem.util.pdf;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import se.kth.ict.ffm.recruitsystem.controller.LanguageBean;
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
+import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 
 /**
+ * Creates a language specific pdf file with application information in memory
+ * only and return reference to the pdf.
  *
- * @author Federico
+ * @author
  */
 @Stateless
 public class PDFBean {
 
     @EJB
     private LanguageBean languageBean;
-    private File file;
     private final Font Heading1 = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.UNDERLINE);
     private final Font Heading2 = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
     private final Font regularText = new Font(Font.FontFamily.TIMES_ROMAN, 11, Font.NORMAL);
@@ -47,22 +46,23 @@ public class PDFBean {
     private Document document;
     private ByteArrayOutputStream baosPDF;
 
+    /**
+     * Creates a language specific pdf file with application information in
+     * memory only and return reference to the pdf.
+     *
+     * @param applicationDTO user information
+     * @return the pdf reference
+     */
     public ByteArrayOutputStream createRegistrationPDF(ApplicationDTO applicationDTO) {
-
         try {
-//            document = new Document();
-//            document.setPageSize(new Rectangle(PageSize.LETTER));
-//            file = new File("Application.pdf");
-
+            //Get Locale
             ResourceBundle resbundle = ResourceBundle.getBundle("se.kth.ict.ffm.recruitsystem.properties.language", languageBean.getCurrentLocale());
-//            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
 
-            Document doc = new Document();
+            document = new Document();
             baosPDF = new ByteArrayOutputStream();
-            PdfWriter pdfWriter = PdfWriter.getInstance(doc, baosPDF);
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, baosPDF);
             //Write PDF
             document.open();
-
             document.add(new Paragraph("Application Document", Heading1));
 
             Paragraph p = new Paragraph(resbundle.getString("First_name") + ": ", Heading2);
@@ -70,14 +70,17 @@ public class PDFBean {
             p.add(" " + applicationDTO.getFirstname());
             document.add(p);
 
-            p = new Paragraph(": ", Heading2);
+            p = new Paragraph(resbundle.getString("Last_name") + ": ", Heading2);
             p.setFont(regularText);
             p.add(" " + applicationDTO.getLastname());
             document.add(p);
 
-            System.out.println("Efter filen är skapad ");
+            p = new Paragraph(resbundle.getString("DateOfBirth") + ": ", Heading2);
+            p.setFont(regularText);
+            p.add(" " + applicationDTO.getBirthDate());
+            document.add(p);
 
-            document.add(new Paragraph("Competences     Years of experience: ", Heading2));
+            document.add(new Paragraph(resbundle.getString("Competences") + ": ", Heading2));
             for (CompetenceFromView competence : applicationDTO.getCompetences()) {
                 p = new Paragraph();
 
@@ -89,13 +92,24 @@ public class PDFBean {
 
                 document.add(p);
             }
-            // System.out.println("PDFBean FILE: " + file.getCanonicalPath().toString());
+
+            document.add(new Paragraph(resbundle.getString("Availability") + ": ", Heading2));
+            for (AvailabilityFromView availability : applicationDTO.getAvailabilities()) {
+                p = new Paragraph();
+
+                p.setIndentationLeft(listIndentation);
+                p.setFont(regularText);
+                p.add(availability.getFromDate().toString());
+                p.add("     ");
+                p.add(availability.getToDate().toString());
+                document.add(p);
+            }
 
             document.close();
             pdfWriter.flush();
             pdfWriter.close();
         } catch (DocumentException ex) {
-            System.out.println("DocumentException");
+            System.out.println(ex.getMessage());
         }
         return baosPDF;
     }

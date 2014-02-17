@@ -20,7 +20,6 @@ package se.kth.ict.ffm.recruitsystem.controller;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 

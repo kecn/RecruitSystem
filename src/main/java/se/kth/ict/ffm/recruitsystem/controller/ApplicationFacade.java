@@ -18,8 +18,6 @@
 package se.kth.ict.ffm.recruitsystem.controller;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
@@ -133,9 +131,6 @@ public class ApplicationFacade {
         return person;
     }
 
-//    private findCompetenceprofile(Person person) {
-//        
-//    }
     //factory method for creating person entities
     private Person createPerson(ApplicationDTO application) {
         Person person = new Person();
@@ -169,56 +164,27 @@ public class ApplicationFacade {
     }
 
     public void downloadFile(ApplicationDTO application) {
-//        File file = pdfBean.createRegistrationPDF(application);
-//        if(file==null){
-//            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<HELP!");
-//        }
-//        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//        response.setHeader("Content-Disposition", "attachment;filename=Application.pdf");
-//        response.setContentLength((int) file.length());
-//        ServletOutputStream out = null;
-//        try {
-//            FileInputStream input = new FileInputStream(file);
-//            byte[] buffer = new byte[1024];
-//            out = response.getOutputStream();
-//            int i = 0;
-//            while ((i = input.read(buffer)) != -1) {
-//                out.write(buffer);
-//                out.flush();
-//            }
-//            FacesContext.getCurrentInstance().getResponseComplete();
-//        } catch (IOException err) {
-//            err.printStackTrace();
-//        } finally {
-//            try {
-//                if (out != null) {
-//                    out.close();
-//                }
-//            } catch (IOException err) {
-//                err.printStackTrace();
-//            }
-//        }
 
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
 
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         response.setHeader("Content-Disposition", "inline;filename=Application.pdf");
         response.setContentLength((int) file.size());
-        ServletOutputStream out = null;
+        ServletOutputStream sos = null;
         try {
-            ServletOutputStream sos;
             sos = response.getOutputStream();
             file.writeTo(sos);
             sos.flush();
         } catch (IOException err) {
-            err.printStackTrace();
+            System.out.println(err.getMessage());
         } finally {
             try {
-                if (out != null) {
-                    out.close();
+                if (sos != null) {
+                    sos.close();
+                    file = null;
                 }
             } catch (IOException err) {
-                err.printStackTrace();
+                System.out.println(err.getMessage());
             }
         }
     }
