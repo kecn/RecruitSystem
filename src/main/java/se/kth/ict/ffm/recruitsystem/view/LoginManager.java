@@ -25,18 +25,18 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import se.kth.ict.ffm.recruitsystem.util.validation.Username;
-import se.kth.ict.ffm.recruitsystem.util.validation.Password;
+import se.kth.ict.ffm.recruitsystem.util.validation.ValidUsername;
+import se.kth.ict.ffm.recruitsystem.util.validation.ValidPassword;
 
 
 @Named("loginManager")
 @RequestScoped
 public class LoginManager implements Serializable   {
 
-    @Username
+    @ValidUsername
     private String username;
     
-    @Password
+    @ValidPassword
     private String password;
 
     public void LoginManager(){}

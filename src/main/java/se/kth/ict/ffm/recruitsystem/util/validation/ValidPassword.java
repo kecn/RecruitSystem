@@ -24,28 +24,31 @@ import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@NotNull
-@Size(min = 1, max = 45)
-@Pattern(regexp = "[a-zA-Z_0-9]")
+/**
+ * Validates the password and throws a message if password fails validation
+ * @author
+ */
+@NotNull(message = "")
+@Size(min = 1, max = 45, message = "")
+@Pattern(regexp = "[a-zA-Z_0-9]", message = "")
 @Constraint(validatedBy={})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
-/**
- * Validates the password and throws a message if password fails validation
- */
-public @interface Password {
+public @interface ValidPassword {
 
-    String message() default "Not a valid password, must be between 1-45 characters([a-zA-Z_0-9_@]).";
+    String message() default "Not a valid password";
 
     java.lang.Class<?>[] groups() default {};
 
-    java.lang.Class<? extends Payload>[] payload() default {};
+    java.lang.Class<? extends Payload>[] payload() default {};    
+
 }
+
+

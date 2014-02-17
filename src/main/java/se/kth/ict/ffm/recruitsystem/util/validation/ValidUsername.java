@@ -24,28 +24,29 @@ import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@NotNull
-@Size(min = 1, max = 45)
-@Pattern(regexp = "[a-zA-Z_0-9]")
-@Constraint(validatedBy={})
+/**
+ * Provides validation for username input
+ * @author 
+ */
+@NotNull(message = "")
+@Size(min = 5, max = 45, message = "length not matching")
+@Pattern(regexp = "[a-zA-Z_0-9]", message = "Pattern not matching")
+@Constraint(validatedBy = {})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
-/**
- *
- */
-public @interface Username {
+public @interface ValidUsername {
 
-    String message() default "Not a valid username, must be between 1-45 characters([a-zA-Z_0-9_@])";
+    String message() default "Not a valid username)";
 
     java.lang.Class<?>[] groups() default {};
 
     java.lang.Class<? extends Payload>[] payload() default {};
+
 }
