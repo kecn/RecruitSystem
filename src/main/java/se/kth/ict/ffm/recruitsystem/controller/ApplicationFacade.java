@@ -31,6 +31,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import se.kth.ict.ffm.recruitsystem.model.ApplicationOperator;
+import se.kth.ict.ffm.recruitsystem.model.CompetenceOperator;
 import se.kth.ict.ffm.recruitsystem.model.entity.Application;
 import se.kth.ict.ffm.recruitsystem.model.entity.Availability;
 import se.kth.ict.ffm.recruitsystem.model.entity.Competenceinprofile;
@@ -45,11 +47,12 @@ import se.kth.ict.ffm.recruitsystem.view.LanguageBean;
 
 @Stateless
 public class ApplicationFacade {
-
-    @EJB
-    private LanguageBean languageBean;
     @EJB
     private PDFBean pdfBean;
+    @EJB
+    private ApplicationOperator applicationOperator;
+    @EJB
+    private CompetenceOperator competenceOperator;
 
     @PersistenceContext(unitName = "se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
     EntityManager entityManager;
@@ -57,111 +60,17 @@ public class ApplicationFacade {
     public ApplicationFacade() {
     }
 
-    public List<CompetencetranslationDTO> getCompetences() {
-        String currentLanguage = languageBean.getCurrentLanguage();
-        Query query = entityManager.createNamedQuery("Competencetranslation.findByLocale");
-        query.setParameter("locale", currentLanguage);
-        return query.getResultList();
+    public List<CompetencetranslationDTO> getCompetences(String currentLanguage) {
+        return competenceOperator.getCompetences(currentLanguage);
     }
     
-    public CompetencetranslationDTO getCompetenceTranslation(String name) {
-        Query query = entityManager.createNamedQuery("Competencetranslation.findByLocaleAndName");
-        query.setParameter("locale", languageBean.getCurrentLanguage());
-        query.setParameter("name", name);
-        return (CompetencetranslationDTO) query.getSingleResult();
+    public CompetencetranslationDTO getCompetenceTranslation(String name, 
+            String currentLanguage) {
+        return competenceOperator.getCompetenceTranslation(name, currentLanguage);
     }
     
     public void submitApplication(ApplicationDTO application) {
-        //If person doesn't exist, create it in data store.
-
-        Person person = findPerson(application);
-        if (null == person) {
-            person = createPerson(application);
-            entityManager.persist(person);
-            //MÅSTE MAN VERKLIGEN HITTA PERSON ENTITY IGEN FÖR ATT FÅ ID?
-            entityManager.flush();
-            person = findPerson(application);
-            System.out.println("PersonId: " + person.getPersonid());
-        }
-        //Create availabilities
-        List<AvailabilityFromView> availabilities = application.getAvailabilities();
-        AvailabilityFromView av;
-        Availability avEntity;
-        for (Iterator<AvailabilityFromView> availIt = availabilities.iterator();
-                availIt.hasNext();) {
-            av = availIt.next();
-            avEntity = createAvailability(av, person);
-            entityManager.persist(avEntity);
-        }
-        //Create a Competenceprofile
-        Competenceprofile compProfile = createCompetenceprofile(person);
-        entityManager.persist(compProfile);
-        entityManager.flush();
-        System.out.println("In submitApplication, compProfile id: " + compProfile.getCompetenceprofileid());
-        //Add competences to profile
-        List<CompetenceFromView> competences = application.getCompetences();
-        CompetenceFromView comp;
-        Competenceinprofile compEntity;
-        for (Iterator<CompetenceFromView> compIt = competences.iterator();
-                compIt.hasNext();) {
-            comp = compIt.next();
-            compEntity = createCompetenceinprofile(compProfile, comp);
-            compEntity.setYearsofexperience(comp.getYearsOfExperience());
-            entityManager.persist(compEntity);
-        }
-        //Create an Application
-        Application applicationEntity = new Application();
-        applicationEntity.setPersonid(person);
-        applicationEntity.setApplicationdate(new Date());
-        entityManager.persist(applicationEntity);
-
-    }
-
-    private Person findPerson(ApplicationDTO application) {
-        Query query = entityManager.createNamedQuery("Person.findByAll");
-        query.setParameter("name", application.getFirstname());
-        query.setParameter("surname", application.getLastname());
-        query.setParameter("birthdate", application.getBirthDate());
-        query.setParameter("email", application.getEmail());
-        Person person;
-        try {
-            person = (Person) query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-        return person;
-    }
-
-    //factory method for creating person entities
-    private Person createPerson(ApplicationDTO application) {
-        Person person = new Person();
-        person.setName(application.getFirstname());
-        person.setSurname(application.getLastname());
-        person.setBirthdate(application.getBirthDate());
-        person.setEmail(application.getEmail());
-        return person;
-    }
-
-    private Availability createAvailability(AvailabilityFromView av, Person person) {
-        Availability availabilityEntity = new Availability();
-        availabilityEntity.setFromdate(av.getFromDate());
-        availabilityEntity.setTodate(av.getToDate());
-        availabilityEntity.setUserid(person);
-        return availabilityEntity;
-    }
-
-    private Competenceprofile createCompetenceprofile(Person person) {
-        Competenceprofile competenceProfile = new Competenceprofile();
-        competenceProfile.setPersonid(person);
-        return competenceProfile;
-    }
-
-    private Competenceinprofile createCompetenceinprofile(Competenceprofile compProfile,
-            CompetenceFromView comp) {
-        System.out.println("Competenceprofile: " + compProfile + "\nCompetenceFromView: " + comp);
-        Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(),
-                comp.getCompetenceId());
-        return compInProfile;
+        applicationOperator.submitApplication(application);
     }
 
     public void downloadFile(ApplicationDTO application) {

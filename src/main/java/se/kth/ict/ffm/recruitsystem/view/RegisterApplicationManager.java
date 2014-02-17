@@ -61,16 +61,16 @@ public class RegisterApplicationManager implements Serializable {
     private CompetencetranslationDTO competenceTranslation;
     private String fromDateString;
     private String toDateString;
-    private boolean isSubmitted;
+    private boolean submitted;
     private ApplicationDTO application;
 
     @PostConstruct
     public void init() {
 //        competenceNames = applicationFacade.getCompetences();
-        competences = applicationFacade.getCompetences();
+        competences = applicationFacade.getCompetences(languageBean.getCurrentLanguage());
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
-        isSubmitted = false;
+        submitted = false;
     }
 
     public void addCompetence() {
@@ -99,7 +99,7 @@ public class RegisterApplicationManager implements Serializable {
                     availabilities);
             applicationFacade.submitApplication(application);
             //Indicates that all needed to make PDF is available
-            isSubmitted = true;
+            submitted = true;
 
         } catch (ParseException ex) {
             //FIX LOGGING!
@@ -197,15 +197,16 @@ public class RegisterApplicationManager implements Serializable {
 
     public void setCompetenceName(String competenceName) {
         this.competenceName = competenceName;
-        competenceTranslation = applicationFacade.getCompetenceTranslation(competenceName);
+        competenceTranslation = applicationFacade.
+                getCompetenceTranslation(competenceName, languageBean.getCurrentLanguage());
     }
 
-    public boolean isIsSubmitted() {
-        return isSubmitted;
+    public boolean isSubmitted() {
+        return submitted;
     }
 
-    public void setIsSubmitted(boolean isSubmitted) {
-        this.isSubmitted = isSubmitted;
+    public void setSubmitted(boolean submitted) {
+        this.submitted = submitted;
     }
     
     public void createPDF(){
