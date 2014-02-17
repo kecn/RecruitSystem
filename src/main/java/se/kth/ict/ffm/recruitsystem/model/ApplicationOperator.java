@@ -9,6 +9,7 @@ package se.kth.ict.ffm.recruitsystem.model;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -27,6 +28,9 @@ import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 public class ApplicationOperator {
     @PersistenceContext(unitName = "se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
     EntityManager entityManager;
+    
+    @EJB
+    CompetenceOperator competenceOperator;
     
     public void submitApplication(ApplicationDTO application) {
         //If person doesn't exist, create it in data store.
@@ -49,7 +53,7 @@ public class ApplicationOperator {
             entityManager.persist(avEntity);
         }
         //Create a Competenceprofile
-        Competenceprofile compProfile = createCompetenceprofile(person);
+        Competenceprofile compProfile = competenceOperator.createCompetenceprofile(person);
         entityManager.persist(compProfile);
         entityManager.flush();
         System.out.println("In submitApplication, compProfile id: " + compProfile.getCompetenceprofileid());
@@ -60,7 +64,7 @@ public class ApplicationOperator {
         for (Iterator<CompetenceFromView> compIt = competences.iterator();
                 compIt.hasNext();) {
             comp = compIt.next();
-            compEntity = createCompetenceinprofile(compProfile, comp);
+            compEntity = competenceOperator.createCompetenceinprofile(compProfile, comp);
             compEntity.setYearsofexperience(comp.getYearsOfExperience());
             entityManager.persist(compEntity);
         }
@@ -103,19 +107,5 @@ public class ApplicationOperator {
         availabilityEntity.setTodate(av.getToDate());
         availabilityEntity.setUserid(person);
         return availabilityEntity;
-    }
-
-    private Competenceprofile createCompetenceprofile(Person person) {
-        Competenceprofile competenceProfile = new Competenceprofile();
-        competenceProfile.setPersonid(person);
-        return competenceProfile;
-    }
-
-    private Competenceinprofile createCompetenceinprofile(Competenceprofile compProfile,
-            CompetenceFromView comp) {
-        System.out.println("Competenceprofile: " + compProfile + "\nCompetenceFromView: " + comp);
-        Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(),
-                comp.getCompetenceId());
-        return compInProfile;
-    }    
+    } 
 }

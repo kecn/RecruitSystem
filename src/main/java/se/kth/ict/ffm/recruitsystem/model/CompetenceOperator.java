@@ -11,7 +11,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import se.kth.ict.ffm.recruitsystem.model.entity.Competenceinprofile;
+import se.kth.ict.ffm.recruitsystem.model.entity.Competenceprofile;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
+import se.kth.ict.ffm.recruitsystem.model.entity.Person;
+import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 
 @Stateless
 public class CompetenceOperator {
@@ -31,4 +35,18 @@ public class CompetenceOperator {
         query.setParameter("name", name);
         return (CompetencetranslationDTO) query.getSingleResult();
     }    
+    
+    public Competenceprofile createCompetenceprofile(Person person) {
+        Competenceprofile competenceProfile = new Competenceprofile();
+        competenceProfile.setPersonid(person);
+        return competenceProfile;
+    }
+
+    public Competenceinprofile createCompetenceinprofile(Competenceprofile compProfile,
+            CompetenceFromView comp) {
+        System.out.println("Competenceprofile: " + compProfile + "\nCompetenceFromView: " + comp);
+        Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(),
+                comp.getCompetenceId());
+        return compInProfile;
+    }       
 }
