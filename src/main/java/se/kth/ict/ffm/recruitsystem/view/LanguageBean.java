@@ -16,7 +16,7 @@
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.kth.ict.ffm.recruitsystem.controller;
+package se.kth.ict.ffm.recruitsystem.view;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;

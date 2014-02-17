@@ -34,7 +34,6 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
-import se.kth.ict.ffm.recruitsystem.controller.LanguageBean;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
 

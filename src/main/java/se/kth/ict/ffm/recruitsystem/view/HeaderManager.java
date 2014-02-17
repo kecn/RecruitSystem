@@ -22,7 +22,6 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import se.kth.ict.ffm.recruitsystem.controller.LanguageBean;
 
 @Named("headerManager")
 @SessionScoped
