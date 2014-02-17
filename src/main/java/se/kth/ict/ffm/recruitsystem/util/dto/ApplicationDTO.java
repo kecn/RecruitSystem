@@ -15,9 +15,9 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.kth.ict.ffm.recruitsystem.util.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +25,7 @@ import java.util.List;
  *
  * @author
  */
-public class ApplicationDTO implements Serializable {
-
+public class ApplicationDTO {
     private String firstname;
     private String lastname;
     private Date birthDate;
@@ -34,7 +33,7 @@ public class ApplicationDTO implements Serializable {
     private List<CompetenceFromView> competences;
     private List<AvailabilityFromView> availabilities;
 
-    public ApplicationDTO(String firstname, String lastname, Date birthDate,
+    public ApplicationDTO(String firstname, String lastname, Date birthDate, 
             String email, List<CompetenceFromView> competences, List<AvailabilityFromView> availabilities) {
         this.firstname = firstname;
         this.lastname = lastname;

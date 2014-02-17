@@ -62,14 +62,14 @@ public class ApplicationFacade {
         query.setParameter("locale", currentLanguage);
         return query.getResultList();
     }
-
+    
     public CompetencetranslationDTO getCompetenceTranslation(String name) {
         Query query = entityManager.createNamedQuery("Competencetranslation.findByLocaleAndName");
         query.setParameter("locale", languageBean.getCurrentLanguage());
         query.setParameter("name", name);
         return (CompetencetranslationDTO) query.getSingleResult();
     }
-
+    
     public void submitApplication(ApplicationDTO application) {
         //If person doesn't exist, create it in data store.
 
