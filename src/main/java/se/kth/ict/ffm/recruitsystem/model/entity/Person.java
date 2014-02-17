@@ -30,7 +30,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,7 +56,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByAll", query = "SELECT p FROM Person p WHERE p.name = :name "
             + "AND p.surname = :surname AND p.birthdate = :birthdate AND p.email = :email")})
 public class Person implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "personid")
     private Collection<Competenceprofile> competenceprofileCollection;
     private static final long serialVersionUID = 1L;
     @Id
