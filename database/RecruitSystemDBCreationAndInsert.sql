@@ -2,7 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-CREATE SCHEMA IF NOT EXISTS `RecruitSystemDB` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+CREATE SCHEMA IF NOT EXISTS `RecruitSystemDB` DEFAULT CHARACTER SET utf8 ;
 USE `RecruitSystemDB` ;
 
 -- -----------------------------------------------------
@@ -186,6 +186,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinprofile` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
 -- -----------------------------------------------------
 -- Inserting data into the database
 -- -----------------------------------------------------
@@ -205,7 +206,6 @@ INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `compet
 INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('se', 'Arkitekturell Design', 4);
 
 
-
 -- -----------------------------------------------------
 -- Placeholder table for view `RecruitSystemDB`.`userroleview`
 -- -----------------------------------------------------
@@ -216,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `RecruitSystemDB`.`userroleview` (`username` INT, `pa
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `RecruitSystemDB`.`userroleview`;
 USE `RecruitSystemDB`;
-CREATE  OR REPLACE VIEW `mydb`.`userroleview` AS
+CREATE  OR REPLACE VIEW `RecruitSystemDB`.`userroleview` AS
 SELECT `user`.`username` AS `username`,
 `user`.`password` AS `password`,
 `role`.`roleid` AS `rolename`
