@@ -41,6 +41,7 @@ import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 import se.kth.ict.ffm.recruitsystem.util.pdf.PDFBean;
+import se.kth.ict.ffm.recruitsystem.view.LanguageBean;
 
 @Stateless
 public class ApplicationFacade {
