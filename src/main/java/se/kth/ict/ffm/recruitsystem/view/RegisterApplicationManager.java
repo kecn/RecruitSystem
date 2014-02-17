@@ -35,6 +35,7 @@ import javax.inject.Named;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
+import se.kth.ict.ffm.recruitsystem.util.validation.*;
 
 /**
  *
@@ -48,9 +49,12 @@ public class RegisterApplicationManager implements Serializable {
     private ApplicationFacade applicationFacade;
     @EJB
     private LanguageBean languageBean;
+    @ValidName
     private String firstname;
+    @ValidName
     private String lastname;
     private String birthDateString;
+    @ValidEmail
     private String email;
 //    private List<String> competenceNames;
     private List<CompetencetranslationDTO> competences;
