@@ -73,9 +73,9 @@ public class ApplicationFacade {
     
     public void submitApplication(ApplicationDTO application) {
         //If person doesn't exist, create it in data store.
-
+        
         Person person = findPerson(application);
-        if (null == person) {
+        if (person == null) {
             person = createPerson(application);
             entityManager.persist(person);
             //MÅSTE MAN VERKLIGEN HITTA PERSON ENTITY IGEN FÖR ATT FÅ ID?

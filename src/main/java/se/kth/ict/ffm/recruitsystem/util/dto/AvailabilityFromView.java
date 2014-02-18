@@ -19,13 +19,16 @@
 package se.kth.ict.ffm.recruitsystem.util.dto;
 
 import java.util.Date;
+import se.kth.ict.ffm.recruitsystem.util.validation.ValidDate;
 
 /**
  *
  * @author
  */
 public class AvailabilityFromView {
+    @ValidDate
     private Date fromDate;
+    @ValidDate
     private Date toDate;
 
     public AvailabilityFromView() {

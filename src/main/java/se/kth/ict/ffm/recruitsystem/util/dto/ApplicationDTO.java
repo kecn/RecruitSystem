@@ -20,16 +20,23 @@ package se.kth.ict.ffm.recruitsystem.util.dto;
 
 import java.util.Date;
 import java.util.List;
+import se.kth.ict.ffm.recruitsystem.util.validation.ValidDate;
+import se.kth.ict.ffm.recruitsystem.util.validation.ValidEmail;
+import se.kth.ict.ffm.recruitsystem.util.validation.ValidName;
 
 /**
  *
  * @author
  */
 public class ApplicationDTO {
+    @ValidName
     private String firstname;
+    @ValidName
     private String lastname;
-    private Date birthDate;
+    @ValidEmail    
     private String email;
+    @ValidDate    
+    private Date birthDate;    
     private List<CompetenceFromView> competences;
     private List<AvailabilityFromView> availabilities;
 

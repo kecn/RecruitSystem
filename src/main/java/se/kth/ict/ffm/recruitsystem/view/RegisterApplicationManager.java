@@ -53,6 +53,7 @@ public class RegisterApplicationManager implements Serializable {
     private String firstname;
     @ValidName
     private String lastname;
+    @ValidDate
     private String birthDateString;
     @ValidEmail
     private String email;
