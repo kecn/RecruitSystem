@@ -6,15 +6,18 @@
 
 package se.kth.ict.ffm.recruitsystem.model;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import se.kth.ict.ffm.recruitsystem.model.entity.Competence;
 import se.kth.ict.ffm.recruitsystem.model.entity.Competenceinprofile;
 import se.kth.ict.ffm.recruitsystem.model.entity.Competenceprofile;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.model.entity.Person;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 
 @Stateless
@@ -39,14 +42,32 @@ public class CompetenceOperator {
     public Competenceprofile createCompetenceprofile(Person person) {
         Competenceprofile competenceProfile = new Competenceprofile();
         competenceProfile.setPersonid(person);
+        person.setCompetenceprofile(competenceProfile);
         return competenceProfile;
     }
 
     public Competenceinprofile createCompetenceinprofile(Competenceprofile compProfile,
             CompetenceFromView comp) {
-        System.out.println("Competenceprofile: " + compProfile + "\nCompetenceFromView: " + comp);
-        Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(),
-                comp.getCompetenceId());
+//        System.out.println("Competenceprofile: " + compProfile + "\nCompetenceFromView: " + comp);
+//        Competenceinprofile compInProfile = new Competenceinprofile(compProfile.getCompetenceprofileid(),
+//                comp.getCompetenceId());
+        Competenceinprofile compInProfile = new Competenceinprofile();
+        compInProfile.setCompetenceprofile(compProfile);
+        compInProfile.setCompetence((Competence) entityManager.find(Competence.class, 
+                comp.getCompetenceId()));
         return compInProfile;
-    }       
+    }
+    
+    public void createManyCompetenceinprofile(Competenceprofile compProfile, 
+            ApplicationDTO application) {
+        List<CompetenceFromView> competences = application.getCompetences();
+        CompetenceFromView comp;
+//        Competenceinprofile compEntity;
+        for (Iterator<CompetenceFromView> compIt = competences.iterator();
+                compIt.hasNext();) {
+            comp = compIt.next();
+            createCompetenceinprofile(compProfile, comp).setYearsofexperience(comp.getYearsOfExperience());
+//            entityManager.persist(compEntity);
+        }
+    }
 }

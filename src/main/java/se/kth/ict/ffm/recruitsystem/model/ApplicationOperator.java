@@ -37,11 +37,11 @@ public class ApplicationOperator {
         Person person = findPerson(application);
         if (null == person) {
             person = createPerson(application);
-            entityManager.persist(person);
-            entityManager.flush();
-            person = findPerson(application);
-            System.out.println("PersonId: " + person.getPersonid());
+//            person = findPerson(application);
+//            System.out.println("PersonId: " + person.getPersonid());
         }
+//        entityManager.persist(person);
+//        entityManager.flush();
         //Create availabilities
         List<AvailabilityFromView> availabilities = application.getAvailabilities();
         AvailabilityFromView av;
@@ -50,30 +50,36 @@ public class ApplicationOperator {
                 availIt.hasNext();) {
             av = availIt.next();
             avEntity = createAvailability(av, person);
-            entityManager.persist(avEntity);
+//            entityManager.persist(avEntity);
         }
         //Create a Competenceprofile
         Competenceprofile compProfile = competenceOperator.createCompetenceprofile(person);
-        entityManager.persist(compProfile);
-        entityManager.flush();
-        System.out.println("In submitApplication, compProfile id: " + compProfile.getCompetenceprofileid());
+//        entityManager.persist(compProfile);
+//        entityManager.flush();
+//        System.out.println("In submitApplication, compProfile id: " + compProfile.getCompetenceprofileid());
         //Add competences to profile
-        List<CompetenceFromView> competences = application.getCompetences();
-        CompetenceFromView comp;
-        Competenceinprofile compEntity;
-        for (Iterator<CompetenceFromView> compIt = competences.iterator();
-                compIt.hasNext();) {
-            comp = compIt.next();
-            compEntity = competenceOperator.createCompetenceinprofile(compProfile, comp);
-            compEntity.setYearsofexperience(comp.getYearsOfExperience());
-            entityManager.persist(compEntity);
-        }
+        
+        
+//        List<CompetenceFromView> competences = application.getCompetences();
+//        CompetenceFromView comp;
+//        Competenceinprofile compEntity;
+//        for (Iterator<CompetenceFromView> compIt = competences.iterator();
+//                compIt.hasNext();) {
+//            comp = compIt.next();
+//            compEntity = competenceOperator.createCompetenceinprofile(compProfile, comp);
+//            compEntity.setYearsofexperience(comp.getYearsOfExperience());
+////            entityManager.persist(compEntity);
+//        }
+        competenceOperator.createManyCompetenceinprofile(compProfile, application);
+        
         //Create an Application
         Application applicationEntity = new Application();
         applicationEntity.setPersonid(person);
         applicationEntity.setApplicationdate(new Date());
-        entityManager.persist(applicationEntity);
+//        entityManager.persist(applicationEntity);
 
+        entityManager.persist(person);
+        entityManager.flush();
     }
 
     private Person findPerson(ApplicationDTO application) {

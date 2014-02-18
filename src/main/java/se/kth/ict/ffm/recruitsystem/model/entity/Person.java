@@ -57,7 +57,8 @@ import javax.xml.bind.annotation.XmlTransient;
             + "AND p.surname = :surname AND p.birthdate = :birthdate AND p.email = :email")})
 public class Person implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "personid")
-    private Collection<Competenceprofile> competenceprofileCollection;
+//    private Collection<Competenceprofile> competenceprofileCollection;
+    private Competenceprofile competenceprofile;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -166,13 +167,20 @@ public class Person implements Serializable {
         return "se.kth.ict.ffm.recruitsystem.model.entity.Person[ personid=" + personid + " ]";
     }
 
-    @XmlTransient
-    public Collection<Competenceprofile> getCompetenceprofileCollection() {
-        return competenceprofileCollection;
+//    @XmlTransient
+//    public Collection<Competenceprofile> getCompetenceprofileCollection() {
+//        return competenceprofileCollection;
+//    }
+//
+//    public void setCompetenceprofileCollection(Collection<Competenceprofile> competenceprofileCollection) {
+//        this.competenceprofileCollection = competenceprofileCollection;
+//    }
+    public Competenceprofile getCompetenceprofile() {
+        return competenceprofile;
     }
 
-    public void setCompetenceprofileCollection(Collection<Competenceprofile> competenceprofileCollection) {
-        this.competenceprofileCollection = competenceprofileCollection;
+    public void setCompetenceprofile(Competenceprofile competenceprofile) {
+        this.competenceprofile = competenceprofile;
     }
     
 }
