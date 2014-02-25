@@ -6,6 +6,8 @@
 
 package se.kth.ict.ffm.recruitsystem.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -42,7 +44,11 @@ public class CompetenceOperator {
     public Competenceprofile createCompetenceprofile(Person person) {
         Competenceprofile competenceProfile = new Competenceprofile();
         competenceProfile.setPersonid(person);
-        person.setCompetenceprofile(competenceProfile);
+//        person.setCompetenceprofile(competenceProfile);
+        if (null == person.getCompetenceprofileCollection()) {
+            person.setCompetenceprofileCollection(new ArrayList<Competenceprofile>());
+        }
+        person.getCompetenceprofileCollection().add(competenceProfile);
         return competenceProfile;
     }
 
@@ -62,11 +68,19 @@ public class CompetenceOperator {
             ApplicationDTO application) {
         List<CompetenceFromView> competences = application.getCompetences();
         CompetenceFromView comp;
-//        Competenceinprofile compEntity;
+        Collection<Competenceinprofile> competenceinprofileCollection = compProfile.getCompetenceinprofileCollection();
+        if (null == competenceinprofileCollection) {
+            compProfile.setCompetenceinprofileCollection(new ArrayList<Competenceinprofile>());
+            competenceinprofileCollection = compProfile.getCompetenceinprofileCollection();
+        }
+        Competenceinprofile compEntity;
         for (Iterator<CompetenceFromView> compIt = competences.iterator();
                 compIt.hasNext();) {
             comp = compIt.next();
-            createCompetenceinprofile(compProfile, comp).setYearsofexperience(comp.getYearsOfExperience());
+            compEntity = createCompetenceinprofile(compProfile, comp);
+            compEntity.setYearsofexperience(comp.getYearsOfExperience());
+            compEntity.setCompetenceprofile(compProfile);
+            competenceinprofileCollection.add(compEntity);
 //            entityManager.persist(compEntity);
         }
     }

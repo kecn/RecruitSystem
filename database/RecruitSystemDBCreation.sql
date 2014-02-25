@@ -31,7 +31,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`application` (
   CONSTRAINT `fk_application_user`
     FOREIGN KEY (`personid` )
     REFERENCES `RecruitSystemDB`.`person` (`personid` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -58,7 +58,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceprofile` (
   CONSTRAINT `fk_competenceprofile_person1`
     FOREIGN KEY (`personid` )
     REFERENCES `RecruitSystemDB`.`person` (`personid` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -75,7 +75,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competencetranslation` (
   CONSTRAINT `fk_competencetranslation_competence1`
     FOREIGN KEY (`competenceid` )
     REFERENCES `RecruitSystemDB`.`competence` (`competenceid` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -87,14 +87,14 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`availability` (
   `availabilityid` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `fromdate` DATE NOT NULL ,
   `todate` DATE NULL ,
-  `userid` INT UNSIGNED NOT NULL ,
+  `personid` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`availabilityid`) ,
   UNIQUE INDEX `availabilityid_UNIQUE` (`availabilityid` ASC) ,
-  INDEX `fk_availability_user1` (`userid` ASC) ,
+  INDEX `fk_availability_user1` (`personid` ASC) ,
   CONSTRAINT `fk_availability_user1`
-    FOREIGN KEY (`userid` )
+    FOREIGN KEY (`personid` )
     REFERENCES `RecruitSystemDB`.`person` (`personid` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -112,7 +112,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`user` (
   CONSTRAINT `fk_user_person1`
     FOREIGN KEY (`personid` )
     REFERENCES `RecruitSystemDB`.`person` (`personid` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -177,7 +177,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinprofile` (
   CONSTRAINT `fk_competenceinprofile_competenceprofile1`
     FOREIGN KEY (`competenceprofileid` )
     REFERENCES `RecruitSystemDB`.`competenceprofile` (`competenceprofileid` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_competenceinprofile_competence1`
     FOREIGN KEY (`competenceid` )

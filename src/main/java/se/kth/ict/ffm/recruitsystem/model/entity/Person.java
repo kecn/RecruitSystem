@@ -1,19 +1,7 @@
-/*    
- *     RecruitSystem - a distributed application to handle job applications.
- *     Copyright (C) 2014  Federico Klappenbach, Fredrik Johansson, Mikael Tenhunen
- * 
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- * 
- *     You should have received a copy of the GNU General Public License
- *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
 package se.kth.ict.ffm.recruitsystem.model.entity;
@@ -30,7 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,9 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByAll", query = "SELECT p FROM Person p WHERE p.name = :name "
             + "AND p.surname = :surname AND p.birthdate = :birthdate AND p.email = :email")})
 public class Person implements Serializable {
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "personid")
-//    private Collection<Competenceprofile> competenceprofileCollection;
-    private Competenceprofile competenceprofile;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,6 +71,14 @@ public class Person implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
+    private Collection<Competenceprofile> competenceprofileCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
+    private Collection<Application> applicationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
+    private Collection<User> userCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
+    private Collection<Availability> availabilityCollection;
 
     public Person() {
     }
@@ -142,6 +135,42 @@ public class Person implements Serializable {
         this.email = email;
     }
 
+    @XmlTransient
+    public Collection<Competenceprofile> getCompetenceprofileCollection() {
+        return competenceprofileCollection;
+    }
+
+    public void setCompetenceprofileCollection(Collection<Competenceprofile> competenceprofileCollection) {
+        this.competenceprofileCollection = competenceprofileCollection;
+    }
+
+    @XmlTransient
+    public Collection<Application> getApplicationCollection() {
+        return applicationCollection;
+    }
+
+    public void setApplicationCollection(Collection<Application> applicationCollection) {
+        this.applicationCollection = applicationCollection;
+    }
+
+    @XmlTransient
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
+    }
+
+    @XmlTransient
+    public Collection<Availability> getAvailabilityCollection() {
+        return availabilityCollection;
+    }
+
+    public void setAvailabilityCollection(Collection<Availability> availabilityCollection) {
+        this.availabilityCollection = availabilityCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -165,22 +194,5 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "se.kth.ict.ffm.recruitsystem.model.entity.Person[ personid=" + personid + " ]";
-    }
-
-//    @XmlTransient
-//    public Collection<Competenceprofile> getCompetenceprofileCollection() {
-//        return competenceprofileCollection;
-//    }
-//
-//    public void setCompetenceprofileCollection(Collection<Competenceprofile> competenceprofileCollection) {
-//        this.competenceprofileCollection = competenceprofileCollection;
-//    }
-    public Competenceprofile getCompetenceprofile() {
-        return competenceprofile;
-    }
-
-    public void setCompetenceprofile(Competenceprofile competenceprofile) {
-        this.competenceprofile = competenceprofile;
-    }
-    
+    }    
 }

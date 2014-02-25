@@ -6,6 +6,7 @@
 
 package se.kth.ict.ffm.recruitsystem.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ApplicationOperator {
         for (Iterator<AvailabilityFromView> availIt = availabilities.iterator();
                 availIt.hasNext();) {
             av = availIt.next();
-            avEntity = createAvailability(av, person);
+            avEntity = createAndAddAvailability(av, person);
 //            entityManager.persist(avEntity);
         }
         //Create a Competenceprofile
@@ -73,16 +74,17 @@ public class ApplicationOperator {
         competenceOperator.createManyCompetenceinprofile(compProfile, application);
         
         //Create an Application
-        Application applicationEntity = new Application();
-        applicationEntity.setPersonid(person);
-        applicationEntity.setApplicationdate(new Date());
+//        Application applicationEntity = new Application();
+//        applicationEntity.setPersonid(person);
+//        applicationEntity.setApplicationdate(new Date());
+        createAndAddApplication(person);
 //        entityManager.persist(applicationEntity);
 
         entityManager.persist(person);
         entityManager.flush();
     }
 
-    private Person findPerson(ApplicationDTO application) {
+    public Person findPerson(ApplicationDTO application) {
         Query query = entityManager.createNamedQuery("Person.findByAll");
         query.setParameter("name", application.getFirstname());
         query.setParameter("surname", application.getLastname());
@@ -98,7 +100,7 @@ public class ApplicationOperator {
     }
 
     //factory method for creating person entities
-    private Person createPerson(ApplicationDTO application) {
+    public Person createPerson(ApplicationDTO application) {
         Person person = new Person();
         person.setName(application.getFirstname());
         person.setSurname(application.getLastname());
@@ -107,11 +109,27 @@ public class ApplicationOperator {
         return person;
     }
 
-    private Availability createAvailability(AvailabilityFromView av, Person person) {
+    public Availability createAndAddAvailability(AvailabilityFromView av, Person person) {
         Availability availabilityEntity = new Availability();
         availabilityEntity.setFromdate(av.getFromDate());
         availabilityEntity.setTodate(av.getToDate());
-        availabilityEntity.setUserid(person);
+        availabilityEntity.setPersonid(person);
+        if (null == person.getAvailabilityCollection()) {
+            person.setAvailabilityCollection(new ArrayList<Availability>());
+        }
+        person.getAvailabilityCollection().add(availabilityEntity);
+//        person.getAvailabilityCollection().add(availabilityEntity);
         return availabilityEntity;
     } 
+    
+    public Application createAndAddApplication(Person person) {
+        Application applicationEntity = new Application();
+        applicationEntity.setPersonid(person);
+        applicationEntity.setApplicationdate(new Date()); 
+        if (null == person.getApplicationCollection()) {
+            person.setApplicationCollection(new ArrayList<Application>());
+        }
+        person.getApplicationCollection().add(applicationEntity);
+        return applicationEntity;
+    }
 }
