@@ -21,8 +21,10 @@ package se.kth.ict.ffm.recruitsystem.util.dto;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 
 /**
- *
- * @author
+ * CompetenceFromView instances are objects representing data of a single competence
+ * and experience in that field. They are created in the view and passed inside an
+ * ApplicationFromViewDTO. Since they contain a CompetencetranslationDTO they 
+ * are created in a certain locale, but can be used even after a change of Locale.
  */
 public class CompetenceFromView {
     private CompetencetranslationDTO competenceTranslation;
@@ -31,34 +33,63 @@ public class CompetenceFromView {
     public CompetenceFromView() {
     }
 
+    /**
+     * Creates a new CompetenceFromView with competenceTranslation and yearsOfExperience.
+     * @param competenceTranslation
+     * @param yearsOfExperience 
+     */
     public CompetenceFromView(CompetencetranslationDTO competenceTranslation, 
             int yearsOfExperience) {
         this.competenceTranslation = competenceTranslation;
         this.yearsOfExperience = yearsOfExperience;
     }
 
+    /**
+     * @return the CompetenceTranslationDTO object of this CompetenceFromView
+     */
     public CompetencetranslationDTO getCompetenceTranslation() {
         return competenceTranslation;
     }
 
+    /**
+     * @param competenceTranslation 
+     */
     public void setCompetenceTranslation(CompetencetranslationDTO competenceTranslation) {
         this.competenceTranslation = competenceTranslation;
     }
 
+    /**
+     * @return years of experience with this competence
+     */
     public int getYearsOfExperience() {
         return yearsOfExperience;
     }
 
+    /**
+     * @param yearsOfExperience 
+     */
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
-    
+
+    /**
+     * @return name of this competenceTranslation in the language of the Locale
+     * that was selected when this CompetenceFromView was created
+     */
     public String getName() {
         return competenceTranslation.getName();
     }
+    
+    /**
+     * @return Locale that was selected when this CompetenceFromView was created
+     */
     public String getLocale() {
         return competenceTranslation.getLocale();
     }
+    
+    /**
+     * @return id of the Competence entity that the CompetenceTranslationDTO is a reference to
+     */
     public int getCompetenceId() {
         return competenceTranslation.getCompetenceId();
     }

@@ -26,8 +26,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- *
- * @author
+ * Composite key of Roletranslation entity
  */
 @Embeddable
 public class RoletranslationPK implements Serializable {

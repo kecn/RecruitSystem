@@ -33,8 +33,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author
+ * Entity for table competencetranslation. Contains localizations of competence
+ * names
  */
 @Entity
 @Table(name = "competencetranslation")

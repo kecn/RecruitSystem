@@ -19,7 +19,7 @@ package se.kth.ict.ffm.recruitsystem.view;
 
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
-import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Collection;
@@ -37,8 +37,9 @@ import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
 
 /**
- *
- * @author
+ * Backing bean for registering an application.
+ * 
+ * The getter and setter are there primarily for JSF
  */
 @Named("registerApplicationManager")
 @SessionScoped
@@ -52,7 +53,6 @@ public class RegisterApplicationManager implements Serializable {
     private String lastname;
     private String birthDateString;
     private String email;
-//    private List<String> competenceNames;
     private List<CompetencetranslationDTO> competences;
     private List<CompetenceFromView> applicantCompetences;
     private List<AvailabilityFromView> availabilities;
@@ -62,22 +62,30 @@ public class RegisterApplicationManager implements Serializable {
     private String fromDateString;
     private String toDateString;
     private boolean submitted;
-    private ApplicationDTO application;
+    private ApplicationFromViewDTO application;
 
+    /**
+     * Initialization
+     */
     @PostConstruct
     public void init() {
-//        competenceNames = applicationFacade.getCompetences();
         competences = applicationFacade.getCompetences(languageBean.getCurrentLanguage());
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
         submitted = false;
     }
 
+    /**
+     * Adds newCompetence to applicantCompetences
+     */
     public void addCompetence() {
         CompetenceFromView newCompetence = new CompetenceFromView(competenceTranslation, yearsOfExperience);
         applicantCompetences.add(newCompetence);
     }
 
+    /**
+     * Adds availability (from fromDate to toDate) to availabilities 
+     */
     public void addAvailability() {
         try {
             Date fromDate = DateUtil.toDate(fromDateString);
@@ -90,11 +98,14 @@ public class RegisterApplicationManager implements Serializable {
         }
     }
 
+    /**
+     * Submits the entered application.
+     */
     public void submitApplication() {
         Date birthDate;
         try {
             birthDate = DateUtil.toDate(birthDateString);
-            application = new ApplicationDTO(
+            application = new ApplicationFromViewDTO(
                     firstname, lastname, birthDate, email, applicantCompetences,
                     availabilities);
             applicationFacade.submitApplication(application);
@@ -107,108 +118,180 @@ public class RegisterApplicationManager implements Serializable {
         }
     }
 
+    /**
+     * @return translations of the available competences
+     */
     public Collection<CompetencetranslationDTO> getCompetences() {
         return competences;
     }
 
+    /**
+     * @return competences the applicant has added to application
+     */
     public Collection<CompetenceFromView> getApplicantCompetences() {
         return applicantCompetences;
     }
 
+    /**
+     * @param applicantCompetences 
+     */
     public void setApplicantCompetences(List<CompetenceFromView> applicantCompetences) {
         this.applicantCompetences = applicantCompetences;
     }
 
+    /**
+     * @return availabilities the applicant has added to application
+     */
     public Collection<AvailabilityFromView> getAvailabilities() {
         return availabilities;
     }
 
+    /**
+     * @param availabilities 
+     */
     public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
     }
 
+    /**
+     * @return the first name that the applicant has entered
+     */
     public String getFirstname() {
         return firstname;
     }
 
+    /**
+     * @param firstname 
+     */
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
+    /**
+     * @return the last name that the applicant has entered
+     */
     public String getLastname() {
         return lastname;
     }
 
+    /**
+     * @param lastName 
+     */
     public void setLastname(String lastName) {
         this.lastname = lastName;
     }
 
+    /**
+     * @return the birth date that the applicant has entered
+     */
     public String getBirthDateString() {
         return birthDateString;
     }
 
+    /**
+     * @param birthDateString 
+     */
     public void setBirthDateString(String birthDateString) {
         this.birthDateString = birthDateString;
     }
 
+    /**
+     * @return the email that the applicant has entered
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * @return the email that the applicant has entered
+     */
     public int getYearsOfExperience() {
         return yearsOfExperience;
     }
 
+    /**
+     * @param yearsOfExperience 
+     */
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
 
+    /**
+     * @return the "from date" that the applicant has entered for an availability period
+     */
     public String getFromDateString() {
         return fromDateString;
     }
 
+    /**
+     * @param fromDateString 
+     */
     public void setFromDateString(String fromDateString) {
         this.fromDateString = fromDateString;
     }
 
+    /**
+     * @return the "to date" that the applicant has entered for an availability period
+     */
     public String getToDateString() {
         return toDateString;
     }
 
+    /**
+     * @param toDateString 
+     */
     public void setToDateString(String toDateString) {
         this.toDateString = toDateString;
     }
 
-    public CompetencetranslationDTO getCompetenceTranslation() {
-        return competenceTranslation;
-    }
-
+    /**
+     * @param competenceTranslation 
+     */
     public void setCompetenceTranslation(CompetencetranslationDTO competenceTranslation) {
         this.competenceTranslation = competenceTranslation;
     }
 
+    /**
+     * @return the name of the competence chosen by applicant
+     */
     public String getCompetenceName() {
         return competenceName;
     }
 
+    /**
+     * Sets competenceName and corresponding CompetenceTranslationDTO
+     * @param competenceName 
+     */
     public void setCompetenceName(String competenceName) {
         this.competenceName = competenceName;
         competenceTranslation = applicationFacade.
                 getCompetenceTranslation(competenceName, languageBean.getCurrentLanguage());
     }
 
+    /**
+     * @return whether the application has been submitted successfully
+     */
     public boolean isSubmitted() {
         return submitted;
     }
 
+    /**
+     * @param submitted 
+     */
     public void setSubmitted(boolean submitted) {
         this.submitted = submitted;
     }
     
+    /**
+     * Called to generate and download a PDF file.
+     */
     public void createPDF(){
         applicationFacade.downloadFile(application);
     }

@@ -36,8 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author
+ * Entity for table competence.
  */
 @Entity
 @Table(name = "competence")

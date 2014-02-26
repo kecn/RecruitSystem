@@ -18,9 +18,15 @@ import javax.persistence.Query;
 import se.kth.ict.ffm.recruitsystem.model.entity.Application;
 import se.kth.ict.ffm.recruitsystem.model.entity.Availability;
 import se.kth.ict.ffm.recruitsystem.model.entity.Person;
-import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 
+/**
+ * Enterprise bean responsible for doing operations related to applications on 
+ * entity model of persistence layer. 
+ * 
+ * Main responsibility is to persist applications.
+ */
 @Stateless
 public class ApplicationOperator {
     @PersistenceContext(unitName = "se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
@@ -29,7 +35,12 @@ public class ApplicationOperator {
     @EJB
     CompetenceOperator competenceOperator;
     
-    public void submitApplication(ApplicationDTO application) {
+    /**
+     * Creates an object graph with all entities needed to persist an application
+     * and persists it.
+     * @param application contents of application to persist
+     */
+    public void submitApplication(ApplicationFromViewDTO application) {
         //If person doesn't exist, create it in data store.
         Person person = findPerson(application);
         if (null == person) {
@@ -49,7 +60,12 @@ public class ApplicationOperator {
         entityManager.flush();
     }
 
-    public Person findPerson(ApplicationDTO application) {
+    /**
+     * Finds a Person entity by information in an ApplicationFromViewDTO.
+     * @param application
+     * @return found Person or null
+     */
+    public Person findPerson(ApplicationFromViewDTO application) {
         Query query = entityManager.createNamedQuery("Person.findByAll");
         query.setParameter("name", application.getFirstname());
         query.setParameter("surname", application.getLastname());
@@ -64,8 +80,14 @@ public class ApplicationOperator {
         return person;
     }
 
-    //factory method for creating person entities
-    public Person createPerson(ApplicationDTO application) {
+
+    /**
+     * Method for creating person entities according to information in an 
+     * ApplicationFromViewDTO.
+     * @param application
+     * @return created Person entity
+     */
+    public Person createPerson(ApplicationFromViewDTO application) {
         Person person = new Person();
         person.setName(application.getFirstname());
         person.setSurname(application.getLastname());
@@ -74,7 +96,13 @@ public class ApplicationOperator {
         return person;
     }
 
-    public void createAndAddAvailabilities(ApplicationDTO applicationDTO, Application applicationEntity) {
+    /**
+     * Creates Availability entities and their relation to an Application entity
+     * @param applicationDTO the information needed to create the entities
+     * @param applicationEntity the Entity the new Availability entities have a
+     * relation to.
+     */
+    public void createAndAddAvailabilities(ApplicationFromViewDTO applicationDTO, Application applicationEntity) {
         List<AvailabilityFromView> availabilities = applicationDTO.getAvailabilities();
         AvailabilityFromView av;
         Availability avEntity;

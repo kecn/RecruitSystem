@@ -18,6 +18,10 @@
 
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
+/**
+ * Used to expose some accessor methods of Competencetranslation 
+ * needed outside the Model layer
+ */
 public interface CompetencetranslationDTO {
     public String getName();
     public String getLocale();

@@ -33,8 +33,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author
+ * Entity for table competenceinapplication. Many to one relations to Application
+ * and Competence
  */
 @Entity
 @Table(name = "competenceinapplication")

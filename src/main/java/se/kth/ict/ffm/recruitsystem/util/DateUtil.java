@@ -25,11 +25,16 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- *
- * @author
+ * Utility class to handle Date objects
  */
 public class DateUtil {
     
+    /**
+     * Parses a string into a date according to some date format.
+     * @param toParse   String to parse into a date
+     * @return date
+     * @throws ParseException if string wasn't in correct date format
+     */
     public static Date toDate(String toParse) throws ParseException {
         DateFormat df = new SimpleDateFormat("yyMMdd", Locale.ENGLISH);
         return df.parse(toParse);

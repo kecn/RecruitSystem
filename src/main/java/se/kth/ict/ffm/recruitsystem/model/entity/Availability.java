@@ -37,8 +37,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author
+ * Entity for table Availability. Many to one relation to Application
  */
 @Entity
 @Table(name = "availability")

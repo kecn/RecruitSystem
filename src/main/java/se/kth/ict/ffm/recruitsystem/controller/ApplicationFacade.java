@@ -28,9 +28,13 @@ import javax.servlet.http.HttpServletResponse;
 import se.kth.ict.ffm.recruitsystem.model.ApplicationOperator;
 import se.kth.ict.ffm.recruitsystem.model.CompetenceOperator;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
-import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 import se.kth.ict.ffm.recruitsystem.util.pdf.PDFBean;
 
+/**
+ * ApplicationFacade is an EJB with the responsibility of starting operations that
+ * have to do with applications.
+ */
 @Stateless
 public class ApplicationFacade {
     @EJB
@@ -43,20 +47,41 @@ public class ApplicationFacade {
     public ApplicationFacade() {
     }
 
+    /**
+     * @param currentLanguage
+     * @return a List with all available competences in the current language
+     */
     public List<CompetencetranslationDTO> getCompetences(String currentLanguage) {
         return competenceOperator.getCompetences(currentLanguage);
     }
     
+    /**
+     * Get a reference to a Competence when its name and language of 
+     * name are known
+     * @param name of the competence that is requested
+     * @param currentLanguage language the name of the competence is in
+     * @return a reference (CompetencetranslationDTO) to a Competencetranslation 
+     * that doesn't give access to mutators
+     */
     public CompetencetranslationDTO getCompetenceTranslation(String name, 
             String currentLanguage) {
         return competenceOperator.getCompetenceTranslation(name, currentLanguage);
     }
     
-    public void submitApplication(ApplicationDTO application) {
+    /**
+     * To submit an application.
+     * @param application containing all the necessary information to register
+     * the application
+     */
+    public void submitApplication(ApplicationFromViewDTO application) {
         applicationOperator.submitApplication(application);
     }
 
-    public void downloadFile(ApplicationDTO application) {
+    /**
+     * Download a PDF generated from the application that has been submitted.
+     * @param application 
+     */
+    public void downloadFile(ApplicationFromViewDTO application) {
 
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
 

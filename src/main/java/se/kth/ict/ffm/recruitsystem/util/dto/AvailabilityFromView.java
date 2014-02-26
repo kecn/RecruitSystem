@@ -21,8 +21,8 @@ package se.kth.ict.ffm.recruitsystem.util.dto;
 import java.util.Date;
 
 /**
- *
- * @author
+ * AvailabilityFromView instances represent single availability periods created
+ * in view.
  */
 public class AvailabilityFromView {
     private Date fromDate;
@@ -31,23 +31,40 @@ public class AvailabilityFromView {
     public AvailabilityFromView() {
     }   
     
+    /**
+     * Creates a new AvailabilityFromView as the period from fromDate to toDate
+     * @param fromDate
+     * @param toDate 
+     */
     public AvailabilityFromView(Date fromDate, Date toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
 
+    /**
+     * @return end date of this availability period
+     */
     public Date getFromDate() {
         return fromDate;
     }
 
+    /**
+     * @param fromDate 
+     */
     public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
 
+    /**
+     * @return start date of this availability period
+     */
     public Date getToDate() {
         return toDate;
     }
 
+    /**
+     * @param toDate 
+     */
     public void setToDate(Date toDate) {
         this.toDate = toDate;
     }

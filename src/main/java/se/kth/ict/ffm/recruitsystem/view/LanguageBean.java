@@ -24,7 +24,9 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 
-
+/**
+ * LanguageBean is responsible for localization.
+ */
 @Stateless
 public class LanguageBean {
     private final Map<String,Object> countries;
@@ -41,6 +43,11 @@ public class LanguageBean {
             this.currentLocale = seLocale;
             
     }
+    
+    /**
+     * Called whenever a user has changed locale
+     * @param e String representing locale
+     */
     public void countryLocaleCodeChanged(String e) {
         //loop a map to compare the locale code
         for (Map.Entry<String, Object> entry : countries.entrySet()) {
@@ -56,18 +63,30 @@ public class LanguageBean {
         }
     }
     
+    /**
+     * @return String representing current locale
+     */
     public String getCurrentLanguage() {
         return this.currentLanguage;
     }
     
+    /**
+     * @param newLang 
+     */
     public void setCurrentLanguage(String newLang){
         this.currentLanguage = newLang;
     }
 
+    /**
+     * @return current Locale
+     */
     public Locale getCurrentLocale() {
         return currentLocale;
     }
 
+    /**
+     * @param currentLocale 
+     */
     public void setCurrentLocale(Locale currentLocale) {
         this.currentLocale = currentLocale;
     }

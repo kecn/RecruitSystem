@@ -31,8 +31,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author
+ * Entity with localizations of role names
  */
 @Entity
 @Table(name = "roletranslation")
