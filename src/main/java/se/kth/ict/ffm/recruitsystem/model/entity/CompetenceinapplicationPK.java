@@ -17,30 +17,22 @@ import javax.validation.constraints.NotNull;
  * @author
  */
 @Embeddable
-public class CompetenceinprofilePK implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "competenceprofileid")
-    private int competenceprofileid;
+public class CompetenceinapplicationPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "competenceid")
     private int competenceid;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "applicationid")
+    private int applicationid;
 
-    public CompetenceinprofilePK() {
+    public CompetenceinapplicationPK() {
     }
 
-    public CompetenceinprofilePK(int competenceprofileid, int competenceid) {
-        this.competenceprofileid = competenceprofileid;
+    public CompetenceinapplicationPK(int competenceid, int applicationid) {
         this.competenceid = competenceid;
-    }
-
-    public int getCompetenceprofileid() {
-        return competenceprofileid;
-    }
-
-    public void setCompetenceprofileid(int competenceprofileid) {
-        this.competenceprofileid = competenceprofileid;
+        this.applicationid = applicationid;
     }
 
     public int getCompetenceid() {
@@ -51,25 +43,33 @@ public class CompetenceinprofilePK implements Serializable {
         this.competenceid = competenceid;
     }
 
+    public int getApplicationid() {
+        return applicationid;
+    }
+
+    public void setApplicationid(int applicationid) {
+        this.applicationid = applicationid;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) competenceprofileid;
         hash += (int) competenceid;
+        hash += (int) applicationid;
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CompetenceinprofilePK)) {
+        if (!(object instanceof CompetenceinapplicationPK)) {
             return false;
         }
-        CompetenceinprofilePK other = (CompetenceinprofilePK) object;
-        if (this.competenceprofileid != other.competenceprofileid) {
-            return false;
-        }
+        CompetenceinapplicationPK other = (CompetenceinapplicationPK) object;
         if (this.competenceid != other.competenceid) {
+            return false;
+        }
+        if (this.applicationid != other.applicationid) {
             return false;
         }
         return true;
@@ -77,7 +77,7 @@ public class CompetenceinprofilePK implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.entity.CompetenceinprofilePK[ competenceprofileid=" + competenceprofileid + ", competenceid=" + competenceid + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.CompetenceinapplicationPK[ competenceid=" + competenceid + ", applicationid=" + applicationid + " ]";
     }
     
 }

@@ -51,9 +51,9 @@ public class Availability implements Serializable {
     @Column(name = "todate")
     @Temporal(TemporalType.DATE)
     private Date todate;
-    @JoinColumn(name = "personid", referencedColumnName = "personid")
+    @JoinColumn(name = "applicationid", referencedColumnName = "applicationid")
     @ManyToOne(optional = false)
-    private Person personid;
+    private Application applicationid;
 
     public Availability() {
     }
@@ -91,12 +91,12 @@ public class Availability implements Serializable {
         this.todate = todate;
     }
 
-    public Person getPersonid() {
-        return personid;
+    public Application getApplicationid() {
+        return applicationid;
     }
 
-    public void setPersonid(Person personid) {
-        this.personid = personid;
+    public void setApplicationid(Application applicationid) {
+        this.applicationid = applicationid;
     }
 
     @Override

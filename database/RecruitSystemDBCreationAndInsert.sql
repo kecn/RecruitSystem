@@ -47,23 +47,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `RecruitSystemDB`.`competenceprofile`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceprofile` (
-  `competenceprofileid` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `personid` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`competenceprofileid`) ,
-  UNIQUE INDEX `competenceprofileid_UNIQUE` (`competenceprofileid` ASC) ,
-  INDEX `fk_competenceprofile_person1` (`personid` ASC) ,
-  CONSTRAINT `fk_competenceprofile_person1`
-    FOREIGN KEY (`personid` )
-    REFERENCES `RecruitSystemDB`.`person` (`personid` )
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `RecruitSystemDB`.`competencetranslation`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competencetranslation` (
@@ -87,13 +70,13 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`availability` (
   `availabilityid` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `fromdate` DATE NOT NULL ,
   `todate` DATE NULL ,
-  `personid` INT UNSIGNED NOT NULL ,
+  `applicationid` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`availabilityid`) ,
   UNIQUE INDEX `availabilityid_UNIQUE` (`availabilityid` ASC) ,
-  INDEX `fk_availability_user1` (`personid` ASC) ,
-  CONSTRAINT `fk_availability_user1`
-    FOREIGN KEY (`personid` )
-    REFERENCES `RecruitSystemDB`.`person` (`personid` )
+  INDEX `fk_availability_application1` (`applicationid` ASC) ,
+  CONSTRAINT `fk_availability_application1`
+    FOREIGN KEY (`applicationid` )
+    REFERENCES `RecruitSystemDB`.`application` (`applicationid` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -166,25 +149,27 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `RecruitSystemDB`.`competenceinprofile`
+-- Table `RecruitSystemDB`.`competenceinapplication`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinprofile` (
+CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinapplication` (
   `yearsofexperience` INT NULL ,
-  `competenceprofileid` INT UNSIGNED NOT NULL ,
   `competenceid` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`competenceprofileid`, `competenceid`) ,
+  `applicationid` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`competenceid`, `applicationid`) ,
   INDEX `fk_competenceinprofile_competence1` (`competenceid` ASC) ,
-  CONSTRAINT `fk_competenceinprofile_competenceprofile1`
-    FOREIGN KEY (`competenceprofileid` )
-    REFERENCES `RecruitSystemDB`.`competenceprofile` (`competenceprofileid` )
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+  INDEX `fk_competenceinprofile_application1` (`applicationid` ASC) ,
   CONSTRAINT `fk_competenceinprofile_competence1`
     FOREIGN KEY (`competenceid` )
     REFERENCES `RecruitSystemDB`.`competence` (`competenceid` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_competenceinprofile_application1`
+    FOREIGN KEY (`applicationid` )
+    REFERENCES `RecruitSystemDB`.`application` (`applicationid` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Inserting data into the database
@@ -204,28 +189,3 @@ INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `compet
 INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('se', 'C++', 3);
 INSERT INTO `RecruitSystemDB`.`competencetranslation` (`locale`, `name`, `competenceid`) VALUES ('se', 'Arkitekturell Design', 4);
 
-
-
--- -----------------------------------------------------
--- Placeholder table for view `RecruitSystemDB`.`userroleview`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RecruitSystemDB`.`userroleview` (`username` INT, `password` INT, `rolename` INT);
-
--- -----------------------------------------------------
--- View `RecruitSystemDB`.`userroleview`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `RecruitSystemDB`.`userroleview`;
-USE `RecruitSystemDB`;
-CREATE  OR REPLACE VIEW `RecruitSystemDB`.`userroleview` AS
-SELECT `user`.`username` AS `username`,
-`user`.`password` AS `password`,
-`role`.`roleid` AS `rolename`
-FROM ((`userinrole` JOIN `user` 	
-ON ((`userinrole`.`username` = `user`.`username`)))
-JOIN `role`
-ON ((`userinrole`.`roleid` = `role`.`roleid`)));
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

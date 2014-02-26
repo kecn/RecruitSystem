@@ -7,6 +7,7 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -72,15 +73,12 @@ public class Person implements Serializable {
     @Column(name = "email")
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
-    private Collection<Competenceprofile> competenceprofileCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
     private Collection<Application> applicationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
     private Collection<User> userCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
-    private Collection<Availability> availabilityCollection;
 
     public Person() {
+        applicationCollection = new ArrayList();        
     }
 
     public Person(Integer personid) {
@@ -136,15 +134,6 @@ public class Person implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Competenceprofile> getCompetenceprofileCollection() {
-        return competenceprofileCollection;
-    }
-
-    public void setCompetenceprofileCollection(Collection<Competenceprofile> competenceprofileCollection) {
-        this.competenceprofileCollection = competenceprofileCollection;
-    }
-
-    @XmlTransient
     public Collection<Application> getApplicationCollection() {
         return applicationCollection;
     }
@@ -160,15 +149,6 @@ public class Person implements Serializable {
 
     public void setUserCollection(Collection<User> userCollection) {
         this.userCollection = userCollection;
-    }
-
-    @XmlTransient
-    public Collection<Availability> getAvailabilityCollection() {
-        return availabilityCollection;
-    }
-
-    public void setAvailabilityCollection(Collection<Availability> availabilityCollection) {
-        this.availabilityCollection = availabilityCollection;
     }
 
     @Override
@@ -194,5 +174,6 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "se.kth.ict.ffm.recruitsystem.model.entity.Person[ personid=" + personid + " ]";
-    }    
+    }
+    
 }

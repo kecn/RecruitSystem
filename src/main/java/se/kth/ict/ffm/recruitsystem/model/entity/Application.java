@@ -7,8 +7,11 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +21,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -50,8 +55,14 @@ public class Application implements Serializable {
     @JoinColumn(name = "personid", referencedColumnName = "personid")
     @ManyToOne(optional = false)
     private Person personid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application")
+    private Collection<Competenceinapplication> competenceinapplicationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationid")
+    private Collection<Availability> availabilityCollection;
 
     public Application() {
+        availabilityCollection = new ArrayList();
+        competenceinapplicationCollection = new ArrayList();
     }
 
     public Application(Integer applicationid) {
@@ -85,6 +96,24 @@ public class Application implements Serializable {
 
     public void setPersonid(Person personid) {
         this.personid = personid;
+    }
+
+    @XmlTransient
+    public Collection<Competenceinapplication> getCompetenceinapplicationCollection() {
+        return competenceinapplicationCollection;
+    }
+
+    public void setCompetenceinapplicationCollection(Collection<Competenceinapplication> competenceinapplicationCollection) {
+        this.competenceinapplicationCollection = competenceinapplicationCollection;
+    }
+
+    @XmlTransient
+    public Collection<Availability> getAvailabilityCollection() {
+        return availabilityCollection;
+    }
+
+    public void setAvailabilityCollection(Collection<Availability> availabilityCollection) {
+        this.availabilityCollection = availabilityCollection;
     }
 
     @Override

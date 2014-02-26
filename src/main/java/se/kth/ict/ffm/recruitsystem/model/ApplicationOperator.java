@@ -6,7 +6,6 @@
 
 package se.kth.ict.ffm.recruitsystem.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -18,12 +17,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import se.kth.ict.ffm.recruitsystem.model.entity.Application;
 import se.kth.ict.ffm.recruitsystem.model.entity.Availability;
-import se.kth.ict.ffm.recruitsystem.model.entity.Competenceinprofile;
-import se.kth.ict.ffm.recruitsystem.model.entity.Competenceprofile;
 import se.kth.ict.ffm.recruitsystem.model.entity.Person;
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
-import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 
 @Stateless
 public class ApplicationOperator {
@@ -38,47 +34,16 @@ public class ApplicationOperator {
         Person person = findPerson(application);
         if (null == person) {
             person = createPerson(application);
-//            person = findPerson(application);
-//            System.out.println("PersonId: " + person.getPersonid());
         }
-//        entityManager.persist(person);
-//        entityManager.flush();
-        //Create availabilities
-        List<AvailabilityFromView> availabilities = application.getAvailabilities();
-        AvailabilityFromView av;
-        Availability avEntity;
-        for (Iterator<AvailabilityFromView> availIt = availabilities.iterator();
-                availIt.hasNext();) {
-            av = availIt.next();
-            avEntity = createAndAddAvailability(av, person);
-//            entityManager.persist(avEntity);
-        }
-        //Create a Competenceprofile
-        Competenceprofile compProfile = competenceOperator.createCompetenceprofile(person);
-//        entityManager.persist(compProfile);
-//        entityManager.flush();
-//        System.out.println("In submitApplication, compProfile id: " + compProfile.getCompetenceprofileid());
-        //Add competences to profile
-        
-        
-//        List<CompetenceFromView> competences = application.getCompetences();
-//        CompetenceFromView comp;
-//        Competenceinprofile compEntity;
-//        for (Iterator<CompetenceFromView> compIt = competences.iterator();
-//                compIt.hasNext();) {
-//            comp = compIt.next();
-//            compEntity = competenceOperator.createCompetenceinprofile(compProfile, comp);
-//            compEntity.setYearsofexperience(comp.getYearsOfExperience());
-////            entityManager.persist(compEntity);
-//        }
-        competenceOperator.createManyCompetenceinprofile(compProfile, application);
         
         //Create an Application
-//        Application applicationEntity = new Application();
-//        applicationEntity.setPersonid(person);
-//        applicationEntity.setApplicationdate(new Date());
-        createAndAddApplication(person);
-//        entityManager.persist(applicationEntity);
+        Application applicationEntity = createAndAddApplication(person);  
+        
+        //Create and add availabilities
+        createAndAddAvailabilities(application, applicationEntity);
+ 
+        //Create and add competences
+        competenceOperator.createAndAddCompetences(application, applicationEntity);
 
         entityManager.persist(person);
         entityManager.flush();
@@ -109,26 +74,28 @@ public class ApplicationOperator {
         return person;
     }
 
-    public Availability createAndAddAvailability(AvailabilityFromView av, Person person) {
-        Availability availabilityEntity = new Availability();
-        availabilityEntity.setFromdate(av.getFromDate());
-        availabilityEntity.setTodate(av.getToDate());
-        availabilityEntity.setPersonid(person);
-        if (null == person.getAvailabilityCollection()) {
-            person.setAvailabilityCollection(new ArrayList<Availability>());
-        }
-        person.getAvailabilityCollection().add(availabilityEntity);
-//        person.getAvailabilityCollection().add(availabilityEntity);
-        return availabilityEntity;
+    public void createAndAddAvailabilities(ApplicationDTO applicationDTO, Application applicationEntity) {
+        List<AvailabilityFromView> availabilities = applicationDTO.getAvailabilities();
+        AvailabilityFromView av;
+        Availability avEntity;
+        for (Iterator<AvailabilityFromView> availIt = availabilities.iterator();
+                availIt.hasNext();) {
+            av = availIt.next();
+            avEntity = new Availability();
+            //set availability data
+            avEntity.setFromdate(av.getFromDate());
+            avEntity.setTodate(av.getToDate());
+            //add application to availability
+            avEntity.setApplicationid(applicationEntity);
+            //add availability to application
+            applicationEntity.getAvailabilityCollection().add(avEntity);
+        }        
     } 
     
     public Application createAndAddApplication(Person person) {
         Application applicationEntity = new Application();
         applicationEntity.setPersonid(person);
         applicationEntity.setApplicationdate(new Date()); 
-        if (null == person.getApplicationCollection()) {
-            person.setApplicationCollection(new ArrayList<Application>());
-        }
         person.getApplicationCollection().add(applicationEntity);
         return applicationEntity;
     }

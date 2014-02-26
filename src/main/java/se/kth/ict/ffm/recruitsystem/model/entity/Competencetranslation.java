@@ -65,7 +65,7 @@ public class Competencetranslation implements Serializable, Competencetranslatio
 
     public int getCompetenceId() {
         return competencetranslationPK.getCompetenceid();
-    }    
+    }     
     
     public CompetencetranslationPK getCompetencetranslationPK() {
         return competencetranslationPK;
@@ -90,11 +90,11 @@ public class Competencetranslation implements Serializable, Competencetranslatio
     public void setCompetence(Competence competence) {
         this.competence = competence;
     }
-    
+
     public String getLocale() {
         return competencetranslationPK.getLocale();
-    }    
-
+    } 
+    
     @Override
     public int hashCode() {
         int hash = 0;

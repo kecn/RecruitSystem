@@ -42,7 +42,7 @@ public class Competence implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
     private Collection<Competencetranslation> competencetranslationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
-    private Collection<Competenceinprofile> competenceinprofileCollection;
+    private Collection<Competenceinapplication> competenceinapplicationCollection;
 
     public Competence() {
     }
@@ -69,12 +69,12 @@ public class Competence implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Competenceinprofile> getCompetenceinprofileCollection() {
-        return competenceinprofileCollection;
+    public Collection<Competenceinapplication> getCompetenceinapplicationCollection() {
+        return competenceinapplicationCollection;
     }
 
-    public void setCompetenceinprofileCollection(Collection<Competenceinprofile> competenceinprofileCollection) {
-        this.competenceinprofileCollection = competenceinprofileCollection;
+    public void setCompetenceinapplicationCollection(Collection<Competenceinapplication> competenceinapplicationCollection) {
+        this.competenceinapplicationCollection = competenceinapplicationCollection;
     }
 
     @Override
