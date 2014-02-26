@@ -32,11 +32,12 @@ import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 import se.kth.ict.ffm.recruitsystem.util.pdf.PDFBean;
 
 /**
- * ApplicationFacade is an EJB with the responsibility of starting operations that
- * have to do with applications.
+ * ApplicationFacade is an EJB with the responsibility of starting operations
+ * that have to do with applications.
  */
 @Stateless
 public class ApplicationFacade {
+
     @EJB
     private PDFBean pdfBean;
     @EJB
@@ -54,22 +55,24 @@ public class ApplicationFacade {
     public List<CompetencetranslationDTO> getCompetences(String currentLanguage) {
         return competenceOperator.getCompetences(currentLanguage);
     }
-    
+
     /**
-     * Get a reference to a Competence when its name and language of 
-     * name are known
+     * Get a reference to a Competence when its name and language of name are
+     * known
+     *
      * @param name of the competence that is requested
      * @param currentLanguage language the name of the competence is in
-     * @return a reference (CompetencetranslationDTO) to a Competencetranslation 
+     * @return a reference (CompetencetranslationDTO) to a Competencetranslation
      * that doesn't give access to mutators
      */
-    public CompetencetranslationDTO getCompetenceTranslation(String name, 
+    public CompetencetranslationDTO getCompetenceTranslation(String name,
             String currentLanguage) {
         return competenceOperator.getCompetenceTranslation(name, currentLanguage);
     }
-    
+
     /**
      * To submit an application.
+     *
      * @param application containing all the necessary information to register
      * the application
      */
@@ -79,15 +82,18 @@ public class ApplicationFacade {
 
     /**
      * Download a PDF generated from the application that has been submitted.
-     * @param application 
+     *
+     * @param application
      */
     public void downloadFile(ApplicationFromViewDTO application) {
 
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
-
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        response.setHeader("Content-Disposition", "inline;filename=Application.pdf");
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+        response.setHeader("Content-Disposition", "attachment;filename=Application.pdf");
+        response.setContentType("application");
         response.setContentLength((int) file.size());
+
         ServletOutputStream sos = null;
         try {
             sos = response.getOutputStream();
@@ -105,5 +111,6 @@ public class ApplicationFacade {
                 System.out.println(err.getMessage());
             }
         }
+        facesContext.responseComplete();
     }
 }
