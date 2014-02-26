@@ -57,11 +57,11 @@ public class CompetenceOperator {
             competenceinapplicationEntity.setYearsofexperience(comp.getYearsOfExperience());
             competence = entityManager.find(Competence.class, comp.getCompetenceId());
             //add Competence to Competenceinapplication
-            competenceinapplicationEntity.setCompetence(competence);
+            competenceinapplicationEntity.setCompetenceid(competence);
             //add Competenceinapplication to Competence
             competence.getCompetenceinapplicationCollection().add(competenceinapplicationEntity);
             //add application to Competenceinapplication
-            competenceinapplicationEntity.setApplication(applicationEntity);
+            competenceinapplicationEntity.setApplicationid(applicationEntity);
             //add Competenceinapplication to application
             competenceinapplicationCollection.add(competenceinapplicationEntity);
         }
