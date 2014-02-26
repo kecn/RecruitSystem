@@ -155,14 +155,16 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinapplication` (
   `yearsofexperience` INT NULL ,
   `competenceid` INT UNSIGNED NOT NULL ,
   `applicationid` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`competenceid`, `applicationid`) ,
+  `competenceinapplicationid` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  PRIMARY KEY (`competenceinapplicationid`) ,
   INDEX `fk_competenceinprofile_competence1` (`competenceid` ASC) ,
   INDEX `fk_competenceinprofile_application1` (`applicationid` ASC) ,
+  UNIQUE INDEX `competenceinapplicationid_UNIQUE` (`competenceinapplicationid` ASC) ,
   CONSTRAINT `fk_competenceinprofile_competence1`
     FOREIGN KEY (`competenceid` )
     REFERENCES `RecruitSystemDB`.`competence` (`competenceid` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_competenceinprofile_application1`
     FOREIGN KEY (`applicationid` )
     REFERENCES `RecruitSystemDB`.`application` (`applicationid` )

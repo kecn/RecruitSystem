@@ -16,7 +16,6 @@ import javax.persistence.Query;
 import se.kth.ict.ffm.recruitsystem.model.entity.Application;
 import se.kth.ict.ffm.recruitsystem.model.entity.Competence;
 import se.kth.ict.ffm.recruitsystem.model.entity.Competenceinapplication;
-import se.kth.ict.ffm.recruitsystem.model.entity.CompetenceinapplicationPK;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
@@ -46,26 +45,25 @@ public class CompetenceOperator {
         CompetenceFromView comp;
         Collection<Competenceinapplication> competenceinapplicationCollection
                 = applicationEntity.getCompetenceinapplicationCollection();
-        Competenceinapplication competenceEntity;
+        Competenceinapplication competenceinapplicationEntity;
         Competence competence;
-        CompetenceinapplicationPK pk;
+
         //Iterate through all the competences in ApplicationDTO
         for (Iterator<CompetenceFromView> iterator = comps.iterator();
                 iterator.hasNext();) {
             comp = iterator.next();
             //create the Competenceinapplication entity
-            competenceEntity = new Competenceinapplication();
-            competenceEntity.setYearsofexperience(comp.getYearsOfExperience());
+            competenceinapplicationEntity = new Competenceinapplication();
+            competenceinapplicationEntity.setYearsofexperience(comp.getYearsOfExperience());
             competence = entityManager.find(Competence.class, comp.getCompetenceId());
-//            pk = new CompetenceinapplicationPK();
-//            pk.setCompetenceid(competence.getCompetenceid());
-            //NOT SETTING APPLICATION ID IN PK NOW!!
-//            competenceEntity.setCompetenceinapplicationPK(pk);
-            competenceEntity.setCompetence(competence);
+            //add Competence to Competenceinapplication
+            competenceinapplicationEntity.setCompetence(competence);
+            //add Competenceinapplication to Competence
+            competence.getCompetenceinapplicationCollection().add(competenceinapplicationEntity);
             //add application to Competenceinapplication
-            competenceEntity.setApplication(applicationEntity);
+            competenceinapplicationEntity.setApplication(applicationEntity);
             //add Competenceinapplication to application
-            competenceinapplicationCollection.add(competenceEntity);
+            competenceinapplicationCollection.add(competenceinapplicationEntity);
         }
     }
 

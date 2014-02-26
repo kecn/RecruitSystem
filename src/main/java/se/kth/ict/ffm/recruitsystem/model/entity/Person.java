@@ -77,8 +77,7 @@ public class Person implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
     private Collection<User> userCollection;
 
-    public Person() {
-        applicationCollection = new ArrayList();        
+    public Person() {       
     }
 
     public Person(Integer personid) {
@@ -135,6 +134,9 @@ public class Person implements Serializable {
 
     @XmlTransient
     public Collection<Application> getApplicationCollection() {
+        if (null == applicationCollection) {
+            applicationCollection = new ArrayList(); 
+        }
         return applicationCollection;
     }
 

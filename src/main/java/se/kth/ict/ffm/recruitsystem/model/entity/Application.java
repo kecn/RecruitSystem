@@ -61,8 +61,6 @@ public class Application implements Serializable {
     private Collection<Availability> availabilityCollection;
 
     public Application() {
-        availabilityCollection = new ArrayList();
-        competenceinapplicationCollection = new ArrayList();
     }
 
     public Application(Integer applicationid) {
@@ -100,6 +98,9 @@ public class Application implements Serializable {
 
     @XmlTransient
     public Collection<Competenceinapplication> getCompetenceinapplicationCollection() {
+        if (null == competenceinapplicationCollection) {
+            competenceinapplicationCollection = new ArrayList();
+        }
         return competenceinapplicationCollection;
     }
 
@@ -109,6 +110,9 @@ public class Application implements Serializable {
 
     @XmlTransient
     public Collection<Availability> getAvailabilityCollection() {
+        if (null == availabilityCollection) {
+            availabilityCollection = new ArrayList();
+        }
         return availabilityCollection;
     }
 

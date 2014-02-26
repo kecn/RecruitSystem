@@ -155,14 +155,16 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinapplication` (
   `yearsofexperience` INT NULL ,
   `competenceid` INT UNSIGNED NOT NULL ,
   `applicationid` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`competenceid`, `applicationid`) ,
+  `competenceinapplicationid` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  PRIMARY KEY (`competenceinapplicationid`) ,
   INDEX `fk_competenceinprofile_competence1` (`competenceid` ASC) ,
   INDEX `fk_competenceinprofile_application1` (`applicationid` ASC) ,
+  UNIQUE INDEX `competenceinapplicationid_UNIQUE` (`competenceinapplicationid` ASC) ,
   CONSTRAINT `fk_competenceinprofile_competence1`
     FOREIGN KEY (`competenceid` )
     REFERENCES `RecruitSystemDB`.`competence` (`competenceid` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_competenceinprofile_application1`
     FOREIGN KEY (`applicationid` )
     REFERENCES `RecruitSystemDB`.`application` (`applicationid` )
@@ -171,26 +173,3 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinapplication` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Placeholder table for view `RecruitSystemDB`.`userroleview`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RecruitSystemDB`.`userroleview` (`username` INT, `password` INT, `rolename` INT);
-
--- -----------------------------------------------------
--- View `RecruitSystemDB`.`userroleview`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `RecruitSystemDB`.`userroleview`;
-USE `RecruitSystemDB`;
-CREATE  OR REPLACE VIEW `RecruitSystemDB`.`userroleview` AS
-SELECT `user`.`username` AS `username`,
-`user`.`password` AS `password`,
-`role`.`roleid` AS `rolename`
-FROM ((`userinrole` JOIN `user` 	
-ON ((`userinrole`.`username` = `user`.`username`)))
-JOIN `role`
-ON ((`userinrole`.`roleid` = `role`.`roleid`)));
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

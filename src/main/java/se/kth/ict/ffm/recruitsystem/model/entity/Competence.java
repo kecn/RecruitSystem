@@ -7,6 +7,7 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -61,6 +62,9 @@ public class Competence implements Serializable {
 
     @XmlTransient
     public Collection<Competencetranslation> getCompetencetranslationCollection() {
+        if (null == competencetranslationCollection) {
+            competencetranslationCollection = new ArrayList();
+        }
         return competencetranslationCollection;
     }
 
