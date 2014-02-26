@@ -82,12 +82,14 @@ public class ApplicationFacade {
      * @param application 
      */
     public void downloadFile(ApplicationFromViewDTO application) {
-
+        
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
-
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-        response.setHeader("Content-Disposition", "inline;filename=Application.pdf");
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+        response.setHeader("Content-Disposition", "attachment;filename=Application.pdf");
+        response.setContentType("application");
         response.setContentLength((int) file.size());
+        
         ServletOutputStream sos = null;
         try {
             sos = response.getOutputStream();
@@ -105,5 +107,6 @@ public class ApplicationFacade {
                 System.out.println(err.getMessage());
             }
         }
+        facesContext.responseComplete();
     }
 }

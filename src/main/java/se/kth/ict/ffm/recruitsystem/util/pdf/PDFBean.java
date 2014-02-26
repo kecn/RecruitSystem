@@ -20,6 +20,7 @@ package se.kth.ict.ffm.recruitsystem.util.pdf;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -106,7 +107,9 @@ public class PDFBean {
             document.close();
             pdfWriter.flush();
             pdfWriter.close();
-        } catch (DocumentException ex) {
+            baosPDF.close();
+                    
+        } catch (DocumentException | IOException ex) {
             System.out.println(ex.getMessage());
         }
         return baosPDF;
