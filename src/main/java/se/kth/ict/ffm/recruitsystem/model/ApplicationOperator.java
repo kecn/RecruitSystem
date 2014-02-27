@@ -67,7 +67,7 @@ public class ApplicationOperator {
      * @return found Person or null
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    protected Person findPerson(ApplicationFromViewDTO application) {
+    public Person findPerson(ApplicationFromViewDTO application) {
         Query query = entityManager.createNamedQuery("Person.findByAll");
         query.setParameter("name", application.getFirstname());
         query.setParameter("surname", application.getLastname());
@@ -90,7 +90,7 @@ public class ApplicationOperator {
      * @return created Person entity
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    protected Person createPerson(ApplicationFromViewDTO application) {
+    public Person createPerson(ApplicationFromViewDTO application) {
         Person person = new Person();
         person.setName(application.getFirstname());
         person.setSurname(application.getLastname());
@@ -106,7 +106,7 @@ public class ApplicationOperator {
      * relation to.
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    protected void createAndAddAvailabilities(ApplicationFromViewDTO applicationDTO, Application applicationEntity) {
+    public void createAndAddAvailabilities(ApplicationFromViewDTO applicationDTO, Application applicationEntity) {
         List<AvailabilityFromView> availabilities = applicationDTO.getAvailabilities();
         AvailabilityFromView av;
         Availability avEntity;
@@ -130,7 +130,7 @@ public class ApplicationOperator {
      * @return Application entity
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    protected Application createAndAddApplication(Person person) {
+    public Application createAndAddApplication(Person person) {
         Application applicationEntity = new Application();
         applicationEntity.setPersonid(person);
         applicationEntity.setApplicationdate(new Date()); 

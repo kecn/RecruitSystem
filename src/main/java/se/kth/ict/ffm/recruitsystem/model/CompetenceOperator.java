@@ -71,7 +71,7 @@ public class CompetenceOperator {
      * have a relation to
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    protected void createAndAddCompetences(ApplicationFromViewDTO application, Application applicationEntity) {
+    public void createAndAddCompetences(ApplicationFromViewDTO application, Application applicationEntity) {
         List<CompetenceFromView> comps = application.getCompetences();
         CompetenceFromView comp;
         Collection<Competenceinapplication> competenceinapplicationCollection
