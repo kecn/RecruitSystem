@@ -37,8 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author
+ * Entity for table user. 
  */
 @Entity
 @Table(name = "user")
@@ -136,7 +135,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.User[ username=" + username + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.User[ username=" + username + " ]";
     }
     
 }

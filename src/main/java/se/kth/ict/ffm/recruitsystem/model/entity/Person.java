@@ -19,6 +19,7 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -30,7 +31,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,8 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author
+ * Entity for table person
  */
 @Entity
 @Table(name = "person")
@@ -56,8 +56,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByAll", query = "SELECT p FROM Person p WHERE p.name = :name "
             + "AND p.surname = :surname AND p.birthdate = :birthdate AND p.email = :email")})
 public class Person implements Serializable {
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "personid")
-    private Collection<Competenceprofile> competenceprofileCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +83,10 @@ public class Person implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
+    private Collection<Application> applicationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
+    private Collection<User> userCollection;
 
     public Person() {
     }
@@ -141,6 +143,27 @@ public class Person implements Serializable {
         this.email = email;
     }
 
+    @XmlTransient
+    public Collection<Application> getApplicationCollection() {
+        if (null == applicationCollection) {
+            applicationCollection = new ArrayList();
+        }        
+        return applicationCollection;
+    }
+
+    public void setApplicationCollection(Collection<Application> applicationCollection) {
+        this.applicationCollection = applicationCollection;
+    }
+
+    @XmlTransient
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -164,15 +187,6 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "se.kth.ict.ffm.recruitsystem.model.entity.Person[ personid=" + personid + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Competenceprofile> getCompetenceprofileCollection() {
-        return competenceprofileCollection;
-    }
-
-    public void setCompetenceprofileCollection(Collection<Competenceprofile> competenceprofileCollection) {
-        this.competenceprofileCollection = competenceprofileCollection;
     }
     
 }

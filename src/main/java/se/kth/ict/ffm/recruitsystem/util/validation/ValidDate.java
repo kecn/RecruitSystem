@@ -32,7 +32,6 @@ import javax.validation.constraints.Pattern;
 /**
  * Validates a date and throws a message if date fails validation.
  *
- * @author
  */
 @NotNull(message = "Null not allowed")
 @Pattern(regexp = "(^$|[0-9]{6})", message = "Must be YYMMDD")
@@ -43,7 +42,7 @@ import javax.validation.constraints.Pattern;
 @Retention(RUNTIME)
 public @interface ValidDate {
 
-    String message() default "Not a valid Name";
+    String message() default "Not a valid Date";
 
     java.lang.Class<?>[] groups() default {};
 

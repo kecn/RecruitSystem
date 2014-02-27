@@ -26,8 +26,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- *
- * @author
+ * Composite key of Roletranslation entity
  */
 @Embeddable
 public class RoletranslationPK implements Serializable {
@@ -92,7 +91,7 @@ public class RoletranslationPK implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.RoletranslationPK[ locale=" + locale + ", roleid=" + roleid + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.RoletranslationPK[ locale=" + locale + ", roleid=" + roleid + " ]";
     }
     
 }

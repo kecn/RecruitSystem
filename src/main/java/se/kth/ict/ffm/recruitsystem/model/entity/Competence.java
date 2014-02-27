@@ -19,6 +19,7 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -35,8 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author
+ * Entity for table competence.
  */
 @Entity
 @Table(name = "competence")
@@ -53,8 +53,8 @@ public class Competence implements Serializable {
     private Integer competenceid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
     private Collection<Competencetranslation> competencetranslationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
-    private Collection<Competenceinprofile> competenceinprofileCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competenceid")
+    private Collection<Competenceinapplication> competenceinapplicationCollection;
 
     public Competence() {
     }
@@ -73,6 +73,9 @@ public class Competence implements Serializable {
 
     @XmlTransient
     public Collection<Competencetranslation> getCompetencetranslationCollection() {
+        if (null == competencetranslationCollection) {
+            competencetranslationCollection = new ArrayList();
+        }
         return competencetranslationCollection;
     }
 
@@ -81,12 +84,15 @@ public class Competence implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Competenceinprofile> getCompetenceinprofileCollection() {
-        return competenceinprofileCollection;
+    public Collection<Competenceinapplication> getCompetenceinapplicationCollection() {
+        if (null == competenceinapplicationCollection) {
+            competenceinapplicationCollection = new ArrayList();
+        }        
+        return competenceinapplicationCollection;
     }
 
-    public void setCompetenceinprofileCollection(Collection<Competenceinprofile> competenceinprofileCollection) {
-        this.competenceinprofileCollection = competenceinprofileCollection;
+    public void setCompetenceinapplicationCollection(Collection<Competenceinapplication> competenceinapplicationCollection) {
+        this.competenceinapplicationCollection = competenceinapplicationCollection;
     }
 
     @Override
@@ -111,7 +117,7 @@ public class Competence implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.Competence[ competenceid=" + competenceid + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.Competence[ competenceid=" + competenceid + " ]";
     }
     
 }

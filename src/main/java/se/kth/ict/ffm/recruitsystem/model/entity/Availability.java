@@ -37,8 +37,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author
+ * Entity for table Availability. Many to one relation to Application
  */
 @Entity
 @Table(name = "availability")
@@ -63,9 +62,9 @@ public class Availability implements Serializable {
     @Column(name = "todate")
     @Temporal(TemporalType.DATE)
     private Date todate;
-    @JoinColumn(name = "userid", referencedColumnName = "personid")
+    @JoinColumn(name = "applicationid", referencedColumnName = "applicationid")
     @ManyToOne(optional = false)
-    private Person userid;
+    private Application applicationid;
 
     public Availability() {
     }
@@ -103,12 +102,12 @@ public class Availability implements Serializable {
         this.todate = todate;
     }
 
-    public Person getUserid() {
-        return userid;
+    public Application getApplicationid() {
+        return applicationid;
     }
 
-    public void setUserid(Person userid) {
-        this.userid = userid;
+    public void setApplicationid(Application applicationid) {
+        this.applicationid = applicationid;
     }
 
     @Override
@@ -133,7 +132,7 @@ public class Availability implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.Availability[ availabilityid=" + availabilityid + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.Availability[ availabilityid=" + availabilityid + " ]";
     }
     
 }

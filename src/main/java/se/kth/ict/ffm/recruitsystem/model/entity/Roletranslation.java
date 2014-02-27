@@ -31,8 +31,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author
+ * Entity with localizations of role names
  */
 @Entity
 @Table(name = "roletranslation")
@@ -110,7 +109,7 @@ public class Roletranslation implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.Roletranslation[ roletranslationPK=" + roletranslationPK + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.Roletranslation[ roletranslationPK=" + roletranslationPK + " ]";
     }
     
 }

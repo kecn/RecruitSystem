@@ -15,6 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
@@ -32,8 +33,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author
+ * Entity for table competencetranslation. Contains localizations of competence
+ * names
  */
 @Entity
 @Table(name = "competencetranslation")
@@ -41,13 +42,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Competencetranslation.findAll", query = "SELECT c FROM Competencetranslation c"),
     @NamedQuery(name = "Competencetranslation.findByLocale", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale"),
-    @NamedQuery(name = "Competencetranslation.findNameByLocale", query = "SELECT c.name FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale"),
     @NamedQuery(name = "Competencetranslation.findByName", query = "SELECT c FROM Competencetranslation c WHERE c.name = :name"),
+    @NamedQuery(name = "Competencetranslation.findByCompetenceid", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.competenceid = :competenceid"),
     @NamedQuery(name = "Competencetranslation.findByLocaleAndName", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.locale = :locale "
-            + "AND c.name = :name"),
-    @NamedQuery(name = "Competencetranslation.findByCompetenceid", query = "SELECT c FROM Competencetranslation c WHERE c.competencetranslationPK.competenceid = :competenceid")})
+            + "AND c.name = :name")})
 public class Competencetranslation implements Serializable, CompetencetranslationDTO {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected CompetencetranslationPK competencetranslationPK;
@@ -99,14 +98,6 @@ public class Competencetranslation implements Serializable, Competencetranslatio
     public void setCompetence(Competence competence) {
         this.competence = competence;
     }
-    
-    public int getCompetenceId() {
-        return competencetranslationPK.getCompetenceid();
-    }
-    
-    public String getLocale() {
-        return competencetranslationPK.getLocale();
-    }
 
     @Override
     public int hashCode() {
@@ -130,9 +121,18 @@ public class Competencetranslation implements Serializable, Competencetranslatio
 
     @Override
     public String toString() {
-//        return "se.kth.ict.ffm.recruitsystem.model.Competencetranslation[ competencetranslationPK=" + competencetranslationPK + " ]";
+//        return "se.kth.ict.ffm.recruitsystem.model.entity.Competencetranslation[ competencetranslationPK=" + competencetranslationPK + " ]";
         return name;
     }
 
+    @Override
+    public String getLocale() {
+        return competencetranslationPK.getLocale();
+    }
 
+    @Override
+    public int getCompetenceId() {
+        return competencetranslationPK.getCompetenceid();
+    }
+    
 }

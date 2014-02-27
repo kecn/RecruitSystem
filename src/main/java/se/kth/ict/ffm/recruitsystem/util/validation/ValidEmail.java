@@ -34,7 +34,7 @@ import javax.validation.constraints.Size;
  * Validates the password and throws a message if password fails validation
  * @author
  */
-@NotNull(message = "Something...")
+@NotNull(message = "Null not allowed")
 @Size(min = 1, max = 32, message = "Not a valid Size")
 @Pattern(regexp = "^[_A-Za-z0-9-]+(\\." +
 			"[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*" +

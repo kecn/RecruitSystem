@@ -23,22 +23,28 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+/**
+ * Backing bean for the header of web UI
+ */
 @Named("headerManager")
 @SessionScoped
 public class HeaderManager implements Serializable{
     
     @EJB
     LanguageBean languageBean;
-    private String languageCode; //Just testing
+    
+    /**
+     * Called when user wants to change language
+     * @param e language code
+     */
     public void changeLanguage(String e) {
         languageBean.countryLocaleCodeChanged(e);
     }
 
+    /**
+     * @return language code of current language
+     */
     public String getLanguageCode() {
         return languageBean.getCurrentLanguage();
-    }
-
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
     }
 }

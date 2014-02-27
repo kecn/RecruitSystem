@@ -23,7 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationDTO;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 import se.kth.ict.ffm.recruitsystem.view.LanguageBean;
@@ -31,8 +31,6 @@ import se.kth.ict.ffm.recruitsystem.view.LanguageBean;
 /**
  * Creates a language specific pdf file with application information in memory
  * only and return reference to the pdf.
- *
- * @author
  */
 @Stateless
 public class PDFBean {
@@ -53,7 +51,7 @@ public class PDFBean {
      * @param applicationDTO user information
      * @return the pdf reference
      */
-    public ByteArrayOutputStream createRegistrationPDF(ApplicationDTO applicationDTO) {
+    public ByteArrayOutputStream createRegistrationPDF(ApplicationFromViewDTO applicationDTO) {
         try {
             //Get Locale
             ResourceBundle resbundle = ResourceBundle.getBundle("se.kth.ict.ffm.recruitsystem.properties.language", languageBean.getCurrentLocale());

@@ -20,27 +20,29 @@ package se.kth.ict.ffm.recruitsystem.util.dto;
 
 import java.util.Date;
 import java.util.List;
-import se.kth.ict.ffm.recruitsystem.util.validation.ValidDate;
-import se.kth.ict.ffm.recruitsystem.util.validation.ValidEmail;
-import se.kth.ict.ffm.recruitsystem.util.validation.ValidName;
 
 /**
- *
- * @author
+ * An AppicationFronViewDTO instance is a data transfer object that contains
+ * all the information necessary to register an application.
  */
-public class ApplicationDTO {
-    @ValidName
+public class ApplicationFromViewDTO {
     private String firstname;
-    @ValidName
     private String lastname;
-    @ValidEmail    
+    private Date birthDate;
     private String email;
-    @ValidDate    
-    private Date birthDate;    
     private List<CompetenceFromView> competences;
     private List<AvailabilityFromView> availabilities;
 
-    public ApplicationDTO(String firstname, String lastname, Date birthDate, 
+    /**
+     * 
+     * @param firstname
+     * @param lastname
+     * @param birthDate
+     * @param email
+     * @param competences
+     * @param availabilities 
+     */
+    public ApplicationFromViewDTO(String firstname, String lastname, Date birthDate, 
             String email, List<CompetenceFromView> competences, List<AvailabilityFromView> availabilities) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -50,50 +52,86 @@ public class ApplicationDTO {
         this.availabilities = availabilities;
     }
 
+    /**
+     * @return first name
+     */
     public String getFirstname() {
         return firstname;
     }
 
+    /**
+     * @param firstname 
+     */
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
+    /**
+     * @return last name
+     */
     public String getLastname() {
         return lastname;
     }
 
+    /**
+     * @param lastname 
+     */
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
+    /**
+     * @return birth date
+     */
     public Date getBirthDate() {
         return birthDate;
     }
 
+    /**
+     * @param birthDate 
+     */
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
+    /**
+     * @return email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * @return all competences in this application
+     */
     public List<CompetenceFromView> getCompetences() {
         return competences;
     }
 
+    /**
+     * @param competences 
+     */
     public void setCompetences(List<CompetenceFromView> competences) {
         this.competences = competences;
     }
 
+    /**
+     * @return all periods of availability in this application
+     */
     public List<AvailabilityFromView> getAvailabilities() {
         return availabilities;
     }
 
+    /**
+     * @param availabilities 
+     */
     public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
     }

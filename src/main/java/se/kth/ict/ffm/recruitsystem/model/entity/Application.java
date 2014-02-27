@@ -19,8 +19,11 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,15 +33,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author
+ * Entity for table application. 
  */
 @Entity
 @Table(name = "application")
@@ -62,6 +66,10 @@ public class Application implements Serializable {
     @JoinColumn(name = "personid", referencedColumnName = "personid")
     @ManyToOne(optional = false)
     private Person personid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationid")
+    private Collection<Competenceinapplication> competenceinapplicationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationid")
+    private Collection<Availability> availabilityCollection;
 
     public Application() {
     }
@@ -99,6 +107,30 @@ public class Application implements Serializable {
         this.personid = personid;
     }
 
+    @XmlTransient
+    public Collection<Competenceinapplication> getCompetenceinapplicationCollection() {
+        if (null == competenceinapplicationCollection) {
+            competenceinapplicationCollection = new ArrayList();
+        }
+        return competenceinapplicationCollection;
+    }
+
+    public void setCompetenceinapplicationCollection(Collection<Competenceinapplication> competenceinapplicationCollection) {
+        this.competenceinapplicationCollection = competenceinapplicationCollection;
+    }
+
+    @XmlTransient
+    public Collection<Availability> getAvailabilityCollection() {
+        if (null == availabilityCollection) {
+            availabilityCollection = new ArrayList();
+        }
+        return availabilityCollection;
+    }
+
+    public void setAvailabilityCollection(Collection<Availability> availabilityCollection) {
+        this.availabilityCollection = availabilityCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -121,7 +153,7 @@ public class Application implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.ffm.recruitsystem.model.Application[ applicationid=" + applicationid + " ]";
+        return "se.kth.ict.ffm.recruitsystem.model.entity.Application[ applicationid=" + applicationid + " ]";
     }
     
 }
