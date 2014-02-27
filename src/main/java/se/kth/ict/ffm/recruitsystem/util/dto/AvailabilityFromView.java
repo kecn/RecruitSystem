@@ -26,7 +26,7 @@ import se.kth.ict.ffm.recruitsystem.util.validation.ValidDate;
  * AvailabilityFromView instances represent single availability periods created
  * in view.
  */
-public class AvailabilityFromView {
+public class AvailabilityFromView implements Serializable {
     @ValidDate
     private Date fromDate;
     @ValidDate
