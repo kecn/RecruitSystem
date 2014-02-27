@@ -28,27 +28,24 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
- * Validates the password and throws a message if password fails validation
- * @author
+ * Validates a date and throws a message if date fails validation.
+ *
  */
 @NotNull(message = "{notNull}")
-@Size(min = 5, max = 32, message = "{passwordSize}")
-@Pattern(regexp = "[a-zA-Z_0-9]", message = "{passwordPattern}")
-@Constraint(validatedBy={})
+@Pattern(regexp = "(^$|[0-9]{6})", message = "{datePattern}")
+
+@Constraint(validatedBy = {})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
-public @interface ValidPassword {
+public @interface ValidDate {
 
-    String message() default "Not a valid password";
+    String message() default "Not a valid Date";
 
     java.lang.Class<?>[] groups() default {};
 
-    java.lang.Class<? extends Payload>[] payload() default {};    
+    java.lang.Class<? extends Payload>[] payload() default {};
 
 }
-
-

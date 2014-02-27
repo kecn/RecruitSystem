@@ -35,15 +35,17 @@ import javax.validation.constraints.Size;
  * @author
  */
 @NotNull(message = "{notNull}")
-@Size(min = 5, max = 32, message = "{passwordSize}")
-@Pattern(regexp = "[a-zA-Z_0-9]", message = "{passwordPattern}")
+@Size(min = 5, max = 32, message = "{emailSize}")
+@Pattern(regexp = "^[_A-Za-z0-9-]+(\\." +
+			"[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*" +
+			"(\\.[A-Za-z]{2,})$", message = "{emailPattern}")
 @Constraint(validatedBy={})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
-public @interface ValidPassword {
+public @interface ValidEmail {
 
-    String message() default "Not a valid password";
+    String message() default "Not a valid Email";
 
     java.lang.Class<?>[] groups() default {};
 

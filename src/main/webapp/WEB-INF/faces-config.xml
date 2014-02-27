@@ -11,7 +11,7 @@
         <resource-bundle>
             <base-name>se.kth.ict.ffm.recruitsystem.properties.language</base-name>
             <var>msg</var>
-        </resource-bundle>
+        </resource-bundle> 
     </application>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>

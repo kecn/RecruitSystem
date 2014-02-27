@@ -18,14 +18,18 @@
 
 package se.kth.ict.ffm.recruitsystem.util.dto;
 
+import java.io.Serializable;
 import java.util.Date;
+import se.kth.ict.ffm.recruitsystem.util.validation.ValidDate;
 
 /**
  * AvailabilityFromView instances represent single availability periods created
  * in view.
  */
-public class AvailabilityFromView {
+public class AvailabilityFromView implements Serializable {
+    @ValidDate
     private Date fromDate;
+    @ValidDate
     private Date toDate;
 
     public AvailabilityFromView() {

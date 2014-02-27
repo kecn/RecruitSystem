@@ -22,7 +22,9 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  * LanguageBean is responsible for localization.
@@ -32,6 +34,8 @@ public class LanguageBean {
     private final Map<String,Object> countries;
     private String currentLanguage;
     private Locale currentLocale;
+    @Inject
+    private Event<String> localeChangedEvent;
     
     public LanguageBean() {
             Locale seLocale = new Locale("se");
@@ -45,7 +49,8 @@ public class LanguageBean {
     }
     
     /**
-     * Called whenever a user has changed locale
+     * Called whenever a user has changed locale. 
+     * Fires localeChanged event
      * @param e String representing locale
      */
     public void countryLocaleCodeChanged(String e) {
@@ -61,6 +66,8 @@ public class LanguageBean {
                     setCurrentLanguage("se");
             }
         }
+        //fire an event 
+        localeChangedEvent.fire(currentLanguage);
     }
     
     /**

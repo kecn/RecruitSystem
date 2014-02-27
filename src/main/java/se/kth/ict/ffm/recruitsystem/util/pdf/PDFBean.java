@@ -64,22 +64,22 @@ public class PDFBean {
             document.open();
             document.add(new Paragraph("Application Document", Heading1));
 
-            Paragraph p = new Paragraph(resbundle.getString("First_name") + ": ", Heading2);
+            Paragraph p = new Paragraph(resbundle.getString("firstName") + ": ", Heading2);
             p.setFont(regularText);
             p.add(" " + applicationDTO.getFirstname());
             document.add(p);
 
-            p = new Paragraph(resbundle.getString("Last_name") + ": ", Heading2);
+            p = new Paragraph(resbundle.getString("lastName") + ": ", Heading2);
             p.setFont(regularText);
             p.add(" " + applicationDTO.getLastname());
             document.add(p);
 
-            p = new Paragraph(resbundle.getString("DateOfBirth") + ": ", Heading2);
+            p = new Paragraph(resbundle.getString("dateOfBirth") + ": ", Heading2);
             p.setFont(regularText);
             p.add(" " + applicationDTO.getBirthDate());
             document.add(p);
 
-            document.add(new Paragraph(resbundle.getString("Competences") + ": ", Heading2));
+            document.add(new Paragraph(resbundle.getString("competences") + ": ", Heading2));
             for (CompetenceFromView competence : applicationDTO.getCompetences()) {
                 p = new Paragraph();
 
@@ -92,7 +92,7 @@ public class PDFBean {
                 document.add(p);
             }
 
-            document.add(new Paragraph(resbundle.getString("Availability") + ": ", Heading2));
+            document.add(new Paragraph(resbundle.getString("availability") + ": ", Heading2));
             for (AvailabilityFromView availability : applicationDTO.getAvailabilities()) {
                 p = new Paragraph();
 

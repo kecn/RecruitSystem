@@ -35,15 +35,15 @@ import javax.validation.constraints.Size;
  * @author
  */
 @NotNull(message = "{notNull}")
-@Size(min = 5, max = 32, message = "{passwordSize}")
-@Pattern(regexp = "[a-zA-Z_0-9]", message = "{passwordPattern}")
+@Size(min = 1, max = 32, message = "{nameSize}")
+@Pattern(regexp = "[a-zA-Z]*", message = "{namePattern}")
 @Constraint(validatedBy={})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
 @Retention(RUNTIME)
-public @interface ValidPassword {
+public @interface ValidName {
 
-    String message() default "Not a valid password";
+    String message() default "Not a valid Name";
 
     java.lang.Class<?>[] groups() default {};
 
