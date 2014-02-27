@@ -11,6 +11,10 @@ import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -28,6 +32,7 @@ import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
  * Main responsibility is to persist applications.
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class ApplicationOperator {
     @PersistenceContext(unitName = "se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
     EntityManager entityManager;
@@ -40,24 +45,20 @@ public class ApplicationOperator {
      * and persists it.
      * @param application contents of application to persist
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void submitApplication(ApplicationFromViewDTO application) {
         //If person doesn't exist, create it in data store.
         Person person = findPerson(application);
         if (null == person) {
             person = createPerson(application);
-        }
-        
+        }        
         //Create an Application
-        Application applicationEntity = createAndAddApplication(person);  
-        
+        Application applicationEntity = createAndAddApplication(person);          
         //Create and add availabilities
         createAndAddAvailabilities(application, applicationEntity);
- 
         //Create and add competences
         competenceOperator.createAndAddCompetences(application, applicationEntity);
-
         entityManager.persist(person);
-        entityManager.flush();
     }
 
     /**
@@ -65,6 +66,7 @@ public class ApplicationOperator {
      * @param application
      * @return found Person or null
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Person findPerson(ApplicationFromViewDTO application) {
         Query query = entityManager.createNamedQuery("Person.findByAll");
         query.setParameter("name", application.getFirstname());
@@ -87,6 +89,7 @@ public class ApplicationOperator {
      * @param application
      * @return created Person entity
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Person createPerson(ApplicationFromViewDTO application) {
         Person person = new Person();
         person.setName(application.getFirstname());
@@ -102,6 +105,7 @@ public class ApplicationOperator {
      * @param applicationEntity the Entity the new Availability entities have a
      * relation to.
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createAndAddAvailabilities(ApplicationFromViewDTO applicationDTO, Application applicationEntity) {
         List<AvailabilityFromView> availabilities = applicationDTO.getAvailabilities();
         AvailabilityFromView av;
@@ -120,6 +124,12 @@ public class ApplicationOperator {
         }        
     } 
     
+    /**
+     * Creates a new Application entity that is related to person
+     * @param person the Person that the new Application should have relation to
+     * @return Application entity
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Application createAndAddApplication(Person person) {
         Application applicationEntity = new Application();
         applicationEntity.setPersonid(person);
