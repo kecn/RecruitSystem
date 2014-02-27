@@ -32,9 +32,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.validation.constraints.Digits;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
+import se.kth.ict.ffm.recruitsystem.util.validation.*;
 
 /**
  * Backing bean for registering an application.
@@ -49,17 +51,24 @@ public class RegisterApplicationManager implements Serializable {
     private ApplicationFacade applicationFacade;
     @EJB
     private LanguageBean languageBean;
+    @ValidName
     private String firstname;
+    @ValidName
     private String lastname;
+    @ValidDate
     private String birthDateString;
+    @ValidEmail
     private String email;
     private List<CompetencetranslationDTO> competences;
     private List<CompetenceFromView> applicantCompetences;
     private List<AvailabilityFromView> availabilities;
+    @Digits(integer=2,fraction=0)
     private int yearsOfExperience;
     private String competenceName;
     private CompetencetranslationDTO competenceTranslation;
-    private String fromDateString;
+    @ValidDate
+    private String fromDateString;    
+    @ValidDate
     private String toDateString;
     private boolean submitted;
     private ApplicationFromViewDTO application;
@@ -73,6 +82,7 @@ public class RegisterApplicationManager implements Serializable {
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
         submitted = false;
+        
     }
 
     /**
@@ -88,6 +98,7 @@ public class RegisterApplicationManager implements Serializable {
      */
     public void addAvailability() {
         try {
+            
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
             AvailabilityFromView newAvailability = new AvailabilityFromView(fromDate, toDate);
@@ -247,7 +258,7 @@ public class RegisterApplicationManager implements Serializable {
     /**
      * @param toDateString 
      */
-    public void setToDateString(String toDateString) {
+    public void setToDateString(String toDateString) {        
         this.toDateString = toDateString;
     }
 
