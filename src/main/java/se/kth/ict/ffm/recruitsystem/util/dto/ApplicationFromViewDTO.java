@@ -18,6 +18,7 @@
 
 package se.kth.ict.ffm.recruitsystem.util.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
  * An AppicationFronViewDTO instance is a data transfer object that contains
  * all the information necessary to register an application.
  */
-public class ApplicationFromViewDTO {
+public class ApplicationFromViewDTO implements Serializable {
     private String firstname;
     private String lastname;
     private Date birthDate;

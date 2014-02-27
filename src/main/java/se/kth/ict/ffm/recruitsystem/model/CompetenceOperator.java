@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -22,10 +26,10 @@ import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 
 /**
- * Enterprise bean that provides methods that have to do with persisted and 
- * persisting Competence entities.
+ * Enterprise bean that provides methods that have to do with Competence entities.
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class CompetenceOperator {
     @PersistenceContext(unitName = "se.kth.ict.ffm_RecruitSystem_war_1.0-SNAPSHOTPU")
     EntityManager entityManager;
@@ -36,6 +40,7 @@ public class CompetenceOperator {
      * @param currentLanguage
      * @return all available competences named in current language
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<CompetencetranslationDTO> getCompetences(String currentLanguage) {
         Query query = entityManager.createNamedQuery("Competencetranslation.findByLocale");
         query.setParameter("locale", currentLanguage);
@@ -49,6 +54,7 @@ public class CompetenceOperator {
      * @param currentLanguage
      * @return reference to a Competence that doesn't give access to mutators
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public CompetencetranslationDTO getCompetenceTranslation(String name, 
             String currentLanguage) {
         Query query = entityManager.createNamedQuery("Competencetranslation.findByLocaleAndName");
@@ -64,7 +70,8 @@ public class CompetenceOperator {
      * @param applicationEntity the Application entity that the competences will
      * have a relation to
      */
-    public void createAndAddCompetences(ApplicationFromViewDTO application, Application applicationEntity) {
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    protected void createAndAddCompetences(ApplicationFromViewDTO application, Application applicationEntity) {
         List<CompetenceFromView> comps = application.getCompetences();
         CompetenceFromView comp;
         Collection<Competenceinapplication> competenceinapplicationCollection

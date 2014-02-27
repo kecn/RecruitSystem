@@ -18,6 +18,7 @@
 
 package se.kth.ict.ffm.recruitsystem.util.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import se.kth.ict.ffm.recruitsystem.util.validation.ValidDate;
 

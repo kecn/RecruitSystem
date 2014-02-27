@@ -18,6 +18,7 @@
 
 package se.kth.ict.ffm.recruitsystem.util.dto;
 
+import java.io.Serializable;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 
 /**
@@ -26,7 +27,7 @@ import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
  * ApplicationFromViewDTO. Since they contain a CompetencetranslationDTO they 
  * are created in a certain locale, but can be used even after a change of Locale.
  */
-public class CompetenceFromView {
+public class CompetenceFromView implements Serializable {
     private CompetencetranslationDTO competenceTranslation;
     private int yearsOfExperience;
 

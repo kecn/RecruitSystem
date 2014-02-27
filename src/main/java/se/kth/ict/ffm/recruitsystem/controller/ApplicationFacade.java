@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +40,7 @@ import se.kth.ict.ffm.recruitsystem.util.pdf.PDFBean;
  * that have to do with applications.
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class ApplicationFacade {
 
     @EJB
@@ -45,13 +50,12 @@ public class ApplicationFacade {
     @EJB
     private CompetenceOperator competenceOperator;
 
-    public ApplicationFacade() {
-    }
-
     /**
+     * Gets all competences with their names in the current language
      * @param currentLanguage
      * @return a List with all available competences in the current language
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<CompetencetranslationDTO> getCompetences(String currentLanguage) {
         return competenceOperator.getCompetences(currentLanguage);
     }
@@ -59,12 +63,12 @@ public class ApplicationFacade {
     /**
      * Get a reference to a Competence when its name and language of name are
      * known
-     *
      * @param name of the competence that is requested
      * @param currentLanguage language the name of the competence is in
      * @return a reference (CompetencetranslationDTO) to a Competencetranslation
      * that doesn't give access to mutators
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public CompetencetranslationDTO getCompetenceTranslation(String name,
             String currentLanguage) {
         return competenceOperator.getCompetenceTranslation(name, currentLanguage);
@@ -72,19 +76,19 @@ public class ApplicationFacade {
 
     /**
      * To submit an application.
-     *
      * @param application containing all the necessary information to register
      * the application
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void submitApplication(ApplicationFromViewDTO application) {
         applicationOperator.submitApplication(application);
     }
 
     /**
      * Download a PDF generated from the application that has been submitted.
-     *
      * @param application
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public void downloadFile(ApplicationFromViewDTO application) {
 
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
