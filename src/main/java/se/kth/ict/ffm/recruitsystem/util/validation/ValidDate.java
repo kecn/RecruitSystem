@@ -33,8 +33,8 @@ import javax.validation.constraints.Pattern;
  * Validates a date and throws a message if date fails validation.
  *
  */
-@NotNull(message = "Null not allowed")
-@Pattern(regexp = "(^$|[0-9]{6})", message = "Must be YYMMDD")
+@NotNull(message = "{notNull}")
+@Pattern(regexp = "(^$|[0-9]{6})", message = "{datePattern}")
 
 @Constraint(validatedBy = {})
 @Documented

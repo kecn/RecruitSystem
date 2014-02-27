@@ -34,9 +34,9 @@ import javax.validation.constraints.Size;
  * Validates the password and throws a message if password fails validation
  * @author
  */
-@NotNull(message = "")
-@Size(min = 1, max = 45, message = "")
-@Pattern(regexp = "[a-zA-Z_0-9]", message = "")
+@NotNull(message = "{notNull}")
+@Size(min = 5, max = 32, message = "{passwordSize}")
+@Pattern(regexp = "[a-zA-Z_0-9]", message = "{passwordPattern}")
 @Constraint(validatedBy={})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})

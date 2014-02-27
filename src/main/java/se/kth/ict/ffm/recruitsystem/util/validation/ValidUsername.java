@@ -34,9 +34,9 @@ import javax.validation.constraints.Size;
  * Provides validation for username input
  * @author 
  */
-@NotNull(message = "")
-@Size(min = 5, max = 45, message = "length not matching")
-@Pattern(regexp = "[a-zA-Z_0-9]", message = "Pattern not matching")
+@NotNull(message = "{notNull}")
+@Size(min = 5, max = 32, message = "{userNameSize}")
+@Pattern(regexp = "[a-zA-Z_0-9]", message = "{userNameSize}")
 @Constraint(validatedBy = {})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})

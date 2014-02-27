@@ -34,11 +34,11 @@ import javax.validation.constraints.Size;
  * Validates the password and throws a message if password fails validation
  * @author
  */
-@NotNull(message = "Null not allowed")
-@Size(min = 1, max = 32, message = "Not a valid Size")
+@NotNull(message = "{notNull}")
+@Size(min = 5, max = 32, message = "{emailSize}")
 @Pattern(regexp = "^[_A-Za-z0-9-]+(\\." +
 			"[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*" +
-			"(\\.[A-Za-z]{2,})$", message = "Not a Valid Email")
+			"(\\.[A-Za-z]{2,})$", message = "{emailPattern}")
 @Constraint(validatedBy={})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
