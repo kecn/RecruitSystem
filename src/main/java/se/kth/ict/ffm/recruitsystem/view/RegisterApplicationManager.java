@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Named;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
@@ -69,10 +70,18 @@ public class RegisterApplicationManager implements Serializable {
      */
     @PostConstruct
     public void init() {
-        competences = applicationFacade.getCompetences(languageBean.getCurrentLanguage());
+        updateCompetenceTranslations(languageBean.getCurrentLanguage());
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
         submitted = false;
+    }
+    
+    /**
+     * Updates the competences that are shown to be available. Needs to be done
+     * at initialization and when language has been changed
+     */
+    private void updateCompetenceTranslations(@Observes String localeChangedEvent) {
+        competences = applicationFacade.getCompetences(localeChangedEvent);
     }
 
     /**
