@@ -81,6 +81,7 @@ public class ApplicationFacade {
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void submitApplication(ApplicationFromViewDTO application) {
+        //Validate all data
         applicationOperator.submitApplication(application);
     }
 
