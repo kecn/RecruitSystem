@@ -81,6 +81,7 @@ public class ApplicationFacade {
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void submitApplication(ApplicationFromViewDTO application) {
+        //Validate all data
         applicationOperator.submitApplication(application);
     }
 
@@ -90,7 +91,7 @@ public class ApplicationFacade {
      */
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public void downloadFile(ApplicationFromViewDTO application) {
-
+        
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
