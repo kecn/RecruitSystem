@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.interceptor.AroundInvoke;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -45,6 +46,22 @@ public class ApplicationOperator {
      * and persists it.
      * @param application contents of application to persist
      */
+//    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+//    public void submitApplication(ApplicationFromViewDTO application) {
+//        //If person doesn't exist, create it in data store.
+//        Person person = findPerson(application);
+//        if (null == person) {
+//            person = createPerson(application);
+//        }        
+//        //Create an Application
+//        Application applicationEntity = createAndAddApplication(person);          
+//        //Create and add availabilities
+//        createAndAddAvailabilities(application, applicationEntity);
+//        //Create and add competences
+//        competenceOperator.createAndAddCompetences(application, applicationEntity);
+//        entityManager.persist(person);
+//    }
+    @AroundInvoke
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void submitApplication(ApplicationFromViewDTO application) {
         //If person doesn't exist, create it in data store.
