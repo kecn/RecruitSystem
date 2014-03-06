@@ -11,6 +11,9 @@
         <resource-bundle>
             <base-name>se.kth.ict.ffm.recruitsystem.properties.language</base-name>
             <var>msg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>ValidationMessages</base-name> 
         </resource-bundle> 
     </application>
     <navigation-rule>
