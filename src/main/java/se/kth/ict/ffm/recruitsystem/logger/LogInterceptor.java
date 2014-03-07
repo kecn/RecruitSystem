@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
+import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 
 /**
  * Logs all method calls including parameters, return values and exceptions.
@@ -54,10 +56,12 @@ public class LogInterceptor {
         throw (e);
     }
 
-    private Method logEntry(InvocationContext ctx) {
+    private Method logEntry(InvocationContext ctx) throws NoSuchMethodException {
         Method targetMethod = ctx.getMethod();
         Object[] params = ctx.getParameters();
-        LOGGER.log(LEVEL, "{0} Submited an application.", Arrays.toString(params));
+        if(targetMethod.equals(ApplicationFacade.class.getMethod("submitApplication",ApplicationFromViewDTO.class)))
+            LOGGER.log(LEVEL, "{0} Submited an application.", Arrays.toString(params));
+        
         return targetMethod;
     }
 
