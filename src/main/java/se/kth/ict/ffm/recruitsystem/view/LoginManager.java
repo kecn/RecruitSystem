@@ -63,11 +63,10 @@ public class LoginManager implements Serializable   {
         try {
             request.login(this.username, this.password);
         } catch (ServletException e) {
-
             context.addMessage(null, new FacesMessage("Login failed"));
-            
+            return "failure";
         }
-        return "admin/index";
+        return "success";
     }
 
     public void logout() {
