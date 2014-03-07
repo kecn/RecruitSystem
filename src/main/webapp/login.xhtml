@@ -25,7 +25,7 @@
                                     <h:commandButton type="submit" value="#{msg['login']}" action="#{testClass.login(loginManager.login())}" />
                                 </h:form>
                 -->
-                <!-- This is purely container managed authentication -->
+                <!-- Above is for programmatic, below is purely container managed authentication -->
                 <form action="j_security_check" method="post">
                     <input type="text" name="j_username" />
                     <input type="password" name="j_password" />
