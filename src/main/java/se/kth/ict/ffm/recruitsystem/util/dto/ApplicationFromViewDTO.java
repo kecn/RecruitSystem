@@ -136,4 +136,8 @@ public class ApplicationFromViewDTO implements Serializable {
     public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
     }
+    
+    public String toString() {
+        return firstname;
+    }
 }

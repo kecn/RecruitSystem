@@ -29,6 +29,7 @@ import javax.ejb.TransactionManagementType;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import se.kth.ict.ffm.recruitsystem.logger.Log;
 import se.kth.ict.ffm.recruitsystem.model.ApplicationOperator;
 import se.kth.ict.ffm.recruitsystem.model.CompetenceOperator;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
@@ -79,6 +80,7 @@ public class ApplicationFacade {
      * @param application containing all the necessary information to register
      * the application
      */
+    @Log
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void submitApplication(ApplicationFromViewDTO application) {
         //Validate all data
