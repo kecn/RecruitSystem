@@ -28,6 +28,11 @@
             <description/>
             <url-pattern>/recruiter/*</url-pattern>
         </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Recruiter area in faces</web-resource-name>
+            <description/>
+            <url-pattern>/faces/recruiter/*</url-pattern>
+        </web-resource-collection>
         <auth-constraint>
             <description>Only recruiters allowed</description>
             <role-name>recruiter</role-name>
@@ -38,12 +43,11 @@
         </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>ConfidentialLogin</display-name>
+        <display-name>EverythingConfidential</display-name>
         <web-resource-collection>
-            <web-resource-name>login</web-resource-name>
+            <web-resource-name>Everything</web-resource-name>
             <description/>
-            <url-pattern>/login.xhtml</url-pattern>
-            <http-method>POST</http-method>
+            <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <description/>

@@ -5,6 +5,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:form>
+        <h:commandButton action="#{headerManager.login}" value="#{msg['login']}" rendered="#{empty request.remoteUser}"/>
+        <h:commandButton action="#{headerManager.logout}" value="#{msg['logout']}" rendered="#{not empty request.remoteUser}"/>
 
         <h3>
             <h:outputText value="#{msg['welcome']}" />
@@ -18,4 +20,6 @@
         <h:commandButton action="#{headerManager.changeLanguage('English')}" 
                          value="Switch to english" />
     </h:form>
+    <hr/>
+    <br/>
 </ui:composition>

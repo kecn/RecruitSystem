@@ -20,18 +20,25 @@ package se.kth.ict.ffm.recruitsystem.view;
 
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Backing bean for the header of web UI
  */
 @Named("headerManager")
-@SessionScoped
+@RequestScoped
 public class HeaderManager implements Serializable{
     
     @EJB
-    LanguageBean languageBean;
+    LanguageBean languageBean;  
     
     /**
      * Called when user wants to change language
@@ -46,5 +53,21 @@ public class HeaderManager implements Serializable{
      */
     public String getLanguageCode() {
         return languageBean.getCurrentLanguage();
+    }
+    
+    public String login() {
+        return "login";
+    }
+    
+    public String logout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            request.logout();
+            request.getSession().invalidate();
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage("Logout failed."));
+        }
+        return "logout";
     }
 }

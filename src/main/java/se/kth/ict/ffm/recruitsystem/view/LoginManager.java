@@ -45,18 +45,32 @@ public class LoginManager implements Serializable   {
         return this.username;
     }
     
+    /**
+     * @param username 
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * @return password field
+     */
     public String getPassword() {
         return this.password;
     }
 
+    /**
+     * @param password 
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Called to try a login with the username and password that
+     * have already been set.
+     * @return indication of success or failure, used by JSF navigation
+     */
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -69,6 +83,9 @@ public class LoginManager implements Serializable   {
         return "success";
     }
 
+    /**
+     * Called to logout a logged in user.
+     */
     public void logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
