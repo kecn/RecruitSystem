@@ -11,7 +11,7 @@
                 #{msg['login']} 
             </ui:define>
             <ui:define name="content">
-                <h:form>
+<!--                <h:form>
                     <h:outputLabel for="usernameInput" value="#{msg['username']}"/>
                     <h:inputText id="usernameInput" value="#{loginManager.username}" title="Input username here" />
                     <h:messages for="usernameInput" style="color:red" />
@@ -23,8 +23,13 @@
                     <br/>
 
                     <h:commandButton type="submit" value="#{msg['login']}" action="#{loginManager.login()}" />
-                </h:form>
+                </h:form>-->
                 <!-- Above is for programmatic, below is purely container managed authentication -->
+                <form action="j_security_check" method="post">
+                    <input type="text" name="j_username" />
+                    <input type="password" name="j_password" />
+                    <input value="#{msg['login']}" type="submit" />
+                </form>
             </ui:define>
         </ui:composition>
     </h:body>
