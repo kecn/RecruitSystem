@@ -17,6 +17,7 @@
  */
 package se.kth.ict.ffm.recruitsystem.controller;
 
+import com.itextpdf.text.DocumentException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -92,7 +93,7 @@ public class ApplicationFacade {
      * @param application
      */
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public void downloadFile(ApplicationFromViewDTO application) {
+    public void downloadFile(ApplicationFromViewDTO application) throws DocumentException, IOException {
         
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -107,7 +108,7 @@ public class ApplicationFacade {
             file.writeTo(sos);
             sos.flush();
         } catch (IOException err) {
-            System.out.println(err.getMessage());
+            throw new IOException("Sending PDF failed!");
         } finally {
             try {
                 if (sos != null) {
@@ -115,7 +116,8 @@ public class ApplicationFacade {
                     file = null;
                 }
             } catch (IOException err) {
-                System.out.println(err.getMessage());
+                //logg this!
+                oiahosd
             }
         }
         facesContext.responseComplete();
