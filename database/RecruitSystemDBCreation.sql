@@ -87,16 +87,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`user` (
   `username` VARCHAR(45) NOT NULL ,
-  `password` VARCHAR(45) NOT NULL ,
-  `personid` INT UNSIGNED NOT NULL ,
+  `password` VARCHAR(64) NOT NULL ,
+  `email` VARCHAR(45) NULL ,
   PRIMARY KEY (`username`) ,
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) ,
-  INDEX `fk_user_person1` (`personid` ASC) ,
-  CONSTRAINT `fk_user_person1`
-    FOREIGN KEY (`personid` )
-    REFERENCES `RecruitSystemDB`.`person` (`personid` )
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) )
 ENGINE = InnoDB;
 
 
@@ -104,26 +98,9 @@ ENGINE = InnoDB;
 -- Table `RecruitSystemDB`.`role`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`role` (
-  `roleid` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`roleid`) ,
-  UNIQUE INDEX `roleid_UNIQUE` (`roleid` ASC) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `RecruitSystemDB`.`roletranslation`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`roletranslation` (
-  `locale` VARCHAR(8) NOT NULL ,
-  `name` VARCHAR(45) NULL ,
-  `roleid` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`locale`, `roleid`) ,
-  INDEX `fk_roletranslation_role1` (`roleid` ASC) ,
-  CONSTRAINT `fk_roletranslation_role1`
-    FOREIGN KEY (`roleid` )
-    REFERENCES `RecruitSystemDB`.`role` (`roleid` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `rolename` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`rolename`) ,
+  UNIQUE INDEX `roleid_UNIQUE` (`rolename` ASC) )
 ENGINE = InnoDB;
 
 
@@ -132,17 +109,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`userinrole` (
   `username` VARCHAR(45) NOT NULL ,
-  `roleid` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`username`, `roleid`) ,
-  INDEX `fk_userinrole_role1` (`roleid` ASC) ,
+  `rolename` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`username`, `rolename`) ,
+  INDEX `fk_userinrole_role1` (`rolename` ASC) ,
   CONSTRAINT `fk_userinrole_user1`
     FOREIGN KEY (`username` )
     REFERENCES `RecruitSystemDB`.`user` (`username` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_userinrole_role1`
-    FOREIGN KEY (`roleid` )
-    REFERENCES `RecruitSystemDB`.`role` (`roleid` )
+    FOREIGN KEY (`rolename` )
+    REFERENCES `RecruitSystemDB`.`role` (`rolename` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -173,3 +150,7 @@ CREATE  TABLE IF NOT EXISTS `RecruitSystemDB`.`competenceinapplication` (
 ENGINE = InnoDB;
 
 
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

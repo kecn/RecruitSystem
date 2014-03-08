@@ -5,7 +5,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:form>
-
+        <h:link value="#{msg['login']}" outcome="login" rendered="#{empty request.remoteUser}"/>
+        <h:commandLink action="#{headerManager.logout}" value="#{msg['logout']}" rendered="#{not empty request.remoteUser}"/>
+        <br/>
+        <h:link value="#{msg['search']}" outcome="search" />  
+        <br/>
+        <h:link value="#{msg['start']}" outcome="startpage" />
         <h3>
             <h:outputText value="#{msg['welcome']}" />
             <br/>
@@ -18,4 +23,6 @@
         <h:commandButton action="#{headerManager.changeLanguage('English')}" 
                          value="Switch to english" />
     </h:form>
+    <hr/>
+    <br/>
 </ui:composition>
