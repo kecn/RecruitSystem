@@ -8,23 +8,29 @@
     <h:body>
         <ui:composition template="/template/template.xhtml">
             <ui:define name="windowTitle">
-                Welcome
+                #{msg['login']} 
             </ui:define>
             <ui:define name="content">
-                <h:form>
-                    <h:outputLabel for="usernameInput" value="#{msg['username']}"/>
-                    <h:inputText id="usernameInput" value="#{loginManager.username}" title="Input username here" />
-                    
-                    <br/>
-                    
-                    <h:outputLabel for="passwordInput" value="#{msg['password']}"/>
-                    <h:inputSecret id="passwordInput" value="#{loginManager.password}"/>
-                    
-                    <br/>
-                   
-                    <h:commandButton type="submit" value="#{msg['login']}" action="#{testClass.login(loginManager.login())}" />
-                </h:form>
-
+                <!--                <h:form>
+                                    <h:outputLabel for="usernameInput" value="#{msg['username']}"/>
+                                    <h:inputText id="usernameInput" value="#{loginManager.username}" title="Input username here" />
+                                    
+                                    <br/>
+                                    
+                                    <h:outputLabel for="passwordInput" value="#{msg['password']}"/>
+                                    <h:inputSecret id="passwordInput" value="#{loginManager.password}"/>
+                                    
+                                    <br/>
+                                   
+                                    <h:commandButton type="submit" value="#{msg['login']}" action="#{testClass.login(loginManager.login())}" />
+                                </h:form>
+                -->
+                <!-- Above is for programmatic, below is purely container managed authentication -->
+                <form action="j_security_check" method="post">
+                    <input type="text" name="j_username" />
+                    <input type="password" name="j_password" />
+                    <input type="submit" value="#{msg['login']}"/>
+                </form>
             </ui:define>
         </ui:composition>
     </h:body>
