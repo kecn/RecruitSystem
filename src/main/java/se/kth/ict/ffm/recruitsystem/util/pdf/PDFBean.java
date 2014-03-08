@@ -53,67 +53,61 @@ public class PDFBean {
      * @return the pdf reference
      */
     public ByteArrayOutputStream createRegistrationPDF(ApplicationFromViewDTO applicationDTO) throws DocumentException, IOException {
-        try {
-            //Get Locale
-            ResourceBundle resbundle = ResourceBundle.getBundle("se.kth.ict.ffm.recruitsystem.properties.language", languageBean.getCurrentLocale());
 
-            document = new Document();
-            baosPDF = new ByteArrayOutputStream();
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, baosPDF);
-            //Write PDF
-            document.open();
-            document.add(new Paragraph("Application Document", Heading1));
+        //Get Locale
+        ResourceBundle resbundle = ResourceBundle.getBundle("se.kth.ict.ffm.recruitsystem.properties.language", languageBean.getCurrentLocale());
 
-            Paragraph p = new Paragraph(resbundle.getString("firstName") + ": ", Heading2);
+        document = new Document();
+        baosPDF = new ByteArrayOutputStream();
+        PdfWriter pdfWriter = PdfWriter.getInstance(document, baosPDF);
+        //Write PDF
+        document.open();
+        document.add(new Paragraph("Application Document", Heading1));
+
+        Paragraph p = new Paragraph(resbundle.getString("firstName") + ": ", Heading2);
+        p.setFont(regularText);
+        p.add(" " + applicationDTO.getFirstname());
+        document.add(p);
+
+        p = new Paragraph(resbundle.getString("lastName") + ": ", Heading2);
+        p.setFont(regularText);
+        p.add(" " + applicationDTO.getLastname());
+        document.add(p);
+
+        p = new Paragraph(resbundle.getString("dateOfBirth") + ": ", Heading2);
+        p.setFont(regularText);
+        p.add(" " + applicationDTO.getBirthDate());
+        document.add(p);
+
+        document.add(new Paragraph(resbundle.getString("competences") + ": ", Heading2));
+        for (CompetenceFromView competence : applicationDTO.getCompetences()) {
+            p = new Paragraph();
+
+            p.setIndentationLeft(listIndentation);
             p.setFont(regularText);
-            p.add(" " + applicationDTO.getFirstname());
+            p.add(competence.getName());
+            p.add("     ");
+            p.add(Integer.toString(competence.getYearsOfExperience()));
+
             document.add(p);
-
-            p = new Paragraph(resbundle.getString("lastName") + ": ", Heading2);
-            p.setFont(regularText);
-            p.add(" " + applicationDTO.getLastname());
-            document.add(p);
-
-            p = new Paragraph(resbundle.getString("dateOfBirth") + ": ", Heading2);
-            p.setFont(regularText);
-            p.add(" " + applicationDTO.getBirthDate());
-            document.add(p);
-
-            document.add(new Paragraph(resbundle.getString("competences") + ": ", Heading2));
-            for (CompetenceFromView competence : applicationDTO.getCompetences()) {
-                p = new Paragraph();
-
-                p.setIndentationLeft(listIndentation);
-                p.setFont(regularText);
-                p.add(competence.getName());
-                p.add("     ");
-                p.add(Integer.toString(competence.getYearsOfExperience()));
-
-                document.add(p);
-            }
-
-            document.add(new Paragraph(resbundle.getString("availability") + ": ", Heading2));
-            for (AvailabilityFromView availability : applicationDTO.getAvailabilities()) {
-                p = new Paragraph();
-
-                p.setIndentationLeft(listIndentation);
-                p.setFont(regularText);
-                p.add(availability.getFromDate().toString());
-                p.add("     ");
-                p.add(availability.getToDate().toString());
-                document.add(p);
-            }
-
-            document.close();
-            pdfWriter.flush();
-            pdfWriter.close();
-            baosPDF.close();
-                    
-        } catch (DocumentException ex) {
-           throw new DocumentException("");
-        } catch(IOException ex){
-            throw new IOException("PDF creation failed!");
         }
+
+        document.add(new Paragraph(resbundle.getString("availability") + ": ", Heading2));
+        for (AvailabilityFromView availability : applicationDTO.getAvailabilities()) {
+            p = new Paragraph();
+
+            p.setIndentationLeft(listIndentation);
+            p.setFont(regularText);
+            p.add(availability.getFromDate().toString());
+            p.add("     ");
+            p.add(availability.getToDate().toString());
+            document.add(p);
+        }
+        document.close();
+        pdfWriter.flush();
+        pdfWriter.close();
+        baosPDF.close();
+
         return baosPDF;
     }
 }

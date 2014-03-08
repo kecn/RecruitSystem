@@ -17,6 +17,8 @@
  */
 package se.kth.ict.ffm.recruitsystem.view;
 
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
@@ -41,7 +43,7 @@ import se.kth.ict.ffm.recruitsystem.util.validation.*;
 
 /**
  * Backing bean for registering an application.
- * 
+ *
  * The getter and setter are there primarily for JSF
  */
 @Named("registerApplicationManager")
@@ -63,12 +65,12 @@ public class RegisterApplicationManager implements Serializable {
     private List<CompetencetranslationDTO> competences;
     private List<CompetenceFromView> applicantCompetences;
     private List<AvailabilityFromView> availabilities;
-    @Digits(integer=2,fraction=0)
+    @Digits(integer = 2, fraction = 0)
     private int yearsOfExperience;
     private String competenceName;
     private CompetencetranslationDTO competenceTranslation;
     @ValidDate
-    private String fromDateString;    
+    private String fromDateString;
     @ValidDate
     private String toDateString;
     private boolean submitted;
@@ -83,9 +85,9 @@ public class RegisterApplicationManager implements Serializable {
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
         submitted = false;
-        
+
     }
-    
+
     /**
      * Updates the competences that are shown to be available. Needs to be done
      * at initialization and when language has been changed
@@ -103,11 +105,11 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * Adds availability (from fromDate to toDate) to availabilities 
+     * Adds availability (from fromDate to toDate) to availabilities
      */
     public void addAvailability() {
         try {
-            
+
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
             AvailabilityFromView newAvailability = new AvailabilityFromView(fromDate, toDate);
@@ -153,7 +155,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param applicantCompetences 
+     * @param applicantCompetences
      */
     public void setApplicantCompetences(List<CompetenceFromView> applicantCompetences) {
         this.applicantCompetences = applicantCompetences;
@@ -167,7 +169,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param availabilities 
+     * @param availabilities
      */
     public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
@@ -181,7 +183,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param firstname 
+     * @param firstname
      */
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -195,7 +197,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param lastName 
+     * @param lastName
      */
     public void setLastname(String lastName) {
         this.lastname = lastName;
@@ -209,7 +211,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param birthDateString 
+     * @param birthDateString
      */
     public void setBirthDateString(String birthDateString) {
         this.birthDateString = birthDateString;
@@ -223,7 +225,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param email 
+     * @param email
      */
     public void setEmail(String email) {
         this.email = email;
@@ -237,42 +239,44 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param yearsOfExperience 
+     * @param yearsOfExperience
      */
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
 
     /**
-     * @return the "from date" that the applicant has entered for an availability period
+     * @return the "from date" that the applicant has entered for an
+     * availability period
      */
     public String getFromDateString() {
         return fromDateString;
     }
 
     /**
-     * @param fromDateString 
+     * @param fromDateString
      */
     public void setFromDateString(String fromDateString) {
         this.fromDateString = fromDateString;
     }
 
     /**
-     * @return the "to date" that the applicant has entered for an availability period
+     * @return the "to date" that the applicant has entered for an availability
+     * period
      */
     public String getToDateString() {
         return toDateString;
     }
 
     /**
-     * @param toDateString 
+     * @param toDateString
      */
-    public void setToDateString(String toDateString) {        
+    public void setToDateString(String toDateString) {
         this.toDateString = toDateString;
     }
 
     /**
-     * @param competenceTranslation 
+     * @param competenceTranslation
      */
     public void setCompetenceTranslation(CompetencetranslationDTO competenceTranslation) {
         this.competenceTranslation = competenceTranslation;
@@ -287,7 +291,8 @@ public class RegisterApplicationManager implements Serializable {
 
     /**
      * Sets competenceName and corresponding CompetenceTranslationDTO
-     * @param competenceName 
+     *
+     * @param competenceName
      */
     public void setCompetenceName(String competenceName) {
         this.competenceName = competenceName;
@@ -303,16 +308,23 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param submitted 
+     * @param submitted
      */
     public void setSubmitted(boolean submitted) {
         this.submitted = submitted;
     }
-    
+
     /**
      * Called to generate and download a PDF file.
      */
-    public void createPDF(){
-        applicationFacade.downloadFile(application);
+//    public void createPDF() throws IOException{
+//        try{
+//        applicationFacade.downloadFile(application);
+//        } catch(IOException | DocumentException ex){
+//            throw new IOException("%PDF");
+//        } 
+//    }
+    public void createPDF() throws IOException {
+        throw new IOException("%PDF");
     }
 }
