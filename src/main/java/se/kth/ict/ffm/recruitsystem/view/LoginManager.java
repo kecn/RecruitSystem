@@ -71,16 +71,16 @@ public class LoginManager implements Serializable   {
      * have already been set.
      * @return indication of success or failure, used by JSF navigation
      */
-    public String login() {
+    public void login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(this.username, this.password);
         } catch (ServletException e) {
             context.addMessage(null, new FacesMessage("Login failed"));
-            return "failure";
+//            return "failure";
         }
-        return "success";
+//        return "success";
     }
 
     /**
