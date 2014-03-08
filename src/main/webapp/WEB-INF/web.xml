@@ -28,6 +28,11 @@
             <description/>
             <url-pattern>/recruiter/*</url-pattern>
         </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Recruiter area in faces</web-resource-name>
+            <description/>
+            <url-pattern>/faces/recruiter/*</url-pattern>
+        </web-resource-collection>
         <auth-constraint>
             <description>Only recruiters allowed</description>
             <role-name>recruiter</role-name>

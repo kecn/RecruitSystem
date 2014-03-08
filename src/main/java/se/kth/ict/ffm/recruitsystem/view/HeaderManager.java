@@ -52,10 +52,18 @@ public class HeaderManager implements Serializable{
         return languageBean.getCurrentLanguage();
     }
     
+    /**
+     * 
+     * @return 
+     */
     public String login() {
         return "login";
     }
     
+    /**
+     * Logs out user.
+     * @return 
+     */
     public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
