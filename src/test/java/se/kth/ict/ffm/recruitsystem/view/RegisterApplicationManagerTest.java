@@ -19,18 +19,19 @@
 package se.kth.ict.ffm.recruitsystem.view;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import mock.MockApplicationFacade;
+import mock.MockCompetencetranslationDTO;
+import mock.MockLanguageBean;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import se.kth.ict.ffm.recruitsystem.model.entity.Competencetranslation;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
+import testutil.TestUtil;
 
 /**
  *
@@ -57,18 +58,28 @@ public class RegisterApplicationManagerTest {
     public void tearDown() {
     }
 
-//    /**
-//     * Test of init method, of class RegisterApplicationManager.
-//     */
-//    @Test
-//    public void testInit() {
-//        System.out.println("init");
-//        RegisterApplicationManager instance = new RegisterApplicationManager();
-//        instance.init();
-//        assertFalse(instance.isSubmitted());
-//        assertNotNull(instance.getApplicantCompetences());
-//        assertNotNull(instance.getAvailabilities());
-//    }
+    /**
+     * Test of init method, of class RegisterApplicationManager.
+     */
+    @Test
+    public void testInit() {
+        System.out.println("init");
+        RegisterApplicationManager instance = new RegisterApplicationManager();
+        MockLanguageBean mockLB = new MockLanguageBean();
+        MockApplicationFacade mockAF = new MockApplicationFacade();
+        //Set languageBean and applicationFacade 
+        try {
+            TestUtil.setPrivateField(RegisterApplicationManager.class, instance, "languageBean", mockLB);
+            TestUtil.setPrivateField(RegisterApplicationManager.class, instance, "applicationFacade", mockAF);
+        } catch (Exception ex) {
+            System.out.println("Problem setting private field");
+            ex.printStackTrace();
+        }
+        instance.init();
+        assertFalse(instance.isSubmitted());
+        assertNotNull(instance.getApplicantCompetences());
+        assertNotNull(instance.getAvailabilities());
+    }
 
     /**
      * Test of addCompetence method, of class RegisterApplicationManager.
@@ -79,7 +90,7 @@ public class RegisterApplicationManagerTest {
         RegisterApplicationManager instance = new RegisterApplicationManager();
         //set needed fields competenceTranslation, yearsOfExperience and applicantCompetences
         instance.setCompetenceTranslation((CompetencetranslationDTO) 
-                new Competencetranslation("java", 1));
+                new MockCompetencetranslationDTO());
         instance.setYearsOfExperience(1);
         instance.setApplicantCompetences(new ArrayList<CompetenceFromView>());
         //test method
@@ -88,7 +99,7 @@ public class RegisterApplicationManagerTest {
 
     /**
      * Test of addAvailability method, of class RegisterApplicationManager.
-     * Dependent on DateUtil using a certain date format
+     * Dependent on DateUtil
      */
     @Test
     public void testAddAvailability() {
@@ -102,41 +113,27 @@ public class RegisterApplicationManagerTest {
 
     /**
      * Test of submitApplication method, of class RegisterApplicationManager.
+     * Dependent on DateUtil
      */
-//    @Test
-//    public void testSubmitApplication() {
-//        System.out.println("submitApplication");
-//        RegisterApplicationManager instance = new RegisterApplicationManager();
-//        instance.submitApplication();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-
-//    /**
-//     * Test of setCompetenceName method, of class RegisterApplicationManager.
-//     */
-//    @Test
-//    public void testSetCompetenceName() {
-//        System.out.println("setCompetenceName");
-//        String competenceName = "";
-//        RegisterApplicationManager instance = new RegisterApplicationManager();
-//        instance.setCompetenceName(competenceName);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-//
-//    /**
-//     * Test of createPDF method, of class RegisterApplicationManager.
-//     */
-//    @Test
-//    public void testCreatePDF() {
-//        System.out.println("createPDF");
-//        RegisterApplicationManager instance = new RegisterApplicationManager();
-//        instance.createPDF();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
+    @Test
+    public void testSubmitApplication() {
+        System.out.println("submitApplication");
+        RegisterApplicationManager instance = new RegisterApplicationManager();
+        MockApplicationFacade mockAF = new MockApplicationFacade();
+        //Set languageBean and applicationFacade 
+        try {
+            TestUtil.setPrivateField(RegisterApplicationManager.class, instance, "applicationFacade", mockAF);
+        } catch (Exception ex) {
+            System.out.println("Problem setting private field");
+            ex.printStackTrace();
+        }    
+        instance.setFirstname("Adam");
+        instance.setLastname("Badam");
+        instance.setBirthDateString("770101");
+        instance.setEmail("mail@mail.com");
+        instance.setApplicantCompetences(new ArrayList<CompetenceFromView>());
+        instance.setAvailabilities(new ArrayList<AvailabilityFromView>());
+        instance.submitApplication();
+        assertTrue(instance.isSubmitted());
+    }
 }

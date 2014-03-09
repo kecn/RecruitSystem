@@ -49,6 +49,16 @@ public class DateUtilTest {
     @After
     public void tearDown() {
     }
+    
+    /**
+     * Test that toDate method works
+     */
+    @Test
+    public void testToDate() throws Exception {
+        System.out.println("toDate");
+        String toParse = "770101";
+        DateUtil.toDate(toParse);
+    }
 
     /**
      * Test that toDate throws ParseException for String of wrong format

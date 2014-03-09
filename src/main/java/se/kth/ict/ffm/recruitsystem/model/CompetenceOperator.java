@@ -86,7 +86,7 @@ public class CompetenceOperator {
             //create the Competenceinapplication entity
             competenceinapplicationEntity = new Competenceinapplication();
             competenceinapplicationEntity.setYearsofexperience(comp.getYearsOfExperience());
-            competence = entityManager.find(Competence.class, comp.getCompetenceId());
+            competence = getCompetenceByCompetenceFromView(comp);
             //add Competence to Competenceinapplication
             competenceinapplicationEntity.setCompetenceid(competence);
             //add Competenceinapplication to Competence
@@ -98,4 +98,7 @@ public class CompetenceOperator {
         }
     }
 
+    public Competence getCompetenceByCompetenceFromView(CompetenceFromView comp) {
+        return entityManager.find(Competence.class, comp.getCompetenceId());
+    }
 }
