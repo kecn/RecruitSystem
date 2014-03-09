@@ -17,9 +17,12 @@
  */
 package se.kth.ict.ffm.recruitsystem.controller;
 
+import com.itextpdf.text.DocumentException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -52,6 +55,7 @@ public class ApplicationFacade {
 
     /**
      * Gets all competences with their names in the current language
+     *
      * @param currentLanguage
      * @return a List with all available competences in the current language
      */
@@ -63,6 +67,7 @@ public class ApplicationFacade {
     /**
      * Get a reference to a Competence when its name and language of name are
      * known
+     *
      * @param name of the competence that is requested
      * @param currentLanguage language the name of the competence is in
      * @return a reference (CompetencetranslationDTO) to a Competencetranslation
@@ -76,6 +81,7 @@ public class ApplicationFacade {
 
     /**
      * To submit an application.
+     *
      * @param application containing all the necessary information to register
      * the application
      */
@@ -87,11 +93,13 @@ public class ApplicationFacade {
 
     /**
      * Download a PDF generated from the application that has been submitted.
+     *
      * @param application
      */
+    @Log
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public void downloadFile(ApplicationFromViewDTO application) {
-        
+    public void downloadFile(ApplicationFromViewDTO application) throws DocumentException, IOException {
+
         ByteArrayOutputStream file = pdfBean.createRegistrationPDF(application);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
@@ -104,16 +112,10 @@ public class ApplicationFacade {
             sos = response.getOutputStream();
             file.writeTo(sos);
             sos.flush();
-        } catch (IOException err) {
-            System.out.println(err.getMessage());
         } finally {
-            try {
-                if (sos != null) {
-                    sos.close();
-                    file = null;
-                }
-            } catch (IOException err) {
-                System.out.println(err.getMessage());
+            if (sos != null) {
+                sos.close();
+                file = null;
             }
         }
         facesContext.responseComplete();

@@ -17,6 +17,8 @@
  */
 package se.kth.ict.ffm.recruitsystem.view;
 
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
@@ -315,7 +317,14 @@ public class RegisterApplicationManager implements Serializable {
     /**
      * Called to generate and download a PDF file.
      */
-    public void createPDF() {
-        applicationFacade.downloadFile(application);
+//    public void createPDF() throws IOException{
+//        try{
+//        applicationFacade.downloadFile(application);
+//        } catch(IOException | DocumentException ex){
+//            throw new IOException("%PDF");
+//        } 
+//    }
+    public void createPDF() throws IOException {
+        throw new IOException("%PDF");
     }
 }
