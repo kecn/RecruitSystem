@@ -28,12 +28,15 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.validation.constraints.Digits;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
@@ -317,14 +320,18 @@ public class RegisterApplicationManager implements Serializable {
     /**
      * Called to generate and download a PDF file.
      */
-//    public void createPDF() throws IOException{
-//        try{
-//        applicationFacade.downloadFile(application);
-//        } catch(IOException | DocumentException ex){
-//            throw new IOException("%PDF");
-//        } 
-//    }
-    public void createPDF() throws IOException {
-        throw new IOException("%PDF");
+    public void createPDF() {
+        try{
+        applicationFacade.downloadFile(application);
+        } catch(IOException | DocumentException ex){
+            FacesContext fc = FacesContext.getCurrentInstance();
+            
+            ResourceBundle bundle = ResourceBundle.getBundle(
+                        "se.kth.ict.ffm.recruitsystem.properties.language",
+                        fc.getViewRoot().getLocale());
+            
+            fc.addMessage("pdfButton", new FacesMessage(bundle.getString("PDF")));
+        } 
     }
+
 }

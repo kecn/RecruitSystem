@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import se.kth.ict.ffm.recruitsystem.logger.Log;
 import se.kth.ict.ffm.recruitsystem.model.entity.Application;
 import se.kth.ict.ffm.recruitsystem.model.entity.Availability;
 import se.kth.ict.ffm.recruitsystem.model.entity.Person;
@@ -61,7 +62,7 @@ public class ApplicationOperator {
 //        competenceOperator.createAndAddCompetences(application, applicationEntity);
 //        entityManager.persist(person);
 //    }
-    @AroundInvoke
+    @Log
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void submitApplication(ApplicationFromViewDTO application) {
         //If person doesn't exist, create it in data store.

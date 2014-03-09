@@ -73,7 +73,8 @@
                     <br/>
                     <h:commandButton value="#{msg['register']}" action="#{registerApplicationManager.submitApplication}" disabled="#{registerApplicationManager.submitted}"/>     
                     <br/>
-                    <h:commandButton id="pdfButton" value = "#{msg['savePdf']}" action="#{registerApplicationManager.createPDF()}" disabled="#{!registerApplicationManager.submitted}"/>           
+                    <h:commandButton id="pdfButton" value = "#{msg['savePdf']}" action="#{registerApplicationManager.createPDF()}" disabled="#{!registerApplicationManager.submitted}"/> 
+                    <h:messages for="pdfButton" style="color:red" />
                 </h:form>
 
             </ui:define>

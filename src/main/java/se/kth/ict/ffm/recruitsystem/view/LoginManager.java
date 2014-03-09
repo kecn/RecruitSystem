@@ -63,9 +63,7 @@ public class LoginManager implements Serializable   {
         try {
             request.login(this.username, this.password);
         } catch (ServletException e) {
-
-            context.addMessage(null, new FacesMessage("Login failed"));
-            
+            context.addMessage(null, new FacesMessage("Login failed"));            
         }
         return "admin/index";
     }
@@ -76,7 +74,6 @@ public class LoginManager implements Serializable   {
         try {
             request.logout();
         } catch (ServletException e) {
-
             context.addMessage(null, new FacesMessage("Logout failed."));
         }
     }

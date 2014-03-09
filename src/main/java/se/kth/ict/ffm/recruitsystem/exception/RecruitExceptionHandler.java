@@ -63,8 +63,7 @@ public class RecruitExceptionHandler extends ExceptionHandlerWrapper {
             FacesContext fc = FacesContext.getCurrentInstance();
 
             try {
-                Flash flash = fc.getExternalContext().getFlash();
-                
+                Flash flash = fc.getExternalContext().getFlash();                
                 //Get localisation
                 ResourceBundle bundle = ResourceBundle.getBundle(
                         "se.kth.ict.ffm.recruitsystem.properties.language",
