@@ -29,14 +29,15 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
 /**
- *
+ * 
+ * When an ecxeption is shown it is intercepted by this class and redirected to the error.xhtml page.
+ * The messages are localized.
  * 
  */
-
 public class RecruitExceptionHandler extends ExceptionHandlerWrapper {
 
-    private final ExceptionHandler wrapped;  
-   
+    private final ExceptionHandler wrapped;
+
     public RecruitExceptionHandler(ExceptionHandler wrapped) {
         this.wrapped = wrapped;
     }
@@ -46,30 +47,33 @@ public class RecruitExceptionHandler extends ExceptionHandlerWrapper {
         return wrapped;
     }
 
+    /**
+     * 
+     * @throws FacesException 
+     */
     @Override
     public void handle() throws FacesException {
+        //Get exception iterator
         Iterator iterator = getUnhandledExceptionQueuedEvents().iterator();
 
         while (iterator.hasNext()) {
             ExceptionQueuedEvent event = (ExceptionQueuedEvent) iterator.next();
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
-
             Throwable throwable = context.getException();
-
-            FacesContext fc = FacesContext.getCurrentInstance();            
+            FacesContext fc = FacesContext.getCurrentInstance();
 
             try {
                 Flash flash = fc.getExternalContext().getFlash();
                 
+                //Get localisation
                 ResourceBundle bundle = ResourceBundle.getBundle(
                         "se.kth.ict.ffm.recruitsystem.properties.language",
-                        fc.getViewRoot().getLocale());                
-                
-                // Put the exception in the flash scope to be displayed in the error 
-                // page if necessary ...
-                String message = throwable.getMessage().substring(throwable.getMessage().indexOf("%")+1);
-                flash.put("errorDetails", bundle.getString(message));
+                        fc.getViewRoot().getLocale());
+
+                //Concatinate string, show only relevant info
+                String message = throwable.getMessage().substring(throwable.getMessage().indexOf("%") + 1);
                 flash.put("errorTitle", bundle.getString("error"));
+                flash.put("errorDetails", bundle.getString(message));
 
                 NavigationHandler navigationHandler = fc.getApplication().getNavigationHandler();
                 navigationHandler.handleNavigation(fc, null, "error?faces-redirect=true");
