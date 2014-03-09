@@ -36,7 +36,7 @@ import javax.validation.constraints.Size;
  */
 @NotNull(message = "{notNull}")
 @Size(min = 5, max = 32, message = "{passwordSize}")
-@Pattern(regexp = "[a-zA-Z_0-9]", message = "{passwordPattern}")
+@Pattern(regexp = "[a-zA-Z_0-9]*", message = "{passwordPattern}")
 @Constraint(validatedBy={})
 @Documented
 @Target({ANNOTATION_TYPE, METHOD, FIELD})
