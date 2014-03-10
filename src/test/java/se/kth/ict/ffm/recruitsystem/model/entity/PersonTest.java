@@ -19,7 +19,6 @@
 package se.kth.ict.ffm.recruitsystem.model.entity;
 
 import java.util.Collection;
-import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

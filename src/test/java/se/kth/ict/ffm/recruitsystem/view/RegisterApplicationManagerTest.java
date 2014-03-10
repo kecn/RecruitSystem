@@ -120,7 +120,7 @@ public class RegisterApplicationManagerTest {
         System.out.println("submitApplication");
         RegisterApplicationManager instance = new RegisterApplicationManager();
         MockApplicationFacade mockAF = new MockApplicationFacade();
-        //Set languageBean and applicationFacade 
+        //Set applicationFacade 
         try {
             TestUtil.setPrivateField(RegisterApplicationManager.class, instance, "applicationFacade", mockAF);
         } catch (Exception ex) {
