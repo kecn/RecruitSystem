@@ -41,6 +41,13 @@ public class LogInterceptor {
         return returnValue;
     }
 
+     /**
+     * Logs as a method is exited without an exception
+     *
+     * @param targetMethod
+     * @param returnValue
+     * @return The value returned by the intercepted method.
+     */
     private void logExit(Method targetMethod, Object returnValue) {
         Object[] args = {targetMethod.getDeclaringClass().getCanonicalName(),
             targetMethod.getName()};
@@ -50,6 +57,13 @@ public class LogInterceptor {
         }
     }
 
+     /**
+     * If there is an exception thrown the interceptor will log it here.
+     *
+     * @param ctx
+     * @param e 
+     * @throws NoSuchMethodException
+     */
     private void logException(Method targetMethod, Exception e) throws Exception {
         Object[] args = {targetMethod.getDeclaringClass().getCanonicalName(),
             targetMethod.getName(), e.getClass().getCanonicalName()};
@@ -57,6 +71,13 @@ public class LogInterceptor {
         throw (e);
     }
 
+     /**
+     * Writes the Parameter with a description to the log file
+     *
+     * @param ctx 
+     * @return method intercepted.
+     * @throws NoSuchMethodException
+     */
     private Method logEntry(InvocationContext ctx) throws NoSuchMethodException {
         Method targetMethod = ctx.getMethod();
         Object[] params = ctx.getParameters();
