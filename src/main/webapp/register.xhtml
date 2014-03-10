@@ -74,6 +74,7 @@
                     <h:commandButton value="#{msg['register']}" action="#{registerApplicationManager.submitApplication}" disabled="#{registerApplicationManager.submitted}"/>     
                     <br/>
                     <h:commandButton value = "#{msg['savePdf']}" action="#{registerApplicationManager.createPDF()}" disabled="#{!registerApplicationManager.submitted}"/>
+                    <h:messages globalOnly="true" style="color:red" />
                 </h:form>
 
             </ui:define>
