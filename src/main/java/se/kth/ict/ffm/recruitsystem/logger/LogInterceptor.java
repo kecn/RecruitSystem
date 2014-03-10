@@ -16,8 +16,9 @@ import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
 @Log
 @Interceptor
 public class LogInterceptor {
-    private static final Logger LOGGER = Logger.getLogger("se.kth.ict.ffm.recruitsystem");
-    private static final Level LEVEL = Level.FINE;
+    //se.kth.ict.ffm.recruitsystem.logger.LogInterceptor
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private final Level LEVEL = Level.INFO;
 
     /**
      * Logs entry to and exit from a method. Also logs parameter values, 
