@@ -85,8 +85,6 @@ public class Person implements Serializable {
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
     private Collection<Application> applicationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personid")
-    private Collection<User> userCollection;
 
     public Person() {
     }
@@ -153,15 +151,6 @@ public class Person implements Serializable {
 
     public void setApplicationCollection(Collection<Application> applicationCollection) {
         this.applicationCollection = applicationCollection;
-    }
-
-    @XmlTransient
-    public Collection<User> getUserCollection() {
-        return userCollection;
-    }
-
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
     }
 
     @Override
