@@ -18,12 +18,11 @@
 
 package se.kth.ict.ffm.recruitsystem.view;
 
-import javax.enterprise.event.Event;
-//import org.jboss.arquillian.container.test.api.Deployment;
-//import org.jboss.arquillian.junit.Arquillian;
-//import org.jboss.shrinkwrap.api.ShrinkWrap;
-//import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-//import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,7 +33,7 @@ import org.junit.runner.RunWith;
 /**
  *
  */
-//@RunWith(Arquillian.class)
+@RunWith(Arquillian.class)
 public class LanguageBeanTest {
     
     public LanguageBeanTest() {
@@ -59,31 +58,21 @@ public class LanguageBeanTest {
     /**
      * Creates deployment archive for test deployment
      */
-//    @Deployment
-//    public static JavaArchive createDeployment() {
-//        return ShrinkWrap.create(JavaArchive.class)
-//            .addClass(LanguageBean.class)
-//            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-//    }
-//    
-//    @Inject
-//    LanguageBean instance;
-//    @MockFacesContextProducer
-//    public FacesContext mockFacesContext()
-//    {
-//        FacesContext mock = mock(FacesContext.class);
-//        when(mock.getELContext()).thenReturn(elContext);
-//        return mock;
-//    }
+    @Deployment
+    public static JavaArchive createDeployment() {
+        return ShrinkWrap.create(JavaArchive.class)
+            .addClass(LanguageBean.class)
+            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+    }
 
     /**
      * Test of countryLocaleCodeChanged method, of class LanguageBean.
      */
-//    @Test
-//    public void testCountryLocaleCodeChanged() throws Exception {
-//        System.out.println("countryLocaleCodeChanged");       
-//        LanguageBean instance = new LanguageBean();
-//        String lang = "en";
-//        instance.countryLocaleCodeChanged(lang);
-//    }
+    @Test
+    public void testCountryLocaleCodeChanged() throws Exception {
+        System.out.println("countryLocaleCodeChanged");       
+        LanguageBean instance = new LanguageBean();
+        String lang = "en";
+        instance.countryLocaleCodeChanged(lang);
+    }
 }
