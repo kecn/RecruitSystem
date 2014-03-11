@@ -17,6 +17,8 @@
  */
 package se.kth.ict.ffm.recruitsystem.view;
 
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import se.kth.ict.ffm.recruitsystem.util.dto.CompetenceFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.AvailabilityFromView;
 import se.kth.ict.ffm.recruitsystem.util.dto.ApplicationFromViewDTO;
@@ -27,6 +29,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -37,6 +41,7 @@ import javax.inject.Named;
 import javax.validation.constraints.Digits;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
 import se.kth.ict.ffm.recruitsystem.exception.CompetenceInDBException;
+import se.kth.ict.ffm.recruitsystem.exception.PdfCreationException;
 import se.kth.ict.ffm.recruitsystem.exception.SubmitApplicationToDBException;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
@@ -328,12 +333,11 @@ public class RegisterApplicationManager implements Serializable {
      * Called to generate and download a PDF file.
      */
     public void createPDF() {
-//        try {
-//            applicationFacade.downloadFile(application);
-//        } catch (IOException | DocumentException ex) {
-//           errorMsg("PDF");
-//        }
-        errorMsg("PDF");
+        try {        
+            applicationFacade.downloadFile(application);            
+        } catch (PdfCreationException ex) {
+            errorMsg("PDF");
+        }
     }
 
     /**

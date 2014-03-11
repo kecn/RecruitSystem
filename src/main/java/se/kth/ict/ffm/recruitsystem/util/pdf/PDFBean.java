@@ -107,8 +107,7 @@ public class PDFBean {
             document.close();
             pdfWriter.flush();
             pdfWriter.close();
-            baosPDF.close();
-                    
+            baosPDF.close();                    
       
         return baosPDF;
     }
