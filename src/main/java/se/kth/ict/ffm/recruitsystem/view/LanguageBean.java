@@ -66,7 +66,9 @@ public class LanguageBean {
             }
         }
         //fire an event 
-        localeChangedEvent.fire(currentLanguage);
+        if (null != localeChangedEvent) {
+            localeChangedEvent.fire(currentLanguage);
+        }
     }
     
     /**

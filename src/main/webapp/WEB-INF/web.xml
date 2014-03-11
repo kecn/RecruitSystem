@@ -70,4 +70,9 @@
         <description/>
         <role-name>recruiter</role-name>
     </security-role>
+    <ejb-local-ref>
+        <ejb-ref-name>pDFBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <ejb-link>RecruitSystem-1.0-SNAPSHOT#PDFBean</ejb-link>
+    </ejb-local-ref>
 </web-app>
