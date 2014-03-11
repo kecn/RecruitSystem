@@ -26,22 +26,25 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.validation.constraints.Digits;
 import se.kth.ict.ffm.recruitsystem.controller.ApplicationFacade;
+import se.kth.ict.ffm.recruitsystem.exception.CompetenceInDBException;
+import se.kth.ict.ffm.recruitsystem.exception.SubmitApplicationToDBException;
 import se.kth.ict.ffm.recruitsystem.model.entity.CompetencetranslationDTO;
 import se.kth.ict.ffm.recruitsystem.util.DateUtil;
 import se.kth.ict.ffm.recruitsystem.util.validation.*;
 
 /**
  * Backing bean for registering an application.
- * 
+ *
  * The getter and setter are there primarily for JSF
  */
 @Named("registerApplicationManager")
@@ -63,12 +66,12 @@ public class RegisterApplicationManager implements Serializable {
     private List<CompetencetranslationDTO> competences;
     private List<CompetenceFromView> applicantCompetences;
     private List<AvailabilityFromView> availabilities;
-    @Digits(integer=2,fraction=0)
+    @Digits(integer = 2, fraction = 0)
     private int yearsOfExperience;
     private String competenceName;
     private CompetencetranslationDTO competenceTranslation;
     @ValidDate
-    private String fromDateString;    
+    private String fromDateString;
     @ValidDate
     private String toDateString;
     private boolean submitted;
@@ -83,15 +86,18 @@ public class RegisterApplicationManager implements Serializable {
         applicantCompetences = new LinkedList();
         availabilities = new LinkedList();
         submitted = false;
-        
     }
-    
+
     /**
      * Updates the competences that are shown to be available. Needs to be done
      * at initialization and when language has been changed
      */
     private void updateCompetenceTranslations(@Observes String localeChangedEvent) {
-        competences = applicationFacade.getCompetences(localeChangedEvent);
+        try {
+            competences = applicationFacade.getCompetences(localeChangedEvent);
+        } catch (CompetenceInDBException ex) {
+            errorMsg("errorInDB");
+        }
     }
 
     /**
@@ -102,19 +108,18 @@ public class RegisterApplicationManager implements Serializable {
         applicantCompetences.add(newCompetence);
     }
 
+
     /**
-     * Adds availability (from fromDate to toDate) to availabilities 
+     * Adds availability (from fromDate to toDate) to availabilities
      */
     public void addAvailability() {
         try {
-            
             Date fromDate = DateUtil.toDate(fromDateString);
             Date toDate = DateUtil.toDate(toDateString);
             AvailabilityFromView newAvailability = new AvailabilityFromView(fromDate, toDate);
             availabilities.add(newAvailability);
         } catch (ParseException ex) {
-            //FIX LOGGING!
-            Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
+            errorMsg("badFormat");            
         }
     }
 
@@ -128,13 +133,16 @@ public class RegisterApplicationManager implements Serializable {
             application = new ApplicationFromViewDTO(
                     firstname, lastname, birthDate, email, applicantCompetences,
                     availabilities);
-            applicationFacade.submitApplication(application);
+            try {
+                applicationFacade.submitApplication(application);
+            } catch (SubmitApplicationToDBException ex) {
+                errorMsg("errorInDB");
+            }
             //Indicates that all needed to make PDF is available
             submitted = true;
 
         } catch (ParseException ex) {
-            //FIX LOGGING!
-            Logger.getLogger(RegisterApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
+           errorMsg("badFormat");            
         }
     }
 
@@ -153,7 +161,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param applicantCompetences 
+     * @param applicantCompetences
      */
     public void setApplicantCompetences(List<CompetenceFromView> applicantCompetences) {
         this.applicantCompetences = applicantCompetences;
@@ -167,7 +175,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param availabilities 
+     * @param availabilities
      */
     public void setAvailabilities(List<AvailabilityFromView> availabilities) {
         this.availabilities = availabilities;
@@ -181,7 +189,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param firstname 
+     * @param firstname
      */
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -195,7 +203,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param lastName 
+     * @param lastName
      */
     public void setLastname(String lastName) {
         this.lastname = lastName;
@@ -209,7 +217,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param birthDateString 
+     * @param birthDateString
      */
     public void setBirthDateString(String birthDateString) {
         this.birthDateString = birthDateString;
@@ -223,7 +231,7 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param email 
+     * @param email
      */
     public void setEmail(String email) {
         this.email = email;
@@ -237,42 +245,44 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param yearsOfExperience 
+     * @param yearsOfExperience
      */
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
 
     /**
-     * @return the "from date" that the applicant has entered for an availability period
+     * @return the "from date" that the applicant has entered for an
+     * availability period
      */
     public String getFromDateString() {
         return fromDateString;
     }
 
     /**
-     * @param fromDateString 
+     * @param fromDateString
      */
     public void setFromDateString(String fromDateString) {
         this.fromDateString = fromDateString;
     }
 
     /**
-     * @return the "to date" that the applicant has entered for an availability period
+     * @return the "to date" that the applicant has entered for an availability
+     * period
      */
     public String getToDateString() {
         return toDateString;
     }
 
     /**
-     * @param toDateString 
+     * @param toDateString
      */
-    public void setToDateString(String toDateString) {        
+    public void setToDateString(String toDateString) {
         this.toDateString = toDateString;
     }
 
     /**
-     * @param competenceTranslation 
+     * @param competenceTranslation
      */
     public void setCompetenceTranslation(CompetencetranslationDTO competenceTranslation) {
         this.competenceTranslation = competenceTranslation;
@@ -287,12 +297,17 @@ public class RegisterApplicationManager implements Serializable {
 
     /**
      * Sets competenceName and corresponding CompetenceTranslationDTO
-     * @param competenceName 
+     *
+     * @param competenceName
      */
     public void setCompetenceName(String competenceName) {
         this.competenceName = competenceName;
-        competenceTranslation = applicationFacade.
-                getCompetenceTranslation(competenceName, languageBean.getCurrentLanguage());
+        try {
+            competenceTranslation = applicationFacade.
+                    getCompetenceTranslation(competenceName, languageBean.getCurrentLanguage());
+        } catch (CompetenceInDBException ex) {
+            errorMsg("errorDB");
+        }
     }
 
     /**
@@ -303,16 +318,35 @@ public class RegisterApplicationManager implements Serializable {
     }
 
     /**
-     * @param submitted 
+     * @param submitted
      */
     public void setSubmitted(boolean submitted) {
         this.submitted = submitted;
     }
-    
+
     /**
      * Called to generate and download a PDF file.
      */
-    public void createPDF(){
-        applicationFacade.downloadFile(application);
+    public void createPDF() {
+//        try {
+//            applicationFacade.downloadFile(application);
+//        } catch (IOException | DocumentException ex) {
+//           errorMsg("PDF");
+//        }
+        errorMsg("PDF");
+    }
+
+    /**
+     * Adds localized message to <h:messages> tag
+     * @param msg 
+     */
+    private void errorMsg(String msg) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+
+        ResourceBundle bundle = ResourceBundle.getBundle(
+                "se.kth.ict.ffm.recruitsystem.properties.language",
+                fc.getViewRoot().getLocale());
+
+        fc.addMessage(null, new FacesMessage(bundle.getString("error") + " : " + bundle.getString(msg)));
     }
 }

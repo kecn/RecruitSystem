@@ -64,7 +64,7 @@ public class LogInterceptor {
      * @param e 
      * @throws NoSuchMethodException
      */
-    private void logException(Method targetMethod, Exception e) throws Exception {
+    public void logException(Method targetMethod, Exception e) throws Exception {
         Object[] args = {targetMethod.getDeclaringClass().getCanonicalName(),
             targetMethod.getName(), e.getClass().getCanonicalName()};
         LOGGER.log(LEVEL, "{0}.{1} threw {2}", args);

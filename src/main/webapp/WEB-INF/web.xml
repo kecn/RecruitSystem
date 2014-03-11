@@ -22,8 +22,8 @@
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
     <error-page>
-        <exception-type>MissingResourceException</exception-type>
-        <location>/error.xhtml</location>
+        <error-code>404</error-code>
+        <location>/faces/errors/error404.xhtml</location>
     </error-page>
     <security-constraint>
         <display-name>recruiterConstraint</display-name>

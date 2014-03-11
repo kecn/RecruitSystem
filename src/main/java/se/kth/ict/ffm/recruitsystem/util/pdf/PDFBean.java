@@ -52,8 +52,8 @@ public class PDFBean {
      * @param applicationDTO user information
      * @return the pdf reference
      */
-    public ByteArrayOutputStream createRegistrationPDF(ApplicationFromViewDTO applicationDTO) {
-        try {
+    public ByteArrayOutputStream createRegistrationPDF(ApplicationFromViewDTO applicationDTO) throws DocumentException, IOException {
+        
             //Get Locale
             ResourceBundle resbundle = ResourceBundle.getBundle("se.kth.ict.ffm.recruitsystem.properties.language", languageBean.getCurrentLocale());
 
@@ -109,9 +109,7 @@ public class PDFBean {
             pdfWriter.close();
             baosPDF.close();
                     
-        } catch (DocumentException | IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+      
         return baosPDF;
     }
 }

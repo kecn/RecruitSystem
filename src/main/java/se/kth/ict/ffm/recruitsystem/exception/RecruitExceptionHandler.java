@@ -18,7 +18,6 @@
 package se.kth.ict.ffm.recruitsystem.exception;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 import javax.faces.FacesException;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.ExceptionHandlerWrapper;
@@ -29,10 +28,10 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
 /**
- * 
- * When an ecxeption is shown it is intercepted by this class and redirected to the error.xhtml page.
- * The messages are localized.
- * 
+ *
+ * When an ecxeption is shown it is intercepted by this class and redirected to
+ * the error.xhtml page. The messages are localized.
+ *
  */
 public class RecruitExceptionHandler extends ExceptionHandlerWrapper {
 
@@ -48,8 +47,8 @@ public class RecruitExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     /**
-     * 
-     * @throws FacesException 
+     *
+     * @throws FacesException
      */
     @Override
     public void handle() throws FacesException {
@@ -63,19 +62,13 @@ public class RecruitExceptionHandler extends ExceptionHandlerWrapper {
             FacesContext fc = FacesContext.getCurrentInstance();
 
             try {
-                Flash flash = fc.getExternalContext().getFlash();                
-                //Get localisation
-                ResourceBundle bundle = ResourceBundle.getBundle(
-                        "se.kth.ict.ffm.recruitsystem.properties.language",
-                        fc.getViewRoot().getLocale());
-
-                //Concatinate string, show only relevant info
-                String message = throwable.getMessage().substring(throwable.getMessage().indexOf("%") + 1);
-                flash.put("errorTitle", bundle.getString("error"));
-                flash.put("errorDetails", bundle.getString(message));
-
+                Flash flash = fc.getExternalContext().getFlash();
+                
+                    flash.put("errorTitle", "error");
+                    flash.put("errorDetails", "errorGeneral");
+                
                 NavigationHandler navigationHandler = fc.getApplication().getNavigationHandler();
-                navigationHandler.handleNavigation(fc, null, "error?faces-redirect=true");
+                navigationHandler.handleNavigation(fc, null, "faces/errors/error?faces-redirect=true");
                 fc.renderResponse();
             } finally {
                 iterator.remove();

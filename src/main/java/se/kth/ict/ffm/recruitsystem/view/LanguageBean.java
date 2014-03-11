@@ -44,8 +44,7 @@ public class LanguageBean {
             countries.put("English", enLocale); //label, value
             countries.put("Swedish", seLocale);
             this.currentLanguage = "se";
-            this.currentLocale = seLocale;
-            
+            this.currentLocale = seLocale;            
     }
     
     /**

@@ -17,11 +17,21 @@
      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
     <head>
         <title>Error</title>
     </head>
-    <body>
-        <div>Welcome to the error page, hope you have a pleasant stay!</div>
-    </body>
+    <h:body>
+                <br/>
+        <div class="highlighted errorMessage">
+            <h:outputText escape="false" 
+                          value="#{msg[flash.keep.errorTitle]}" style="font-size:larger"/>
+        </div>
+
+        <hr size="6" style="background-color: grey"/>
+        <div class="errorDetails">
+            <h:outputText escape="false" value="#{msg[flash.keep.errorDetails]}" style="font-size:large"/>                
+        </div>
+       
+    </h:body>
 </html>
