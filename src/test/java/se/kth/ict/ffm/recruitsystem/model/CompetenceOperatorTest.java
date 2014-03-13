@@ -141,7 +141,6 @@ public class CompetenceOperatorTest {
         compFromViewList.add(compFromView);
         //Create a list of Competenceinapplication and add a mock to it
         List<Competenceinapplication> compInAppList = new ArrayList();
-//        compInAppList.add(compInApp);
         //what happens when during test
         Mockito.when(application.getCompetences()).thenReturn(compFromViewList);
         Mockito.when(applicationEntity.getCompetenceinapplicationCollection()).

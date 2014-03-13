@@ -20,7 +20,6 @@ package se.kth.ict.ffm.recruitsystem.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import javax.ejb.embeddable.EJBContainer;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import mock.MockApplicationFromViewDTO;
@@ -29,7 +28,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -63,36 +61,6 @@ public class ApplicationOperatorTest {
     @After
     public void tearDown() {
     }
-
-//    /**
-//     * Test of submitApplication method, of class ApplicationOperator.
-//     */
-//    @Test
-//    public void testSubmitApplication() throws Exception {
-//        CompetenceOperator compOp = Mockito.mock(CompetenceOperator.class);
-//        EntityManager mockEm = Mockito.mock(EntityManager.class);
-//        //we need to spy on the instance, because we want to ignore one of its
-//        //void methods
-//        ApplicationOperator instance = Mockito.spy(new ApplicationOperator());
-//        //Set entityManager
-//        try {
-//            TestUtil.setPrivateField(ApplicationOperator.class, instance, "entityManager", mockEm);
-//            TestUtil.setPrivateField(ApplicationOperator.class, instance, "competenceOperator", compOp);
-//        } catch (Exception ex) {
-//            System.out.println("Problem setting private field");
-//            ex.printStackTrace();
-//        }   
-//        Person mockPerson = Mockito.mock(Person.class);
-//        //mock input parameter
-//        ApplicationFromViewDTO mockAppFromView = Mockito.mock(ApplicationFromViewDTO.class);
-//        Mockito.doReturn(mockPerson).when(instance).findPerson(mockAppFromView);
-//        //mock Application entity
-//        Application mockAppEntity = Mockito.mock(Application.class);
-//        Mockito.doReturn(mockAppEntity).when(instance).createAndAddApplication(mockPerson);
-//        Mockito.doNothing().when(instance).createAndAddAvailabilities(mockAppFromView, mockAppEntity);
-//        //Verify that the expected calls were done
-//        Mockito.verify(instance, Mockito.never()).createPerson(mockAppFromView);
-//    }
 
     /**
      * Test of submitApplication method, of class ApplicationOperator.
@@ -151,19 +119,6 @@ public class ApplicationOperatorTest {
         instance.findPerson(mockAppFromView);
     }
 
-//    /**
-//     * Test of createPerson method, of class ApplicationOperator.
-//     */
-//    @Test
-//    public void testCreatePerson() throws Exception {
-//        System.out.println("createPerson");
-//        //mock input parameter
-//        ApplicationFromViewDTO appFromView = new MockApplicationFromViewDTO();
-//
-//        ApplicationOperator instance = new ApplicationOperator();
-////        instance.createPerson(mockAppFromView);
-//    }
-
     /**
      * Test of createAndAddAvailabilities method, of class ApplicationOperator.
      * Dependent on Application entity
@@ -179,23 +134,5 @@ public class ApplicationOperatorTest {
         availabilitiesFromView.add(new AvailabilityFromView(date, date));
         appFromView.setAvailabilities(availabilitiesFromView);
         instance.createAndAddAvailabilities(appFromView, appEntity);
-    }
-
-//    /**
-//     * Test of createAndAddApplication method, of class ApplicationOperator.
-//     */
-//    @Test
-//    public void testCreateAndAddApplication() throws Exception {
-//        System.out.println("createAndAddApplication");
-//        Person person = null;
-//        EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-//        ApplicationOperator instance = (ApplicationOperator)container.getContext().lookup("java:global/classes/ApplicationOperator");
-//        Application expResult = null;
-//        Application result = instance.createAndAddApplication(person);
-//        assertEquals(expResult, result);
-//        container.close();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-    
+    }    
 }
